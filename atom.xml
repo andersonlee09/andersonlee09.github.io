@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Anderson&#39;s blog</title>
+  
+  
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2022-02-13T10:14:28.810Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>Anderson Lee</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://example.com/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://example.com/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/</id>
+    <published>2022-02-13T08:36:32.919Z</published>
+    <updated>2022-02-13T10:14:28.810Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Hexo-搭建个人博客"><a href="#Hexo-搭建个人博客" class="headerlink" title="Hexo 搭建个人博客"></a>Hexo 搭建个人博客</h1><h2 id="0-说明"><a href="#0-说明" class="headerlink" title="0.说明"></a>0.说明</h2><p>本项目基于Windows10利用Hexo部署个人博客并且投放至GitHub</p><h2 id="1-下载node-js"><a href="#1-下载node-js" class="headerlink" title="1.下载node.js"></a>1.下载node.js</h2><p>顺带下载npm</p><p>直接在官网下载，本文不作说明</p><h2 id="2-查看环境"><a href="#2-查看环境" class="headerlink" title="2.查看环境"></a>2.查看环境</h2><p>node -v</p><p>npm -v</p><p>如果没有异常则下载成功</p><h2 id="3-切换镜像"><a href="#3-切换镜像" class="headerlink" title="3.切换镜像"></a>3.切换镜像</h2><p>npm install -g cnpm –registry&#x3D;<a href="https://registry.npm.taobao.org/">https://registry.npm.taobao.org</a></p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212123235109.png" class title="This is an example image"><h2 id="4-下载hexo"><a href="#4-下载hexo" class="headerlink" title="4.下载hexo"></a>4.下载hexo</h2><p>cnpm install -g hexo-cli</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212123235109.png" class title="This is an example image"><p>hexo -v查看版本</p><h2 id="5-初始化博客"><a href="#5-初始化博客" class="headerlink" title="5.初始化博客"></a>5.初始化博客</h2><p>hexo init</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212123658729.png" class title="This is an example image"><p>初始化结果：</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212123731036.png" class title="This is an example image"><h2 id="6-启动博客"><a href="#6-启动博客" class="headerlink" title="6.启动博客"></a>6.启动博客</h2><p>hexo s</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212124240300.png" class title="This is an example image"><p>初始化结果</p><h2 id="7-写博客"><a href="#7-写博客" class="headerlink" title="7.写博客"></a>7.写博客</h2><p>hexo n “My first blog”</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212124523578.png" class title="This is an example image"><p>对该目录下markdown进行编辑</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212124815007.png" class title="This is an example image"><p>编辑结束后</p><p>hexo clean</p><p>hexo g</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212125017647.png" class title="This is an example image"><p>hexo s</p><p>结果：</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212125137499.png" class title="This is an example image"><h2 id="8-投放至GitHub"><a href="#8-投放至GitHub" class="headerlink" title="8.投放至GitHub"></a>8.投放至GitHub</h2><h3 id="8-1-创建GitHub项目"><a href="#8-1-创建GitHub项目" class="headerlink" title="8.1 创建GitHub项目"></a>8.1 创建GitHub项目</h3><p>命名必须符合规范：name.github.io</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212130118069.png" class title="This is an example image"><h3 id="8-2下载git帮助"><a href="#8-2下载git帮助" class="headerlink" title="8.2下载git帮助"></a>8.2下载git帮助</h3><p>npm install hexo-deployer-git –save</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212130405182.png" class title="This is an example image"><h3 id="8-3设置-config-yml"><a href="#8-3设置-config-yml" class="headerlink" title="8.3设置_config.yml"></a>8.3设置_config.yml</h3><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212130741480.png" class title="This is an example image"><h3 id="8-4-修改Deployment"><a href="#8-4-修改Deployment" class="headerlink" title="8.4 修改Deployment"></a>8.4 修改Deployment</h3><p>修改前：</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212131006177.png" class title="This is an example image"><p>修改后：</p><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212123235109.png" class title="This is an example image"><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212141732952.png" class title="This is an example image"><p>hexo g -d</p><h3 id="8-4成功部署"><a href="#8-4成功部署" class="headerlink" title="8.4成功部署"></a>8.4成功部署</h3><img src="/2022/02/13/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/image-20220212141749479.png" class title="This is an example image"><p><strong>至此所有部署已经完成</strong> </p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Hexo-搭建个人博客&quot;&gt;&lt;a href=&quot;#Hexo-搭建个人博客&quot; class=&quot;headerlink&quot; title=&quot;Hexo 搭建个人博客&quot;&gt;&lt;/a&gt;Hexo 搭建个人博客&lt;/h1&gt;&lt;h2 id=&quot;0-说明&quot;&gt;&lt;a href=&quot;#0-说明&quot; class=&quot;</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
