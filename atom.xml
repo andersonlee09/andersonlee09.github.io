@@ -36,11 +36,11 @@
     <category term="自动化办公" scheme="http://example.com/categories/%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8A%9E%E5%85%AC/"/>
     
     
-    <category term="Hexo" scheme="http://example.com/tags/Hexo/"/>
-    
     <category term="Python" scheme="http://example.com/tags/Python/"/>
     
     <category term="自动化办公" scheme="http://example.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8A%9E%E5%85%AC/"/>
+    
+    <category term="Hexo" scheme="http://example.com/tags/Hexo/"/>
     
   </entry>
   
