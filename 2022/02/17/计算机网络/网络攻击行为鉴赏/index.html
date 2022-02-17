@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/essay/network.png">
 <meta property="article:published_time" content="2022-02-17T05:43:06.000Z">
-<meta property="article:modified_time" content="2022-02-17T08:16:37.748Z">
+<meta property="article:modified_time" content="2022-02-17T08:31:14.637Z">
 <meta property="article:author" content="Anderson Lee">
 <meta property="article:tag" content="计算机网络">
 <meta property="article:tag" content="HTTP">
@@ -262,10 +262,10 @@
 <p>可简化为以下四层结构</p>
 <img src="/2022/02/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB%E8%A1%8C%E4%B8%BA%E9%89%B4%E8%B5%8F/image-20220217141028712.png" srcset="/img/loading.gif" lazyload class>
 
-<h4 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h4><p>在我们写信时常会遵循一些合适，如开始要写对方称呼、以及最后的署名和日期等。HTTP协议则做到了这一点，关于HTTP更多具体内容可查看<a href>这里</a>。</p>
+<h4 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h4><p>在我们写信时常会遵循一些合适，如开始要写对方称呼、以及最后的署名和日期等。HTTP协议则做到了这一点，关于HTTP更多具体内容可查看<a target="_blank" rel="noopener" href="https://andersonlee09.github.io/2022/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%BA%94%E7%94%A8%E5%B1%82%E8%AF%A6%E8%A7%A3/">这里</a>。</p>
 <h4 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h4><img src="/2022/02/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB%E8%A1%8C%E4%B8%BA%E9%89%B4%E8%B5%8F/image-20220217141151773.png" srcset="/img/loading.gif" lazyload class>
 
-<p>在写完内容后我们可以给信加一个加急等标记，对方会根据标记决定如何回复，要不要加急或者确认对方身份等。传输层则完成了这个功能，规定了数据传输方式，比如这一层我们常见的TCP协议，为保证通信可靠性要先进性三次握手才会进行数据传输，过程可查看<a href>这里</a>,我们的网络攻击方式很多也是根据TCP协议来进行。</p>
+<p>在写完内容后我们可以给信加一个加急等标记，对方会根据标记决定如何回复，要不要加急或者确认对方身份等。传输层则完成了这个功能，规定了数据传输方式，比如这一层我们常见的TCP协议，为保证通信可靠性要先进性三次握手才会进行数据传输，过程可查看<a target="_blank" rel="noopener" href="https://andersonlee09.github.io/2022/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%BF%90%E8%BE%93%E5%B1%82%E8%AF%A6%E8%A7%A3/#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B">这里</a>,我们的网络攻击方式很多也是根据TCP协议来进行。</p>
 <h4 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h4><img src="/2022/02/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB%E8%A1%8C%E4%B8%BA%E9%89%B4%E8%B5%8F/image-20220217142223881.png" srcset="/img/loading.gif" lazyload class>
 
 <p>装新建的信封则类似于网络层，规定了通信双方地址的编码规则，这一层采用IP协议，所以我们常会听到“设备IP地址”。</p>
@@ -285,7 +285,7 @@
 <h2 id="放大攻击"><a href="#放大攻击" class="headerlink" title="放大攻击"></a>放大攻击</h2><p>这更像是反射攻击的进化版。</p>
 <img src="/2022/02/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB%E8%A1%8C%E4%B8%BA%E9%89%B4%E8%B5%8F/image-20220217144258721.png" srcset="/img/loading.gif" lazyload class>
 
-<p>比如我们常见的DNS服务器，这是一种解析IP地址的服务器，比如我们向浏览器输入<a target="_blank" rel="noopener" href="http://www.bilibili.com,浏览器会先向dns服务器发送请求,将b站的ip发送给客户端,然后客户端会根据ip来访问b站服务器.在这里dns服务器返回的数据远远大于请求数据,一般60个字节请求数据可返回3000字节返回数据,带宽放大因子(baf)为50,即可产生50倍的放大效果./">www.bilibili.com，浏览器会先向DNS服务器发送请求，将B站的IP发送给客户端，然后客户端会根据IP来访问B站服务器。在这里DNS服务器返回的数据远远大于请求数据，一般60个字节请求数据可返回3000字节返回数据，带宽放大因子(BAF)为50,即可产生50倍的放大效果。</a></p>
+<p>比如我们常见的DNS服务器，这是一种解析IP地址的服务器，比如我们向浏览器输入<a target="_blank" rel="noopener" href="http://www.bilibili.com/">www.bilibili.com</a> , 浏览器会先向DNS服务器发送请求，将B站的IP发送给客户端，然后客户端会根据IP来访问B站服务器。在这里DNS服务器返回的数据远远大于请求数据，一般60个字节请求数据可返回3000字节返回数据，带宽放大因子(BAF)为50,即可产生50倍的放大效果。</p>
 <p>这样攻击者就可以向DNS服务器发起请求，同时将自己IP伪造为被攻击者IP，这样就可以产生50倍的放大效果，可谓四两拨二十斤。</p>
 <h2 id="TCP洪水"><a href="#TCP洪水" class="headerlink" title="TCP洪水"></a>TCP洪水</h2><p>除了占用被攻击者带宽，我们还有很多方式可以达到目的。比如攻击服务器连接资源</p>
 <img src="/2022/02/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB%E8%A1%8C%E4%B8%BA%E9%89%B4%E8%B5%8F/image-20220217145113861.png" srcset="/img/loading.gif" lazyload class>
@@ -296,7 +296,7 @@
 <p>看过三次握手的都知道，握手第一步是客户端向服务器发送SYN&#x3D;1的数据包，根据此，我们可以向服务器只发送SYN而不进行回答，由于TCP的重传机制，服务器会多次重传SYN+ACK直到超时，大约十次。此时请注意，攻击者要尽量伪造自己的IP，否则就会达到“杀敌一千，自损一万”的效果。如果IP不存在，受害者会拔剑四顾心茫然，如果存在，那就把祸水东引到了某个倒霉蛋身上。</p>
 <h2 id="RST洪水攻击"><a href="#RST洪水攻击" class="headerlink" title="RST洪水攻击"></a>RST洪水攻击</h2><img src="/2022/02/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB%E8%A1%8C%E4%B8%BA%E9%89%B4%E8%B5%8F/image-20220217150426577.png" srcset="/img/loading.gif" lazyload class>
 
-<p>在TCP存在四次挥手的过程结束连接，但为了防止出现异常，一方可以发送RST数据强制切断连接，这样我们就可以让攻击者尝试伪造各种IP地址，并发送RST数据进行“盲打”，一旦IP和某些配置和正常用户达成匹配，那就会切断正常用户和服务器之间的连接。</p>
+<p>在TCP存在<a target="_blank" rel="noopener" href="https://andersonlee09.github.io/2022/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%BF%90%E8%BE%93%E5%B1%82%E8%AF%A6%E8%A7%A3/#%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B">四次挥手</a>的过程结束连接，但为了防止出现异常，一方可以发送RST数据强制切断连接，这样我们就可以让攻击者尝试伪造各种IP地址，并发送RST数据进行“盲打”，一旦IP和某些配置和正常用户达成匹配，那就会切断正常用户和服务器之间的连接。</p>
 <h2 id="HTTP洪水攻击"><a href="#HTTP洪水攻击" class="headerlink" title="HTTP洪水攻击"></a>HTTP洪水攻击</h2><p>每一次访问都是客户端通过网络线路向服务器发送请求，服务器查询或计算后向服务器返回结果。</p>
 <img src="/2022/02/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB%E8%A1%8C%E4%B8%BA%E9%89%B4%E8%B5%8F/image-20220217151106457.png" srcset="/img/loading.gif" lazyload class>
 
