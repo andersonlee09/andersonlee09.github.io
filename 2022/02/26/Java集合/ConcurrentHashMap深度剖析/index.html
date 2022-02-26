@@ -19,7 +19,7 @@
     <meta name="description" content="ConcurrentHashMap深度剖析我在上一次面试被问到了为甚么ConcurrentHashMap可以实现线程安全，这里我没有答出来，在这里我打算好好带大家一起了解ConcurrentHashMap顺便让我复习一下。 ConcurrentHashMap为什么可以实现线程安全JDK1.7数据结构   在1.7的时候ConcurrentHashMap由segment数组和HashEntry数组组">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ConcurrentHashMap深度剖析">
-<meta property="og:url" content="http://example.com/2022/02/26/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/index.html">
+<meta property="og:url" content="http://example.com/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/index.html">
 <meta property="og:site_name" content="Anderson&#39;s blog">
 <meta property="og:description" content="ConcurrentHashMap深度剖析我在上一次面试被问到了为甚么ConcurrentHashMap可以实现线程安全，这里我没有答出来，在这里我打算好好带大家一起了解ConcurrentHashMap顺便让我复习一下。 ConcurrentHashMap为什么可以实现线程安全JDK1.7数据结构   在1.7的时候ConcurrentHashMap由segment数组和HashEntry数组组">
 <meta property="og:locale" content="zh_CN">
@@ -244,13 +244,13 @@
             <div class="markdown-body">
               <h1 id="ConcurrentHashMap深度剖析"><a href="#ConcurrentHashMap深度剖析" class="headerlink" title="ConcurrentHashMap深度剖析"></a>ConcurrentHashMap深度剖析</h1><p>我在上一次面试被问到了为甚么ConcurrentHashMap可以实现线程安全，这里我没有答出来，在这里我打算好好带大家一起了解ConcurrentHashMap顺便让我复习一下。</p>
 <h2 id="ConcurrentHashMap为什么可以实现线程安全"><a href="#ConcurrentHashMap为什么可以实现线程安全" class="headerlink" title="ConcurrentHashMap为什么可以实现线程安全"></a>ConcurrentHashMap为什么可以实现线程安全</h2><h3 id="JDK1-7"><a href="#JDK1-7" class="headerlink" title="JDK1.7"></a>JDK1.7</h3><p><strong>数据结构</strong></p>
-<img src="/2022/02/26/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226232104869.png" srcset="/img/loading.gif" lazyload class>
+<img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226232104869.png" srcset="/img/loading.gif" lazyload class>
 
 <p>在1.7的时候ConcurrentHashMap由<code>segment</code>数组和<code>HashEntry</code>数组组成，ConcurrentHashMap把哈希桶分为segment小数组，每个小数组有n个HashEntry组成。segment继承RenntrantLock即可重入锁，hashEntry存储键值对。</p>
 <p><strong>结果</strong></p>
 <p>首先将数据分为一段一段存储，然后给每一段都配一把可重入锁，当一个线程占用锁访问其中一个段数据时，其他数据也能访问，真正能实现并发。</p>
 <h3 id="JDK1-8"><a href="#JDK1-8" class="headerlink" title="JDK1.8"></a>JDK1.8</h3><p><strong>数据结构</strong></p>
-<img src="/2022/02/26/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226232838666.png" srcset="/img/loading.gif" lazyload class>
+<img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226232838666.png" srcset="/img/loading.gif" lazyload class>
 
 <p>1.8采用了数组 + 链表 + 红黑树结构。在锁实现上抛弃了segmnet分段式锁，而是采用<code>CAS + synchronized</code>实现更加低粒度的锁。</p>
 <p>锁的级别控制在了hash桶元素级别，也就是说只需要锁住链表头节点，即红黑树根节点，就不会影响其他哈希桶元素读写，大大提高并发度。</p>
@@ -274,7 +274,7 @@
 </ul>
 <p>具体可以看这里<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzkyMTI3Mjc2MQ==&mid=2247485909&idx=1&sn=d9c672eebb090866a72f99f3d8032e76&source=41#wechat_redirect">面试 ConcurrentHashMap ，看这一篇就够了！ (qq.com)</a></p>
 <h2 id="ConcurrentHashMap-get方法是否需要加锁，为什么"><a href="#ConcurrentHashMap-get方法是否需要加锁，为什么" class="headerlink" title="ConcurrentHashMap get方法是否需要加锁，为什么"></a>ConcurrentHashMap get方法是否需要加锁，为什么</h2><p>不需要，因为Node元素的val和指针next是volatile修饰的，在多线程环境下线程A修改val或增加节点对线程B可见</p>
-<img src="/2022/02/26/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226234644053.png" srcset="/img/loading.gif" lazyload class>
+<img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226234644053.png" srcset="/img/loading.gif" lazyload class>
 
 <h2 id="ConcurrentHashMap不支持key或者value为null的原因"><a href="#ConcurrentHashMap不支持key或者value为null的原因" class="headerlink" title="ConcurrentHashMap不支持key或者value为null的原因"></a>ConcurrentHashMap不支持key或者value为null的原因</h2><h3 id="value不能为null原因"><a href="#value不能为null原因" class="headerlink" title="value不能为null原因"></a>value不能为null原因</h3><p>因为ConcurrentHashMap用于多线程，如果map.get(key)得到null，无法判断是得到的value为null还是没有找到key为null，而单线程hashmap可以使用containsKey方法去判断。</p>
 <p>这样当在第一次执行时没有key，第二次有key但值为null，这样就具有二义性</p>
