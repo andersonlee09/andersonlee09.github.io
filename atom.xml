@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-02-28T15:51:40.046Z</updated>
+  <updated>2022-03-04T03:16:31.741Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,9 +17,33 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>java:错误:不支持发行版5</title>
+    <link href="http://example.com/2022/03/04/error/java-%E9%94%99%E8%AF%AF-%E4%B8%8D%E6%94%AF%E6%8C%81%E5%8F%91%E8%A1%8C%E7%89%885/"/>
+    <id>http://example.com/2022/03/04/error/java-%E9%94%99%E8%AF%AF-%E4%B8%8D%E6%94%AF%E6%8C%81%E5%8F%91%E8%A1%8C%E7%89%885/</id>
+    <published>2022-03-04T03:13:42.000Z</published>
+    <updated>2022-03-04T03:16:31.741Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="java-错误-不支持发行版本-5"><a href="#java-错误-不支持发行版本-5" class="headerlink" title="java: 错误: 不支持发行版本 5"></a>java: 错误: 不支持发行版本 5</h1><p>在Intellij idea中新建了一个Maven项目，运行时报错如下：Error : java 不支持发行版本5</p><img src="/2022/03/04/error/java-%E9%94%99%E8%AF%AF-%E4%B8%8D%E6%94%AF%E6%8C%81%E5%8F%91%E8%A1%8C%E7%89%885/image-20220304104221601.png" class><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ol><li>文件-&gt;项目结构</li></ol><img src="/2022/03/04/error/java-%E9%94%99%E8%AF%AF-%E4%B8%8D%E6%94%AF%E6%8C%81%E5%8F%91%E8%A1%8C%E7%89%885/image-20220304104433592.png" class><p>查看两个JDK版本是否一致</p><ol start="2"><li>设置-&gt;构建、执行、部署-&gt;Java编译器</li></ol><img src="/2022/03/04/error/java-%E9%94%99%E8%AF%AF-%E4%B8%8D%E6%94%AF%E6%8C%81%E5%8F%91%E8%A1%8C%E7%89%885/image-20220304105352604.png" class><p>修改这里的目标字节码为当前JDK版本</p><p>在pom.xml添加以下内容</p><figure class="highlight xml"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>11<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>11<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br></code></pre></td></tr></table></figure><p>至此，所有设置已经完成</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;java-错误-不支持发行版本-5&quot;&gt;&lt;a href=&quot;#java-错误-不支持发行版本-5&quot; class=&quot;headerlink&quot; title=&quot;java: 错误: 不支持发行版本 5&quot;&gt;&lt;/a&gt;java: 错误: 不支持发行版本 5&lt;/h1&gt;&lt;p&gt;在Intel</summary>
+      
+    
+    
+    
+    <category term="Error" scheme="http://example.com/categories/Error/"/>
+    
+    
+    <category term="Error" scheme="http://example.com/tags/Error/"/>
+    
+  </entry>
+  
+  <entry>
     <title>关于迷茫的未来的一点思考（一）</title>
-    <link href="http://example.com/2022/02/28/%E5%85%B3%E4%BA%8E%E8%BF%B7%E8%8C%AB%E7%9A%84%E6%9C%AA%E6%9D%A5%E7%9A%84%E4%B8%80%E7%82%B9%E6%80%9D%E8%80%83%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>http://example.com/2022/02/28/%E5%85%B3%E4%BA%8E%E8%BF%B7%E8%8C%AB%E7%9A%84%E6%9C%AA%E6%9D%A5%E7%9A%84%E4%B8%80%E7%82%B9%E6%80%9D%E8%80%83%EF%BC%88%E4%B8%80%EF%BC%89/</id>
+    <link href="http://example.com/2022/02/28/%E9%97%B2%E8%B0%88/%E5%85%B3%E4%BA%8E%E8%BF%B7%E8%8C%AB%E7%9A%84%E6%9C%AA%E6%9D%A5%E7%9A%84%E4%B8%80%E7%82%B9%E6%80%9D%E8%80%83%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://example.com/2022/02/28/%E9%97%B2%E8%B0%88/%E5%85%B3%E4%BA%8E%E8%BF%B7%E8%8C%AB%E7%9A%84%E6%9C%AA%E6%9D%A5%E7%9A%84%E4%B8%80%E7%82%B9%E6%80%9D%E8%80%83%EF%BC%88%E4%B8%80%EF%BC%89/</id>
     <published>2022-02-28T15:32:27.000Z</published>
     <updated>2022-02-28T15:51:40.046Z</updated>
     
@@ -179,9 +203,9 @@
     
     <category term="计算机网络" scheme="http://example.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
-    <category term="TCP" scheme="http://example.com/tags/TCP/"/>
-    
     <category term="HTTP" scheme="http://example.com/tags/HTTP/"/>
+    
+    <category term="TCP" scheme="http://example.com/tags/TCP/"/>
     
   </entry>
   
@@ -258,11 +282,11 @@
     <category term="自动化办公" scheme="http://example.com/categories/%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8A%9E%E5%85%AC/"/>
     
     
+    <category term="Hexo" scheme="http://example.com/tags/Hexo/"/>
+    
     <category term="Python" scheme="http://example.com/tags/Python/"/>
     
     <category term="自动化办公" scheme="http://example.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8A%9E%E5%85%AC/"/>
-    
-    <category term="Hexo" scheme="http://example.com/tags/Hexo/"/>
     
   </entry>
   
