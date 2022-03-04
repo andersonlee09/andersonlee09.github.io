@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>IDEA快捷键</title>
+    <link href="/2022/03/04/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/"/>
+    <url>/2022/03/04/IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
+    
+    <content type="html"><![CDATA[<p>Ctrl + D 复制光标所在行 或 复制选择内容，并把复制内容插入光标位置下面 （必备<br>Ctrl + P 方法参数提示显示 （必备<br>Ctrl + J 插入自定义动态代码模板 （必备<br>Ctrl + P 方法参数提示显示 （必备<br>Ctrl + O 选择可重写的方法<br>Ctrl + I 选择可继承的方法<br>Ctrl + Delete 删除光标后面的单词或是中文句 （必备）<br>Ctrl +BackSpace 删除光标前面的单词或是中文句 （必备<br>Ctrl + 左方向键 光标跳转到当前单词 &#x2F; 中文句的左侧开头位置 （必备）<br>Ctrl + 右方向键 光标跳转到当前单词 &#x2F; 中文句的右侧开头位置 （必备）<br>Ctrl + 前方向键 等效于鼠标滚轮向前效果 （必备）<br>Ctrl + 后方向键 等效于鼠标滚轮向后效果 （必备）</p><p>Alt + Insert 代码自动生成，如生成对象的 set &#x2F; get 方法，构造函数，toString() 等 （必备）！！！！！！！！！<br>Ctrl + Alt + V 快速引进变量<br>Ctrl + Alt + L 格式化代码，可以对当前文件和整个包目录使用 （必备<br>Ctrl + Shift + &#x2F; 代码块注释 （必备<br>Alt + Enter 导入方法<br>Ctrl + Alt +T环绕对象 可选择 try if while等<br>Alt + 7 项目结构图</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Error</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Error</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>java:错误:不支持发行版5</title>
     <link href="/2022/03/04/error/java-%E9%94%99%E8%AF%AF-%E4%B8%8D%E6%94%AF%E6%8C%81%E5%8F%91%E8%A1%8C%E7%89%885/"/>
     <url>/2022/03/04/error/java-%E9%94%99%E8%AF%AF-%E4%B8%8D%E6%94%AF%E6%8C%81%E5%8F%91%E8%A1%8C%E7%89%885/</url>
@@ -49,8 +74,8 @@
   
   <entry>
     <title>JVN垃圾回收</title>
-    <link href="/2022/02/28/JVN%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
-    <url>/2022/02/28/JVN%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</url>
+    <link href="/2022/02/28/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
+    <url>/2022/02/28/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</url>
     
     <content type="html"><![CDATA[]]></content>
     
@@ -114,9 +139,9 @@
     
     <tags>
       
-      <tag>ConcurrentHashMap</tag>
-      
       <tag>Java集合</tag>
+      
+      <tag>ConcurrentHashMap</tag>
       
     </tags>
     
@@ -141,9 +166,9 @@
     
     <tags>
       
-      <tag>Java集合</tag>
-      
       <tag>HashMap</tag>
+      
+      <tag>Java集合</tag>
       
     </tags>
     
