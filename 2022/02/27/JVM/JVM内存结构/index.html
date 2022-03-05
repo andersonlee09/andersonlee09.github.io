@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/essay/jvm.png">
 <meta property="article:published_time" content="2022-02-27T15:16:49.000Z">
-<meta property="article:modified_time" content="2022-02-27T15:38:26.183Z">
+<meta property="article:modified_time" content="2022-03-05T09:13:07.678Z">
 <meta property="article:author" content="Anderson Lee">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary_large_image">
@@ -200,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      535 字
+      521 字
     </span>
   
 
@@ -255,7 +255,9 @@
 <ul>
 <li>本地方法栈</li>
 </ul>
-<p>线程私有，保存native方法信息，当一个JVM创建的线程调用native方法后，jvm不会在虚拟机中创建栈帧，而是简单的动态链接后直接调用</p>
+<p>线程私有，保存native方法信息，当一个JVM创建的线程调用native方法后，jvm不会在虚拟机中创建栈帧，而是简单的动态链接后直接调用<br>本地方法栈和虚拟机栈发挥的作用基本一样。区别是:本地方法栈执行的是Native方法服务,而虚拟机栈执行的是java方法。在HotSpot vm中本地方法栈和虚拟机栈合二为一。</p>
+<img src="/2022/02/27/JVM/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/e9d511ea.png" srcset="/img/loading.gif" lazyload class>
+
 <ul>
 <li>堆</li>
 </ul>
@@ -269,7 +271,6 @@
 <li>运行时常量池</li>
 </ol>
 <p>加载的类信息被保存在了元数据区，运行时常量池保存在堆中。</p>
-<p>下面是我的一些个人理解：本地方法栈其实是用来存储虚拟机栈类似的信息，只不过是Java字节码形式，这一部分我以前在《深入理解Java虚拟机》上看过。具体的正确性我会过几天验证，这两天连环考试，实在繁忙！</p>
 
             </div>
             <hr>
@@ -304,7 +305,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/28/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">
+                      <a href="/2022/02/28/JVM/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">JVM垃圾回收</span>
                         <span class="visible-mobile">上一篇</span>
