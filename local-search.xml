@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Leetcode082删除排序链表中的重复元素II</title>
+    <link href="/2022/03/07/Leetcode082%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0II/"/>
+    <url>/2022/03/07/Leetcode082%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0II/</url>
+    
+    <content type="html"><![CDATA[<p>有两个周没有刷算法题了，今天在剑指offer找到了这道题：<a href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/">删除排序链表中的重复元素</a>，当时觉得很简单，但是看到第二道题的时候我本来以为很简单，但是做了一会儿却觉得无从下手。两道题区别为：简单版本是把重复元素删除到剩下一个，而复杂版本是把重复的元素全部删除。</p><p>其实看到这种题目第一步肯定是创建一个dummyHead，因为当第一个节点就是重复节点的时候，有了一个假的头节点会比较好处理，即最后可以返回dummyHead.next。</p><h4 id="删除排序链表中的重复元素-II"><a href="#删除排序链表中的重复元素-II" class="headerlink" title="删除排序链表中的重复元素 II"></a><a href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/">删除排序链表中的重复元素 II</a></h4><h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>注意这里是一个排序链表，<strong>所以它相同的值的节点都是连续的</strong>，这对于我们解题至关重要</p><p>我们可以先创建一个prev节点，然后根据prev节点后面的不同状况来做出不同的处理</p><p>假设有一个链表如图所示：</p><ul><li>情况一</li></ul><img src="/2022/03/07/Leetcode082%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0II/image-20220307230111383.png" class><p>我们现在假设prev节点为1，head节点为2，此时让head一直向next移动，直到移到不为2的节点，其实就是它本身哈哈。这个时候很简单，我们直接让prev和head向后移动就可以了</p><ul><li>情况二</li></ul><img src="/2022/03/07/Leetcode082%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0II/image-20220307231356886.png" class><p>我们现在假设prev节点为2，head节点为3，此时让head一直向next移动，直到移到不为3的节点，即移动到红色的3节点处，这个时候直接让prev的next &#x3D; 红色节点的next，然后head后移就可以了</p><p>代码如下所示</p><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> ListNode <span class="hljs-title function_">deleteDuplicates</span><span class="hljs-params">(ListNode head)</span> &#123;<br>        <span class="hljs-keyword">if</span> (head == <span class="hljs-literal">null</span> || head.next == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> head;<br>        <span class="hljs-type">ListNode</span> <span class="hljs-variable">dummyHead</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ListNode</span>(-<span class="hljs-number">1</span>, head);<br>        <span class="hljs-type">ListNode</span> <span class="hljs-variable">prev</span> <span class="hljs-operator">=</span> dummyHead;<br>        <span class="hljs-keyword">while</span> (head != <span class="hljs-literal">null</span> &amp;&amp; head.next != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-type">ListNode</span> <span class="hljs-variable">node</span> <span class="hljs-operator">=</span> head;  <span class="hljs-comment">// node 临时存储head</span><br>            <span class="hljs-keyword">while</span> (head.next != <span class="hljs-literal">null</span> &amp;&amp; head.val == head.next.val) head = head.next;<br>            <span class="hljs-keyword">if</span> (head == node) &#123;  <span class="hljs-comment">// 没有重复</span><br>                prev = prev.next;  <br>            &#125; <span class="hljs-keyword">else</span> &#123;  <span class="hljs-comment">// 有重复</span><br>                prev.next = head.next;<br>            &#125;<br>            head = head.next;<br>        &#125;<br>        <span class="hljs-keyword">return</span> dummyHead.next;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>至此本道题解析结束,在这里多提一句，写这种算法题的解析感觉真的很比平时写别的文章麻烦很多啊，但我相信多多沉淀总是好的</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>algorithm</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>algorithm</tag>
+      
+      <tag>链表</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>AQS源码剖析</title>
     <link href="/2022/03/05/JUC/AQS%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/"/>
     <url>/2022/03/05/JUC/AQS%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/</url>
@@ -407,11 +434,11 @@
     
     <tags>
       
-      <tag>Hexo</tag>
-      
       <tag>Python</tag>
       
       <tag>自动化办公</tag>
+      
+      <tag>Hexo</tag>
       
     </tags>
     
