@@ -233,9 +233,9 @@
     <category term="Java集合" scheme="http://example.com/categories/Java%E9%9B%86%E5%90%88/"/>
     
     
-    <category term="ConcurrentHashMap" scheme="http://example.com/tags/ConcurrentHashMap/"/>
-    
     <category term="Java集合" scheme="http://example.com/tags/Java%E9%9B%86%E5%90%88/"/>
+    
+    <category term="ConcurrentHashMap" scheme="http://example.com/tags/ConcurrentHashMap/"/>
     
   </entry>
   
@@ -259,9 +259,9 @@
     <category term="Java集合" scheme="http://example.com/categories/Java%E9%9B%86%E5%90%88/"/>
     
     
-    <category term="Java集合" scheme="http://example.com/tags/Java%E9%9B%86%E5%90%88/"/>
-    
     <category term="HashMap" scheme="http://example.com/tags/HashMap/"/>
+    
+    <category term="Java集合" scheme="http://example.com/tags/Java%E9%9B%86%E5%90%88/"/>
     
   </entry>
   
@@ -373,6 +373,30 @@
   </entry>
   
   <entry>
+    <title>Linux基础命令</title>
+    <link href="http://example.com/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/"/>
+    <id>http://example.com/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/</id>
+    <published>2022-02-15T03:52:52.000Z</published>
+    <updated>2022-03-07T13:08:13.186Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h2><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20210719144052490.png" class><h3 id="用户组"><a href="#用户组" class="headerlink" title="用户组"></a>用户组</h3><h4 id="创建用户组"><a href="#创建用户组" class="headerlink" title="创建用户组"></a>创建用户组</h4><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20210719144844491.png" class><h4 id="管理组内成员"><a href="#管理组内成员" class="headerlink" title="管理组内成员"></a>管理组内成员</h4><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20210719145010114.png" class><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20210719145324771.png" class><h3 id="日期管理"><a href="#日期管理" class="headerlink" title="日期管理"></a>日期管理</h3><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20210719145405647.png" class><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105131210111.png" class><p>chgrp andersonlee tmp</p><p>给tmp文件修改用户组为andersonlee</p><p>chown 文件所有者和用户组两个一起设置</p><h3 id="sudo"><a href="#sudo" class="headerlink" title="sudo"></a>sudo</h3><p>提高当前用户权限来执行后面的语句</p><p>ps&amp;top查看进程信息</p><p>kill id 杀死进程</p><p>杀不死则使用  kill -9 id</p><p>shutdown -h now立刻关机</p><h3 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h3><p>chmod 777 filename</p><p>chmod修改权限</p><p>user -&gt; u 属主权限</p><p>group -&gt; g 属组权限</p><p>others -&gt; o 其他权限</p><p>all -&gt;a  全部权限</p><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105133300795.png" class><p>R即为该目录下所有文件</p><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105133350825.png" class><p><strong>stat</strong> 查看文件属性</p><p>pwd 查看文件路径</p><h3 id="编辑文本"><a href="#编辑文本" class="headerlink" title="编辑文本"></a>编辑文本</h3><h4 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h4><p>i -&gt; insert  当前字符插入</p><p>l -&gt; insert  首行插入</p><p>a -&gt; append   当前字符后添加</p><p>A -&gt; append  行末尾添加</p><p>o -&gt;  当前行后插一空行</p><p>O -&gt;  当前行前插入空行</p><p>写完ESC</p><p>:q  vim进入文件没有对文件做任何操作 可以按q</p><p>:q!  有操作但不想退出保存</p><p>:wq  正常退出保存</p><p>:wq!  强制保存退出</p><p>:set nu显示行</p><p>cat +文件名 查看文件内容</p><p>cat -n +文件名 查看文件内容 加行号</p><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105163119757.png" class><p>less  查看大文件 q退出</p><p>grep 查找内容</p><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105165025046.png" class><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105165121746.png" class><p>-n  显示行数</p><p>-i  不区分大小写</p><p>-v  不含有的</p><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105165451279.png" class><p>查看名字里有sshd的进程</p><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105165820814.png" class><p>定位到具体行数</p><h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><p>ps</p><p>ps -ef 查看所有进程</p><h3 id="软连接（快捷方式）"><a href="#软连接（快捷方式）" class="headerlink" title="软连接（快捷方式）"></a>软连接（快捷方式）</h3><p>ln -s 原路径  新路径</p><h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>find</p><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105180928459.png" class><h3 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h3><p>gzip *   压缩</p><p>gunzip  filename   解压文件</p><p>zip</p><p>-q : 不显示执行过程   -r : 递归处理 对该目录下的子目录一起处理</p><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105182234465.png" class><p>unzip -l filename.zip 查看压缩文件内容</p><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105182338320.png" class><p>unzip -d ccc aaa.zip  解压</p><h3 id="网络管理"><a href="#网络管理" class="headerlink" title="网络管理"></a>网络管理</h3><p>ifconfig  查看网络</p><p>ping <a href="http://www.baidu.com/">www.baidu.com</a>  向网址发送包</p><p>ping -c 2 <a href="http://www.baidu.com/">www.baidu.com</a>  只发生两次包</p><p>netstat  显示网络状态  -a 显示所有连线中的socket    -i显示网卡列表</p><h3 id="yum下载软件"><a href="#yum下载软件" class="headerlink" title="yum下载软件"></a>yum下载软件</h3><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105183711457.png" class><p>-y表示遇到选择就选yes</p><p>删除</p><img src="/2022/02/15/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105183819413.png" class>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Linux&quot;&gt;&lt;a href=&quot;#Linux&quot; class=&quot;headerlink&quot; title=&quot;Linux&quot;&gt;&lt;/a&gt;Linux&lt;/h1&gt;&lt;h2 id=&quot;用户管理&quot;&gt;&lt;a href=&quot;#用户管理&quot; class=&quot;headerlink&quot; title=&quot;用户管理&quot;</summary>
+      
+    
+    
+    
+    <category term="Linux" scheme="http://example.com/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="http://example.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Python自动化解决Hexo图片引用路径问题</title>
     <link href="http://example.com/2022/02/14/%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8A%9E%E5%85%AC/Python%E8%87%AA%E5%8A%A8%E5%8C%96%E8%A7%A3%E5%86%B3Hexo%E5%9B%BE%E7%89%87%E5%BC%95%E7%94%A8%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/"/>
     <id>http://example.com/2022/02/14/%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8A%9E%E5%85%AC/Python%E8%87%AA%E5%8A%A8%E5%8C%96%E8%A7%A3%E5%86%B3Hexo%E5%9B%BE%E7%89%87%E5%BC%95%E7%94%A8%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/</id>
@@ -397,30 +421,6 @@
     <category term="Python" scheme="http://example.com/tags/Python/"/>
     
     <category term="自动化办公" scheme="http://example.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8A%9E%E5%85%AC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux基础命令</title>
-    <link href="http://example.com/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/"/>
-    <id>http://example.com/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/</id>
-    <published>2022-02-14T03:52:52.000Z</published>
-    <updated>2022-03-06T15:15:59.785Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h2><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20210719144052490.png" class><h3 id="用户组"><a href="#用户组" class="headerlink" title="用户组"></a>用户组</h3><h4 id="创建用户组"><a href="#创建用户组" class="headerlink" title="创建用户组"></a>创建用户组</h4><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20210719144844491.png" class><h4 id="管理组内成员"><a href="#管理组内成员" class="headerlink" title="管理组内成员"></a>管理组内成员</h4><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20210719145010114.png" class><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20210719145324771.png" class><h3 id="日期管理"><a href="#日期管理" class="headerlink" title="日期管理"></a>日期管理</h3><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20210719145405647.png" class><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105131210111.png" class><p>chgrp andersonlee tmp</p><p>给tmp文件修改用户组为andersonlee</p><p>chown 文件所有者和用户组两个一起设置</p><h3 id="sudo"><a href="#sudo" class="headerlink" title="sudo"></a>sudo</h3><p>提高当前用户权限来执行后面的语句</p><p>ps&amp;top查看进程信息</p><p>kill id 杀死进程</p><p>杀不死则使用  kill -9 id</p><p>shutdown -h now立刻关机</p><h3 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h3><p>chmod 777 filename</p><p>chmod修改权限</p><p>user -&gt; u 属主权限</p><p>group -&gt; g 属组权限</p><p>others -&gt; o 其他权限</p><p>all -&gt;a  全部权限</p><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105133300795.png" class><p>R即为该目录下所有文件</p><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105133350825.png" class><p><strong>stat</strong> 查看文件属性</p><p>pwd 查看文件路径</p><h3 id="编辑文本"><a href="#编辑文本" class="headerlink" title="编辑文本"></a>编辑文本</h3><h4 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h4><p>i -&gt; insert  当前字符插入</p><p>l -&gt; insert  首行插入</p><p>a -&gt; append   当前字符后添加</p><p>A -&gt; append  行末尾添加</p><p>o -&gt;  当前行后插一空行</p><p>O -&gt;  当前行前插入空行</p><p>写完ESC</p><p>:q  vim进入文件没有对文件做任何操作 可以按q</p><p>:q!  有操作但不想退出保存</p><p>:wq  正常退出保存</p><p>:wq!  强制保存退出</p><p>:set nu显示行</p><p>cat +文件名 查看文件内容</p><p>cat -n +文件名 查看文件内容 加行号</p><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105163119757.png" class><p>less  查看大文件 q退出</p><p>grep 查找内容</p><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105165025046.png" class><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105165121746.png" class><p>-n  显示行数</p><p>-i  不区分大小写</p><p>-v  不含有的</p><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105165451279.png" class><p>查看名字里有sshd的进程</p><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105165820814.png" class><p>定位到具体行数</p><h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><p>ps</p><p>ps -ef 查看所有进程</p><h3 id="软连接（快捷方式）"><a href="#软连接（快捷方式）" class="headerlink" title="软连接（快捷方式）"></a>软连接（快捷方式）</h3><p>ln -s 原路径  新路径</p><h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>find</p><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105180928459.png" class><h3 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h3><p>gzip *   压缩</p><p>gunzip  filename   解压文件</p><p>zip</p><p>-q : 不显示执行过程   -r : 递归处理 对该目录下的子目录一起处理</p><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105182234465.png" class><p>unzip -l filename.zip 查看压缩文件内容</p><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105182338320.png" class><p>unzip -d ccc aaa.zip  解压</p><h3 id="网络管理"><a href="#网络管理" class="headerlink" title="网络管理"></a>网络管理</h3><p>ifconfig  查看网络</p><p>ping <a href="http://www.baidu.com/">www.baidu.com</a>  向网址发送包</p><p>ping -c 2 <a href="http://www.baidu.com/">www.baidu.com</a>  只发生两次包</p><p>netstat  显示网络状态  -a 显示所有连线中的socket    -i显示网卡列表</p><h3 id="yum下载软件"><a href="#yum下载软件" class="headerlink" title="yum下载软件"></a>yum下载软件</h3><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105183711457.png" class><p>-y表示遇到选择就选yes</p><p>删除</p><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105183819413.png" class><h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><p>注释：</p><p>:&lt;&lt;!</p><p>​    注释内容</p><p>！</p><p>单引号和双引号的区别</p><img src="/2022/02/14/Linux/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/image-20211105204011402.png" class><p>命令定义</p><p>变量名&#x3D;‘命令’</p><p>变量名&#x3D;$(命令)</p><p><strong>使用变量正规写法</strong></p><p>“${变量名}”</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;Linux&quot;&gt;&lt;a href=&quot;#Linux&quot; class=&quot;headerlink&quot; title=&quot;Linux&quot;&gt;&lt;/a&gt;Linux&lt;/h1&gt;&lt;h2 id=&quot;用户管理&quot;&gt;&lt;a href=&quot;#用户管理&quot; class=&quot;headerlink&quot; title=&quot;用户管理&quot;</summary>
-      
-    
-    
-    
-    <category term="Linux" scheme="http://example.com/categories/Linux/"/>
-    
-    
-    <category term="Linux" scheme="http://example.com/tags/Linux/"/>
     
   </entry>
   
