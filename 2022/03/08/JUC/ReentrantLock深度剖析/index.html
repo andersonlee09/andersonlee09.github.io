@@ -1,0 +1,575 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Anderson Lee">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在开始之前我们先来大概将一讲啥是ReentrantLock ReentrantLock基于AQS，对于AQS不了解的可以看这里。在并发编程中它可以实现公平锁和非公平锁来对共享资源进行同步，同时，它与synchronizd一样，ReentrantLock支持可重入，除此之外，ReentrantLock在调度上更加灵活，支持更多丰富的功能。   接下来我们根据以上思维导图来进行讲解。 Lock  可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ReentrantLock深度剖析">
+<meta property="og:url" content="http://example.com/2022/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/index.html">
+<meta property="og:site_name" content="Anderson&#39;s blog">
+<meta property="og:description" content="在开始之前我们先来大概将一讲啥是ReentrantLock ReentrantLock基于AQS，对于AQS不了解的可以看这里。在并发编程中它可以实现公平锁和非公平锁来对共享资源进行同步，同时，它与synchronizd一样，ReentrantLock支持可重入，除此之外，ReentrantLock在调度上更加灵活，支持更多丰富的功能。   接下来我们根据以上思维导图来进行讲解。 Lock  可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/essay/default.jpg">
+<meta property="article:published_time" content="2022-03-08T14:02:37.000Z">
+<meta property="article:modified_time" content="2022-03-08T15:32:37.251Z">
+<meta property="article:author" content="Anderson Lee">
+<meta property="article:tag" content="JUC">
+<meta property="article:tag" content="ReentrantLock">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/essay/default.jpg">
+  
+  
+  <title>ReentrantLock深度剖析 - Anderson&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"DxD8Je61g9y9PhzBEDd85fMf-gzGzoHsz","app_key":"doeTC5tWGElBVb4A5CXUYMkd","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Anderson's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Anderson&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ReentrantLock深度剖析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-08 22:02" pubdate>
+        2022年3月8日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      36 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ReentrantLock深度剖析</h1>
+            
+            <div class="markdown-body">
+              <p>在开始之前我们先来大概将一讲啥是ReentrantLock</p>
+<p>ReentrantLock基于<strong>AQS</strong>，对于AQS不了解的可以看<a target="_blank" rel="noopener" href="https://andersonlee09.github.io/2022/03/05/JUC/AQS%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">这里</a>。在并发编程中它可以实现<strong>公平锁</strong>和<strong>非公平锁</strong>来对共享资源进行同步，同时，它与synchronizd一样，ReentrantLock支持<strong>可重入</strong>，除此之外，ReentrantLock在<strong>调度</strong>上更加灵活，支持更多丰富的功能。</p>
+<img src="/2022/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220308221113973.png" srcset="/img/loading.gif" lazyload class>
+
+<p>接下来我们根据以上思维导图来进行讲解。</p>
+<h2 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h2><img src="/2022/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220308221251242.png" srcset="/img/loading.gif" lazyload class>
+
+<p>可以看到ReentrantLock实现了Lock接口，那什么 是Lock呢？</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs mipsasm">&#123;@code Lock&#125; implementations provide more <span class="hljs-keyword">extensive </span>locking operations than can <span class="hljs-keyword">be </span>obtained using &#123;@code <span class="hljs-keyword">synchronized&#125; </span>methods <span class="hljs-keyword">and </span>statements.  They allow more flexible structuring, may have quite <span class="hljs-keyword">different </span>properties, <span class="hljs-keyword">and </span>may support <span class="hljs-keyword">multiple </span>associated &#123;@link Condition &#125; objects.<br></code></pre></td></tr></table></figure>
+
+<p>这是Lock接口最开头的一段内容，它的意思是说：</p>
+<p>{@code Lock} 实现了区别于 {@code synchronized} 的另一种具有更多广泛操作的同步方式，它允许更灵活的结构，可能有完全不同的属性，并且可能支持多个关联的 {@link Condition} 对象。</p>
+<p><img src="/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/Users\李瑞航\Desktop\image-20220308222000247.png" srcset="/img/loading.gif" lazyload alt="image-20220308222000247"></p>
+<p>Lock方法有六个方法</p>
+<p>lock方法用于获取锁，加入当前锁被其他线程，那它就会去等待，直到获取锁</p>
+<p>lockInterruptibly类似于lock，但区别在于假如当前线程在等待过程中被中断，那它就会退出等待，并且抛出异常</p>
+<p>tryLock无参方法尝试获取锁，返回为bool类型代表是否获得锁</p>
+<p>tryLock有参数方法，在一段时间内尝试获取锁，假如等待过程中被中断，就会抛出异常</p>
+<p>unlock释放锁</p>
+<p>newCondition方法新建一个绑定在当前Lock上的Condition对象，Condition对象有什么用？它表示一个等待状态，获得锁线程在某些时刻需要等待一些条件完成才能继续运行，那它通过await方法注册在condition对象上进行等待，通过condition对象的signal方法将其唤醒，这一点类似于Object的wait方法和notify方法。但不同的是一个Lock对象可以关联多个Condition。多个线程可以被绑定在不同的Condition对象实现分组功能。</p>
+<h2 id="Sync"><a href="#Sync" class="headerlink" title="Sync"></a>Sync</h2><p>ReentrantLock只有一个属性：sync，它final修饰，一旦初始化，就不能被修改。</p>
+<img src="/2022/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220308223528777.png" srcset="/img/loading.gif" lazyload class>
+
+<p>Sync继承AQS</p>
+<img src="/2022/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220308223457935.png" srcset="/img/loading.gif" lazyload class>
+
+<p>Sync有两个子类，一个NonfairSync一个FairSync.</p>
+<p>接下来我们看看Sync的nonfairTryAcquire方法，即不公平获取锁</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ReservedStackAccess</span><br><span class="hljs-keyword">final</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">nonfairTryAcquire</span><span class="hljs-params">(<span class="hljs-type">int</span> acquires)</span> &#123;<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">Thread</span> <span class="hljs-variable">current</span> <span class="hljs-operator">=</span> Thread.currentThread();<br>    <span class="hljs-type">int</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> getState();<br>    <span class="hljs-keyword">if</span> (c == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span> (compareAndSetState(<span class="hljs-number">0</span>, acquires)) &#123;<br>            setExclusiveOwnerThread(current);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (current == getExclusiveOwnerThread()) &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">nextc</span> <span class="hljs-operator">=</span> c + acquires;<br>        <span class="hljs-keyword">if</span> (nextc &lt; <span class="hljs-number">0</span>) <span class="hljs-comment">// overflow</span><br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;Maximum lock count exceeded&quot;</span>);<br>        setState(nextc);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>它首先获取state,这里的state与AQS中state一样，用于表示当前线程状态</p>
+<p>它先判断 当state为0，表示锁是空闲的，便可以进行一次CAS来原子地更改state，如果获取成功，那就setExclusiveOwnerThread将当前线程设置为独占线程，并且返回true</p>
+<p>当state不为0，它会去判断当前线程是否是独占线程，为什么要进一步判断呢？这就是对<strong>可重入</strong>的实现，这里判断的是独占锁的人是不是自己，如果不是，那就尝试获取失败，返回flase。如果正是自己，那就能够满足可重入性，但是这个时候需要累加state来记录重入的次数,因为它需要释放相同次数。</p>
+<p>这里它判断了一次state&lt;0，这是为了防止重入的次数过多造成整数溢出，所以它重入最大次数为2^31-1，这里不得不感叹一句，设计框架的人对于细节的把握真的很到位。</p>
+<blockquote>
+<p> 可重入指的是：单个线程执行时，重新进入同一个子程序仍然是线程安全的，A在某上下文获得了某锁，当A想再次获得锁的时候，不会因为锁已经被自己占用，而需要先去等待锁的释放。A如果已经获得了锁，又去等待自己释放锁，就会造成死锁。简单的来说就是一个线程可以不用释放，获得一个锁N次。但是它需要释放N次。</p>
+</blockquote>
+<p>接下来我们看看Sync的tryRelease方法，即尝试释放锁</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-meta">@ReservedStackAccess</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">final</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">tryRelease</span><span class="hljs-params">(<span class="hljs-type">int</span> releases)</span> &#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> getState() - releases;<br>    <span class="hljs-keyword">if</span> (Thread.currentThread() != getExclusiveOwnerThread())<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalMonitorStateException</span>();<br>    <span class="hljs-type">boolean</span> <span class="hljs-variable">free</span> <span class="hljs-operator">=</span> <span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">if</span> (c == <span class="hljs-number">0</span>) &#123;<br>        free = <span class="hljs-literal">true</span>;<br>        setExclusiveOwnerThread(<span class="hljs-literal">null</span>);<br>    &#125;<br>    setState(c);<br>    <span class="hljs-keyword">return</span> free;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里的返回值指的是释放完全释放，而不是是否成功释放一次。</p>
+<h2 id="公平和非公平锁"><a href="#公平和非公平锁" class="headerlink" title="公平和非公平锁"></a>公平和非公平锁</h2><p>公平锁：按锁的请求顺序进行排队，拥有稳定获取锁的机会，但性能比较低。AQS的FIFO队列就可以实现。</p>
+<p>非公平锁：不一定按照锁的请求顺序进行分配，但是性能高。因为后请求锁的线程可能在前面休眠线程恢复前就拿到锁，这样可以提高性能。线程间的切换可能会造成延时。</p>
+<h2 id="NonfairSync"><a href="#NonfairSync" class="headerlink" title="NonfairSync"></a>NonfairSync</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NonfairSync</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Sync</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> <span class="hljs-variable">serialVersionUID</span> <span class="hljs-operator">=</span> <span class="hljs-number">7316153563782823691L</span>;<br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">final</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">tryAcquire</span><span class="hljs-params">(<span class="hljs-type">int</span> acquires)</span> &#123;<br>        <span class="hljs-keyword">return</span> nonfairTryAcquire(acquires);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到它只是重写了tryAcquire方法，这里的nonfairTryAcquire我们在上面已经讲过，这里不进行赘述。</p>
+<h2 id="FairSync"><a href="#FairSync" class="headerlink" title="FairSync"></a>FairSync</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FairSync</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Sync</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> <span class="hljs-variable">serialVersionUID</span> <span class="hljs-operator">=</span> -<span class="hljs-number">3000897897090466540L</span>;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Fair version of tryAcquire.  Don&#x27;t grant access unless</span><br><span class="hljs-comment">     * recursive call or no waiters or is first.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@ReservedStackAccess</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">final</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">tryAcquire</span><span class="hljs-params">(<span class="hljs-type">int</span> acquires)</span> &#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">Thread</span> <span class="hljs-variable">current</span> <span class="hljs-operator">=</span> Thread.currentThread();<br>        <span class="hljs-type">int</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> getState();<br>        <span class="hljs-keyword">if</span> (c == <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;<br>                compareAndSetState(<span class="hljs-number">0</span>, acquires)) &#123;<br>                setExclusiveOwnerThread(current);<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (current == getExclusiveOwnerThread()) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">nextc</span> <span class="hljs-operator">=</span> c + acquires;<br>            <span class="hljs-keyword">if</span> (nextc &lt; <span class="hljs-number">0</span>)<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;Maximum lock count exceeded&quot;</span>);<br>            setState(nextc);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到它只是重写了tryAcquire方法，但重写方式略有不同，逻辑如下：</p>
+<p>如果锁是空闲的，且FIFO队列中没有排在当前线程之前的线程，那就允许当前线程去尝试获取锁。如果是当前线程正在使用锁那就state进行累加，否则直接返回false</p>
+<h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h2><p>可以看到，该实现的已经实现的差不多了，ReentrantLock直接调用FairSync、NonfairSync就可以了。</p>
+<img src="/2022/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220308231815738.png" srcset="/img/loading.gif" lazyload class>
+
+<p>ReentrantLock实现了两个构造函数，无参为非公平模式，</p>
+<h2 id="Java中断机制"><a href="#Java中断机制" class="headerlink" title="Java中断机制"></a>Java中断机制</h2><img src="/2022/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220308232322877.png" srcset="/img/loading.gif" lazyload class>
+
+<p>假如现在有一条线程正在运行中，你对它调用interrupt方法，那它会继续运行，并不会抛出中断异常。而是修改thread对象的一个中断状态boolean值，true代表被中断，false表示未被中断。isinterrupted会返回这个状态值，isinterrupted会返回这个状态值，并将其改为false。</p>
+<p>如果需要观察某个线程在Runnable状态下中断状态，可以用isinterrupted方法。又假如现在有一条线程，它的状态时blocked或waiting也就是阻塞或者等待，如果此时对它进行interrupt，如果线程是调用sleep\wait\join方法进入的阻塞或者等待，那就会抛出中断异常，假如是通过LockSupport.park方法进入阻塞状态被interrupt时，那它不会发生异常，而时改变线程状态的值。</p>
+<p>写这篇文章我大概用了两个小时，实属不易，如果大家有什么异议还请提出~</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/JUC/">JUC</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JUC/">JUC</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ReentrantLock/">ReentrantLock</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/08/Java%E9%9B%86%E5%90%88/CopyOnWriteArrayList/">
+                        <span class="hidden-mobile">CopyOnWriteArrayList</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"DxD8Je61g9y9PhzBEDd85fMf-gzGzoHsz","appKey":"doeTC5tWGElBVb4A5CXUYMkd","path":"window.location.pathname","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"retro","meta":["nick","mail"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"DxD8Je61g9y9PhzBEDd85fMf-gzGzoHsz","appkey":"doeTC5tWGElBVb4A5CXUYMkd"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
