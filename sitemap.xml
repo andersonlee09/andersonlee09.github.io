@@ -232,41 +232,6 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/Java%E9%9B%86%E5%90%88/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/CopyOnWriteArrayList/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/AQS/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/JUC/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/tags/Django/</loc>
     <lastmod>2022-03-08</lastmod>
     <changefreq>weekly</changefreq>
@@ -288,6 +253,34 @@
   </url>
   
   <url>
+    <loc>http://example.com/tags/AQS/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/JUC/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/ReentrantLock/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/tags/Java%E5%9F%BA%E7%A1%80/</loc>
     <lastmod>2022-03-08</lastmod>
     <changefreq>weekly</changefreq>
@@ -302,21 +295,21 @@
   </url>
   
   <url>
+    <loc>http://example.com/tags/Java%E9%9B%86%E5%90%88/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/CopyOnWriteArrayList/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/tags/HashMap/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/Redis/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/Hexo/</loc>
     <lastmod>2022-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -330,7 +323,21 @@
   </url>
   
   <url>
+    <loc>http://example.com/tags/Redis/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/tags/utils/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/Hexo/</loc>
     <lastmod>2022-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -371,31 +378,10 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>http://example.com/tags/ReentrantLock/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
     <loc>http://example.com/categories/algorithm/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/categories/Java%E9%9B%86%E5%90%88/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/categories/JUC/</loc>
     <lastmod>2022-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -416,7 +402,28 @@
   </url>
   
   <url>
+    <loc>http://example.com/categories/JUC/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/categories/Java%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/Java%E9%9B%86%E5%90%88/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/Error/</loc>
     <lastmod>2022-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -437,21 +444,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/Hexo/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/categories/Error/</loc>
-    <lastmod>2022-03-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/categories/utils/</loc>
+    <lastmod>2022-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/Hexo/</loc>
     <lastmod>2022-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
