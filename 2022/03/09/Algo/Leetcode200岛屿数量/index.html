@@ -16,24 +16,24 @@
   <meta name="author" content="Anderson Lee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Linux下Django离线部署在这里介绍一下Linux下Django离线部署的过程，大概分为以下三步  首先就是python manage.py runserver 第二步就是 使用uwsgi进行代理 nginx反向代理，这一步可以降低服务器对于静态资源的应对能力，实现动静分离，增加效率。  1.首先关闭防火墙 systemctl disable firewalld chkconfig ipta">
+    <meta name="description" content="今天我们来分享这道题：200. 岛屿数量,这是有关图的递归遍历的题目。这道题我第一次见到的时候十分束手无策，这道题难度为mid，其实理解以后真实难度也就easy，主要是考了图的深度遍历。 首先先明确题意，它说的是上下左右为’0’的地方为水，然后求岛屿的数量，那我们就可以先搞一个二层遍历，遍历二维数组的每一个元素，如果它为’1’,那它一定是一个岛屿。然后我们下来要做的事情就是用递归的方法把周围相关的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux下Django离线部署">
-<meta property="og:url" content="http://example.com/2022/02/24/Django/Linux%E4%B8%8BDjango%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:title" content="Leetcode200岛屿数量">
+<meta property="og:url" content="http://example.com/2022/03/09/Algo/Leetcode200%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/index.html">
 <meta property="og:site_name" content="Anderson&#39;s blog">
-<meta property="og:description" content="Linux下Django离线部署在这里介绍一下Linux下Django离线部署的过程，大概分为以下三步  首先就是python manage.py runserver 第二步就是 使用uwsgi进行代理 nginx反向代理，这一步可以降低服务器对于静态资源的应对能力，实现动静分离，增加效率。  1.首先关闭防火墙 systemctl disable firewalld chkconfig ipta">
+<meta property="og:description" content="今天我们来分享这道题：200. 岛屿数量,这是有关图的递归遍历的题目。这道题我第一次见到的时候十分束手无策，这道题难度为mid，其实理解以后真实难度也就easy，主要是考了图的深度遍历。 首先先明确题意，它说的是上下左右为’0’的地方为水，然后求岛屿的数量，那我们就可以先搞一个二层遍历，遍历二维数组的每一个元素，如果它为’1’,那它一定是一个岛屿。然后我们下来要做的事情就是用递归的方法把周围相关的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/essay/django.png">
-<meta property="article:published_time" content="2022-02-23T16:07:07.000Z">
-<meta property="article:modified_time" content="2022-02-26T16:11:56.426Z">
+<meta property="og:image" content="http://example.com/img/essay/algo.png">
+<meta property="article:published_time" content="2022-03-09T13:02:04.000Z">
+<meta property="article:modified_time" content="2022-03-09T15:42:43.809Z">
 <meta property="article:author" content="Anderson Lee">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="Django">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="图">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/essay/django.png">
+<meta name="twitter:image" content="http://example.com/img/essay/algo.png">
   
   
-  <title>Linux下Django离线部署 - Anderson&#39;s blog</title>
+  <title>Leetcode200岛屿数量 - Anderson&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -180,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Linux下Django离线部署">
+            <span class="h2" id="subtitle" title="Leetcode200岛屿数量">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-24 00:07" pubdate>
-        2022年2月24日 凌晨
+      <time datetime="2022-03-09 21:02" pubdate>
+        2022年3月9日 晚上
       </time>
     </span>
   
@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.2k 字
+      804 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      19 分钟
+      7 分钟
     </span>
   
 
@@ -239,100 +239,14 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Linux下Django离线部署</h1>
+            <h1 style="display: none">Leetcode200岛屿数量</h1>
             
             <div class="markdown-body">
-              <h1 id="Linux下Django离线部署"><a href="#Linux下Django离线部署" class="headerlink" title="Linux下Django离线部署"></a>Linux下Django离线部署</h1><p>在这里介绍一下Linux下Django离线部署的过程，大概分为以下三步</p>
-<ol>
-<li>首先就是python manage.py runserver</li>
-<li>第二步就是 使用uwsgi进行代理</li>
-<li>nginx反向代理，这一步可以降低服务器对于静态资源的应对能力，实现动静分离，增加效率。</li>
-</ol>
-<p>1.首先关闭防火墙</p>
-<p><strong>systemctl disable firewalld</strong></p>
-<p>chkconfig iptables off</p>
-<p>2.关闭selinux</p>
-<p>vi &#x2F;etc&#x2F;selinux&#x2F;config</p>
-<img src="/2022/02/24/Django/Linux%E4%B8%8BDjango%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2/image-20220113142902248.png" srcset="/img/loading.gif" lazyload class>
+              <p>今天我们来分享这道题：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/number-of-islands/">200. 岛屿数量</a>,这是有关图的递归遍历的题目。这道题我第一次见到的时候十分束手无策，这道题难度为mid，其实理解以后真实难度也就easy，主要是考了图的深度遍历。</p>
+<p>首先先明确题意，它说的是<strong>上下左右</strong>为’0’的地方为水，然后求岛屿的数量，那我们就可以先搞一个二层遍历，遍历二维数组的每一个元素，如果它为’1’,那它一定是一个岛屿。然后我们下来要做的事情就是用递归的方法把周围相关的岛屿全部遍历一遍并且改一下状态(可以理解为只要遇见一个岛的一块地方，就把这个岛屿相关的地方全部变成水)。这里递归的结束条件就是当要访问的下标越界或者访问到’0’.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">numIslands</span><span class="hljs-params">(<span class="hljs-type">char</span>[][] grid)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">count</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; grid.length; i++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; grid[<span class="hljs-number">0</span>].length; j++) &#123;<br>                <span class="hljs-keyword">if</span> (grid[i][j] == <span class="hljs-string">&#x27;1&#x27;</span>) &#123;<br>                    dfs(grid, i, j);<br>                    count++;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> count;<br>    &#125;<br><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">dfs</span><span class="hljs-params">(<span class="hljs-type">char</span>[][] grid, <span class="hljs-type">int</span> i, <span class="hljs-type">int</span> j)</span> &#123;<br>        <span class="hljs-keyword">if</span> (i &lt; <span class="hljs-number">0</span> || j &lt; <span class="hljs-number">0</span> || i &gt;= grid.length || j &gt;=grid[<span class="hljs-number">0</span>].length || grid[i][j] == <span class="hljs-string">&#x27;0&#x27;</span>) <span class="hljs-keyword">return</span>;<br>        grid[i][j] = <span class="hljs-string">&#x27;0&#x27;</span>;<br>        dfs(grid, i + <span class="hljs-number">1</span>, j);<br>        dfs(grid, i, j + <span class="hljs-number">1</span>);<br>        dfs(grid, i - <span class="hljs-number">1</span>, j);<br>        dfs(grid, i, j - <span class="hljs-number">1</span>);<br>        <br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>3.ping <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a></p>
-<p>4.用yum安装包</p>
-<p>yum -y install wget vim</p>
-<p>wget <a target="_blank" rel="noopener" href="https://www.python.org/ftp/python/3.7.6/Python-3.7.6.tgz">https://www.python.org/ftp/python/3.7.6/Python-3.7.6.tgz</a></p>
-<p>安装opt下</p>
-<p>安装python依赖</p>
-<p>yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs cmake">yum <span class="hljs-keyword">install</span> libffi-devel<br></code></pre></td></tr></table></figure>
-
-<p>解压python</p>
-<p>tar -xzvf Python-3.7.6.tgz -C &#x2F;usr&#x2F;local&#x2F;src&#x2F;</p>
-<p>cd &#x2F;usr&#x2F;local&#x2F;src&#x2F;</p>
-<p>cd Python-3.7.6&#x2F;</p>
-<p>.&#x2F;configure –prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;python3</p>
-<p>make &amp;&amp; make install</p>
-<p>添加环境变量</p>
-<p>cd &#x2F;etc&#x2F;profile.d&#x2F;</p>
-<p>vi python3.sh</p>
-<p>添加export PATH&#x3D;”$PATH:&#x2F;usr&#x2F;local&#x2F;python3&#x2F;bin”</p>
-<p>重载环境变量 source ..&#x2F;profile</p>
-<p>echo $PATH</p>
-<p>############33</p>
-<p>实际部署</p>
-<p>cd &#x2F;opt</p>
-<p>mkdir wxapp</p>
-<p>cd wxapp</p>
-<p>mkdir script</p>
-<p>上传项目至wxapp</p>
-<p>pip3 install –upgrade pip</p>
-<p>pip freeze &gt;requirements.txt</p>
-<p>pip3 download -d packages -r requirements.txt</p>
-<p>修改ALLOW_HOST</p>
-<p>pip3 install uwsgi</p>
-<p>这一步一定是再在wweixinapp目录下</p>
-<p>uwsgi –http 0.0.0.0:8000 –file weixinapp&#x2F;wsgi.py –static-map&#x3D;&#x2F;static&#x3D;static</p>
-<p>cd ..&#x2F;script</p>
-<p>vim uwsgi.ini</p>
-<div class="code-wrapper"><pre><code class="hljs">[uwsgi]
-# 项目目录
-http=0.0.0.0:8000
-chdir=/opt/wxapp/weixinapp/
-# 启动uwsgi的用户名和用户组
-uid=root
-gid=root
-# 指定项目的application
-module=weixinapp.wsgi:application
-# 指定sock的文件路径
-socket=/opt/wxapp/script/uwsgi.sock
-# 启用主进程
-master=true
-# 进程个数
-workers=5
-pidfile=/opt/wxapp/script/uwsgi.pid
-# 自动移除unix Socket和pid文件当服务停止的时候
-vacuum=true
-# 序列化接受的内容，如果可能的话
-thunder-lock=true
-# 启用线程
-enable-threads=true
-# 设置自中断时间
-harakiri=30
-# 设置缓冲
-post-buffering=4096
-# 设置日志目录
-daemonize=/opt/wxapp/script/uwsgi.log
-</code></pre></div>
-<p>uwsgi –ini uwsgi.ini  # 启动uwsgi</p>
-<p>uwsgi –stop uwsgi.pid</p>
-<p>ps -ef | grep -i uwsgi</p>
-<p>添加nginx配置文件</p>
-<p>cd &#x2F;www&#x2F;server&#x2F;nginx&#x2F;conf&#x2F;</p>
-<p>vim weixinapp.conf</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs ini">server &#123;<br>                    listen 8000<span class="hljs-comment">;</span><br>                    server_name 121.4.192.22 <span class="hljs-comment">;</span><br>                    charset  utf-8<span class="hljs-comment">;</span><br>                    <span class="hljs-comment"># 指定项目路径uwsgi</span><br>                    location / &#123;<br>                        include uwsgi_params<span class="hljs-comment">;</span><br>                        uwsgi_connect_timeout 30<span class="hljs-comment">;</span><br>                        uwsgi_pass unix:/opt/wxapp/script/uwsgi.sock<span class="hljs-comment">;</span><br>                    &#125;<br>                    <span class="hljs-comment"># 指定静态文件路径</span><br>                    location /static/ &#123;<br>                        alias  /opt/wxapp/weixinapp/static/<span class="hljs-comment">;</span><br>                        index  index.html index.htm<span class="hljs-comment">;</span><br>                    &#125;<br><br>    &#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<p>&#x2F;etc&#x2F;init.d&#x2F;nginx start</p>
-<p>&#x2F;etc&#x2F;init.d&#x2F;nginx stop</p>
+<p>至此本次要分享的思路全部结束</p>
 
             </div>
             <hr>
@@ -342,7 +256,7 @@ daemonize=/opt/wxapp/script/uwsgi.log
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Django/">Django</a>
+                      <a class="hover-with-bg" href="/categories/Algorithm/">Algorithm</a>
                     
                   </div>
                 
@@ -350,9 +264,9 @@ daemonize=/opt/wxapp/script/uwsgi.log
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                      <a class="hover-with-bg" href="/tags/Algorithm/">Algorithm</a>
                     
-                      <a class="hover-with-bg" href="/tags/Django/">Django</a>
+                      <a class="hover-with-bg" href="/tags/%E5%9B%BE/">图</a>
                     
                   </div>
                 
@@ -369,9 +283,9 @@ daemonize=/opt/wxapp/script/uwsgi.log
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/25/Java%E9%9B%86%E5%90%88/HashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/">
+                      <a href="/2022/03/09/Algo/Leetcode530%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%9C%80%E5%B0%8F%E7%BB%9D%E5%AF%B9%E5%B7%AE/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">HashMap深度剖析</span>
+                        <span class="hidden-mobile">Leetcode530二叉搜索树的最小绝对差</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -379,8 +293,8 @@ daemonize=/opt/wxapp/script/uwsgi.log
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB%E8%A1%8C%E4%B8%BA%E9%89%B4%E8%B5%8F/">
-                        <span class="hidden-mobile">网络攻击行为鉴赏</span>
+                      <a href="/2022/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/">
+                        <span class="hidden-mobile">ReentrantLock深度剖析</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
