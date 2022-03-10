@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/essay/juc.png">
 <meta property="article:published_time" content="2022-03-10T15:39:59.000Z">
-<meta property="article:modified_time" content="2022-03-10T15:41:28.716Z">
+<meta property="article:modified_time" content="2022-03-10T15:51:05.945Z">
 <meta property="article:author" content="Anderson Lee">
 <meta property="article:tag" content="JUC">
 <meta property="article:tag" content="CAS">
@@ -268,7 +268,7 @@
 <p>它的getAndIncrement()即数值自增方法就是用Unsafe对象的getAndAddInt来实现的。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getAndAddInt</span><span class="hljs-params">(Object o, <span class="hljs-type">long</span> offset, <span class="hljs-type">int</span> delta)</span> &#123;<br>    <span class="hljs-type">int</span> v;<br>    <span class="hljs-keyword">do</span> &#123;<br>        v = getIntVolatile(o, offset);<br>    &#125; <span class="hljs-keyword">while</span> (!weakCompareAndSetInt(o, offset, v, v + delta));<br>    <span class="hljs-keyword">return</span> v;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>这是getAndAddInt的源码，可以看到确实用到了CAS,这里的循环就是自旋<br>至此，我所了解的CAS内容全部讲解完毕！</p>
+<p>这是getAndAddInt的源码，可以看到确实用到了CAS,这里的循环就是自旋<br>至此，我所了解的CAS内容全部讲解完毕~</p>
 
             </div>
             <hr>
