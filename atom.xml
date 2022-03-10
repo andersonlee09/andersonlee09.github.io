@@ -502,9 +502,9 @@
     <category term="Java集合" scheme="http://example.com/categories/Java%E9%9B%86%E5%90%88/"/>
     
     
-    <category term="Java集合" scheme="http://example.com/tags/Java%E9%9B%86%E5%90%88/"/>
-    
     <category term="ConcurrentHashMap" scheme="http://example.com/tags/ConcurrentHashMap/"/>
+    
+    <category term="Java集合" scheme="http://example.com/tags/Java%E9%9B%86%E5%90%88/"/>
     
   </entry>
   
