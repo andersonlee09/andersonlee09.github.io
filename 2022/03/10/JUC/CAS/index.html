@@ -16,24 +16,24 @@
   <meta name="author" content="Anderson Lee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="ConcurrentHashMap深度剖析我在上一次面试被问到了为甚么ConcurrentHashMap可以实现线程安全，这里我没有答出来，在这里我打算好好带大家一起了解ConcurrentHashMap顺便让我复习一下。 ConcurrentHashMap为什么可以实现线程安全JDK1.7数据结构   在1.7的时候ConcurrentHashMap由segment数组和HashEntry数组组">
+    <meta name="description" content="建议看这篇文章之前先去看一下上一篇文章（Java锁机制） 假设我们现在有多个线程想去访问操作同一资源，很多人第一反应一定是互斥锁，但互斥锁是悲观的  悲观锁  简单来说，操作系统认为如果不严格管理线程调用，那一定会出现问题，那它就会把一个资源进行锁定，只让一个线程去调度。从而阻塞别的线程。  乐观锁  假设现在我们大部分操作都是读操作，那就没必要去每次操作就去锁定资源，那我们可不可以不锁定资源也能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ConcurrentHashMap深度剖析">
-<meta property="og:url" content="http://example.com/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/index.html">
+<meta property="og:title" content="CAS">
+<meta property="og:url" content="http://example.com/2022/03/10/JUC/CAS/index.html">
 <meta property="og:site_name" content="Anderson&#39;s blog">
-<meta property="og:description" content="ConcurrentHashMap深度剖析我在上一次面试被问到了为甚么ConcurrentHashMap可以实现线程安全，这里我没有答出来，在这里我打算好好带大家一起了解ConcurrentHashMap顺便让我复习一下。 ConcurrentHashMap为什么可以实现线程安全JDK1.7数据结构   在1.7的时候ConcurrentHashMap由segment数组和HashEntry数组组">
+<meta property="og:description" content="建议看这篇文章之前先去看一下上一篇文章（Java锁机制） 假设我们现在有多个线程想去访问操作同一资源，很多人第一反应一定是互斥锁，但互斥锁是悲观的  悲观锁  简单来说，操作系统认为如果不严格管理线程调用，那一定会出现问题，那它就会把一个资源进行锁定，只让一个线程去调度。从而阻塞别的线程。  乐观锁  假设现在我们大部分操作都是读操作，那就没必要去每次操作就去锁定资源，那我们可不可以不锁定资源也能">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/essay/collection.png">
-<meta property="article:published_time" content="2022-02-26T15:15:45.000Z">
-<meta property="article:modified_time" content="2022-02-26T16:02:57.758Z">
+<meta property="og:image" content="http://example.com/img/essay/juc.png">
+<meta property="article:published_time" content="2022-03-10T15:39:59.000Z">
+<meta property="article:modified_time" content="2022-03-10T15:41:28.716Z">
 <meta property="article:author" content="Anderson Lee">
-<meta property="article:tag" content="Java集合">
-<meta property="article:tag" content="ConcurrentHashMap">
+<meta property="article:tag" content="JUC">
+<meta property="article:tag" content="CAS">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/essay/collection.png">
+<meta name="twitter:image" content="http://example.com/img/essay/juc.png">
   
   
-  <title>ConcurrentHashMap深度剖析 - Anderson&#39;s blog</title>
+  <title>CAS - Anderson&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -180,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="ConcurrentHashMap深度剖析">
+            <span class="h2" id="subtitle" title="CAS">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-26 23:15" pubdate>
-        2022年2月26日 晚上
+      <time datetime="2022-03-10 23:39" pubdate>
+        2022年3月10日 晚上
       </time>
     </span>
   
@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      901 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13 分钟
+      8 分钟
     </span>
   
 
@@ -239,49 +239,36 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">ConcurrentHashMap深度剖析</h1>
+            <h1 style="display: none">CAS</h1>
             
             <div class="markdown-body">
-              <h1 id="ConcurrentHashMap深度剖析"><a href="#ConcurrentHashMap深度剖析" class="headerlink" title="ConcurrentHashMap深度剖析"></a>ConcurrentHashMap深度剖析</h1><p>我在上一次面试被问到了为甚么ConcurrentHashMap可以实现线程安全，这里我没有答出来，在这里我打算好好带大家一起了解ConcurrentHashMap顺便让我复习一下。</p>
-<h2 id="ConcurrentHashMap为什么可以实现线程安全"><a href="#ConcurrentHashMap为什么可以实现线程安全" class="headerlink" title="ConcurrentHashMap为什么可以实现线程安全"></a>ConcurrentHashMap为什么可以实现线程安全</h2><h3 id="JDK1-7"><a href="#JDK1-7" class="headerlink" title="JDK1.7"></a>JDK1.7</h3><p><strong>数据结构</strong></p>
-<img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226232104869.png" srcset="/img/loading.gif" lazyload class>
-
-<p>在1.7的时候ConcurrentHashMap由<code>segment</code>数组和<code>HashEntry</code>数组组成，ConcurrentHashMap把哈希桶分为segment小数组，每个小数组有n个HashEntry组成。segment继承RenntrantLock即可重入锁，hashEntry存储键值对。</p>
-<p><strong>结果</strong></p>
-<p>首先将数据分为一段一段存储，然后给每一段都配一把可重入锁，当一个线程占用锁访问其中一个段数据时，其他数据也能访问，真正能实现并发。</p>
-<h3 id="JDK1-8"><a href="#JDK1-8" class="headerlink" title="JDK1.8"></a>JDK1.8</h3><p><strong>数据结构</strong></p>
-<img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226232838666.png" srcset="/img/loading.gif" lazyload class>
-
-<p>1.8采用了数组 + 链表 + 红黑树结构。在锁实现上抛弃了segmnet分段式锁，而是采用<code>CAS + synchronized</code>实现更加低粒度的锁。</p>
-<p>锁的级别控制在了hash桶元素级别，也就是说只需要锁住链表头节点，即红黑树根节点，就不会影响其他哈希桶元素读写，大大提高并发度。</p>
-<h2 id="ConcurrentHashMap-put方法"><a href="#ConcurrentHashMap-put方法" class="headerlink" title="ConcurrentHashMap put方法"></a>ConcurrentHashMap put方法</h2><h3 id="JDK1-7-1"><a href="#JDK1-7-1" class="headerlink" title="JDK1.7"></a>JDK1.7</h3><p>首先尝试获取锁，如果没有获取到就进行自旋，如果自旋超过64次，改为阻塞获取锁。</p>
-<p>获取到以后：</p>
-<ol>
-<li>将segment中的table通过key定位到HashEntry</li>
-<li>遍历HashEntry，如果不为空就判断传入的key与当前遍历key是否相等，相等就覆盖</li>
-<li>不为空就新建一个HashEntry并加入到segment，同时判断是否需要扩容</li>
-<li>释放锁</li>
-</ol>
-<h3 id="JDK1-8-1"><a href="#JDK1-8-1" class="headerlink" title="JDK1.8"></a>JDK1.8</h3><ol>
-<li>根据key计算hash值</li>
-<li>判断是否需要初始化</li>
-<li>定位到node，拿到首节点f,</li>
-</ol>
+              <p>建议看这篇文章之前先去看一下上一篇文章（Java锁机制）</p>
+<p>假设我们现在有多个线程想去访问操作同一资源，很多人第一反应一定是互斥锁，但互斥锁是悲观的</p>
 <ul>
-<li>如果为null就使用cas进行添加</li>
-<li>如果f.hash &#x3D;&#x3D; MOVED &#x3D;&#x3D; -1,说明其他线程正在扩容，则参与一起扩容</li>
-<li>都不满足就用synchronized锁住f，判断是链表还是红黑树，直接插入</li>
+<li>悲观锁</li>
 </ul>
-<p>具体可以看这里<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzkyMTI3Mjc2MQ==&mid=2247485909&idx=1&sn=d9c672eebb090866a72f99f3d8032e76&source=41#wechat_redirect">面试 ConcurrentHashMap ，看这一篇就够了！ (qq.com)</a></p>
-<h2 id="ConcurrentHashMap-get方法是否需要加锁，为什么"><a href="#ConcurrentHashMap-get方法是否需要加锁，为什么" class="headerlink" title="ConcurrentHashMap get方法是否需要加锁，为什么"></a>ConcurrentHashMap get方法是否需要加锁，为什么</h2><p>不需要，因为Node元素的val和指针next是volatile修饰的，在多线程环境下线程A修改val或增加节点对线程B可见</p>
-<img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226234644053.png" srcset="/img/loading.gif" lazyload class>
+<p>简单来说，操作系统认为如果不严格管理线程调用，那一定会出现问题，那它就会把一个资源进行锁定，只让一个线程去调度。从而阻塞别的线程。</p>
+<ul>
+<li>乐观锁</li>
+</ul>
+<p>假设现在我们大部分操作都是读操作，那就没必要去每次操作就去锁定资源，那我们可不可以不锁定资源也能去同步线程呢？</p>
+<p>这就要用到CAS（compare and swap）</p>
+<img src="/2022/03/10/JUC/CAS/image-20220310232112615.png" srcset="/img/loading.gif" lazyload class>
 
-<h2 id="ConcurrentHashMap不支持key或者value为null的原因"><a href="#ConcurrentHashMap不支持key或者value为null的原因" class="headerlink" title="ConcurrentHashMap不支持key或者value为null的原因"></a>ConcurrentHashMap不支持key或者value为null的原因</h2><h3 id="value不能为null原因"><a href="#value不能为null原因" class="headerlink" title="value不能为null原因"></a>value不能为null原因</h3><p>因为ConcurrentHashMap用于多线程，如果map.get(key)得到null，无法判断是得到的value为null还是没有找到key为null，而单线程hashmap可以使用containsKey方法去判断。</p>
-<p>这样当在第一次执行时没有key，第二次有key但值为null，这样就具有二义性</p>
-<h3 id="key不能为null"><a href="#key不能为null" class="headerlink" title="key不能为null"></a>key不能为null</h3><p>首先null不好计算哈希值，然后当多个线程同时放入null会出问题，</p>
-<h2 id="ConcurrentHashMap的并发度是什么？"><a href="#ConcurrentHashMap的并发度是什么？" class="headerlink" title="ConcurrentHashMap的并发度是什么？"></a>ConcurrentHashMap的并发度是什么？</h2><h3 id="JDK1-7-2"><a href="#JDK1-7-2" class="headerlink" title="JDK1.7"></a>JDK1.7</h3><p>并发度默认16，可以自己设置，默认是2的n次方，如果设置17，则真实为32.</p>
-<h2 id="ConcurrentHashMap迭代器是强一致性还是弱一致性？"><a href="#ConcurrentHashMap迭代器是强一致性还是弱一致性？" class="headerlink" title="ConcurrentHashMap迭代器是强一致性还是弱一致性？"></a>ConcurrentHashMap迭代器是强一致性还是弱一致性？</h2><p>与hashmap不同，ConcurrentHashMap迭代器是弱一致性</p>
-<p>ConcurrentHashMap迭代器创建以后，就会按哈希表结构遍历，但是在遍历的时候，内部元素可能会发生变化，如果变化发生在已经变化的部分，迭代器不会反映出来，如果发生在未遍历的部分，迭代器就会发现并反映出来。</p>
+<p>假如现在资源状态值为0，多个线程同时访问到资源为0，记为OldValue，此时A,B,C同时想去修改这个状态值，假设A运气比较好，A它优先修改了资源状态为1，这时候B和C，在修改之前会拿资源状态值和刚才的OldValue进行比较，这时候B和C会发现不对劲，即资源状态值和刚才的OldValue不一样，那它们就会放弃修改，在实际操作中，我们一般不会让它直接放弃，而是让它去自旋</p>
+<p><strong>CAS原子性</strong></p>
+<p>我们都知道，CAS在更新前会进行判断，假如AB同时想去获取资源，在A像去把状态值改变的时候B抢先把值给修改了，这时候就会一个资源被两个资源占用，因此保证CAS原子性就十分重要。</p>
+<p>现在CPU已经有了原子性的指令，直接调用即可。</p>
+<h2 id="AtomicInteger"><a href="#AtomicInteger" class="headerlink" title="AtomicInteger"></a>AtomicInteger</h2><p>AtomicInteger就是CAS的一种实现，</p>
+<img src="/2022/03/10/JUC/CAS/image-20220310233457294.png" srcset="/img/loading.gif" lazyload class>
+
+<p>通过源码可以看到它通过Unsafe的cas操作来进行值的更新。这里的U就是unsafe对象。</p>
+<img src="/2022/03/10/JUC/CAS/image-20220310233620519.png" srcset="/img/loading.gif" lazyload class>
+
+<p>它的getAndIncrement()即数值自增方法就是用Unsafe对象的getAndAddInt来实现的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getAndAddInt</span><span class="hljs-params">(Object o, <span class="hljs-type">long</span> offset, <span class="hljs-type">int</span> delta)</span> &#123;<br>    <span class="hljs-type">int</span> v;<br>    <span class="hljs-keyword">do</span> &#123;<br>        v = getIntVolatile(o, offset);<br>    &#125; <span class="hljs-keyword">while</span> (!weakCompareAndSetInt(o, offset, v, v + delta));<br>    <span class="hljs-keyword">return</span> v;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这是getAndAddInt的源码，可以看到确实用到了CAS,这里的循环就是自旋<br>至此，我所了解的CAS内容全部讲解完毕！</p>
 
             </div>
             <hr>
@@ -291,7 +278,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Java%E9%9B%86%E5%90%88/">Java集合</a>
+                      <a class="hover-with-bg" href="/categories/JUC/">JUC</a>
                     
                   </div>
                 
@@ -299,9 +286,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Java%E9%9B%86%E5%90%88/">Java集合</a>
+                      <a class="hover-with-bg" href="/tags/JUC/">JUC</a>
                     
-                      <a class="hover-with-bg" href="/tags/ConcurrentHashMap/">ConcurrentHashMap</a>
+                      <a class="hover-with-bg" href="/tags/CAS/">CAS</a>
                     
                   </div>
                 
@@ -318,18 +305,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/27/JVM/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">JVM内存结构</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/25/Java%E9%9B%86%E5%90%88/HashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/">
-                        <span class="hidden-mobile">HashMap深度剖析</span>
+                      <a href="/2022/03/10/JUC/Java%E9%94%81%E6%9C%BA%E5%88%B6/">
+                        <span class="hidden-mobile">Java锁机制</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
