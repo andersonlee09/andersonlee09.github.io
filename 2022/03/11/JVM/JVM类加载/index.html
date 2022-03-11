@@ -16,24 +16,24 @@
   <meta name="author" content="Anderson Lee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="今天做了一道题目：347. 前 K 个高频元素,一般来说不管是前k个改频元素还是第k大的数都可以用优先级队列的思想 在讲这道题之前我们先来看一看两种堆的结构，堆的本质就是二叉树，它分为大顶堆和小顶堆。 大顶堆中每个父节点大于子节点，小顶堆每个父节点小于子节点   topK大构建一个小顶堆 为什么呢？ 我们知道，小顶堆树的根节点一定是这个堆里面所有元素的最小值，而所有树节点都比根节点大，因此我们构建">
+    <meta name="description" content="Java代码加载过程在详细讲解类加载之前我想我们要先知道我们编写的Java代码是如何被加载运行的   从上图可以看出，javac先把代码编译为字节码，然后由JVM去加载字节码，运行的时候解释器把字节码解释为机器指令。在程序运行期间，即时编译器能针对热点代码将该部分字节码编译为机器指令，从而获得更高的运行效率，在整个运行期间解释器和即时编译器相互配合，使得程序几乎能达到和编译型语言一样的执行速度。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode347前K个高频元素">
-<meta property="og:url" content="http://example.com/2022/03/11/Algo/LeetCode347%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/index.html">
+<meta property="og:title" content="JVM类加载">
+<meta property="og:url" content="http://example.com/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/index.html">
 <meta property="og:site_name" content="Anderson&#39;s blog">
-<meta property="og:description" content="今天做了一道题目：347. 前 K 个高频元素,一般来说不管是前k个改频元素还是第k大的数都可以用优先级队列的思想 在讲这道题之前我们先来看一看两种堆的结构，堆的本质就是二叉树，它分为大顶堆和小顶堆。 大顶堆中每个父节点大于子节点，小顶堆每个父节点小于子节点   topK大构建一个小顶堆 为什么呢？ 我们知道，小顶堆树的根节点一定是这个堆里面所有元素的最小值，而所有树节点都比根节点大，因此我们构建">
+<meta property="og:description" content="Java代码加载过程在详细讲解类加载之前我想我们要先知道我们编写的Java代码是如何被加载运行的   从上图可以看出，javac先把代码编译为字节码，然后由JVM去加载字节码，运行的时候解释器把字节码解释为机器指令。在程序运行期间，即时编译器能针对热点代码将该部分字节码编译为机器指令，从而获得更高的运行效率，在整个运行期间解释器和即时编译器相互配合，使得程序几乎能达到和编译型语言一样的执行速度。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/essay/algo.png">
-<meta property="article:published_time" content="2022-03-11T05:03:51.000Z">
-<meta property="article:modified_time" content="2022-03-11T05:05:00.481Z">
+<meta property="og:image" content="http://example.com/img/essay/jvm.png">
+<meta property="article:published_time" content="2022-03-11T12:51:23.000Z">
+<meta property="article:modified_time" content="2022-03-11T13:46:36.340Z">
 <meta property="article:author" content="Anderson Lee">
-<meta property="article:tag" content="Algorithm">
-<meta property="article:tag" content="堆">
+<meta property="article:tag" content="JVM">
+<meta property="article:tag" content="类加载">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/essay/algo.png">
+<meta name="twitter:image" content="http://example.com/img/essay/jvm.png">
   
   
-  <title>LeetCode347前K个高频元素 - Anderson&#39;s blog</title>
+  <title>JVM类加载 - Anderson&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -180,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="LeetCode347前K个高频元素">
+            <span class="h2" id="subtitle" title="JVM类加载">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-11 13:03" pubdate>
-        2022年3月11日 下午
+      <time datetime="2022-03-11 20:51" pubdate>
+        2022年3月11日 晚上
       </time>
     </span>
   
@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      1.4k 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10 分钟
+      12 分钟
     </span>
   
 
@@ -239,33 +239,56 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">LeetCode347前K个高频元素</h1>
+            <h1 style="display: none">JVM类加载</h1>
             
             <div class="markdown-body">
-              <p>今天做了一道题目：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a>,一般来说不管是前k个改频元素还是第k大的数都可以用优先级队列的思想</p>
-<p>在讲这道题之前我们先来看一看两种堆的结构，堆的本质就是二叉树，它分为大顶堆和小顶堆。</p>
-<p>大顶堆中每个父节点大于子节点，小顶堆每个父节点小于子节点</p>
-<img src="/2022/03/11/Algo/LeetCode347%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/image-20220311111807467.png" srcset="/img/loading.gif" lazyload class>
+              <h1 id="Java代码加载过程"><a href="#Java代码加载过程" class="headerlink" title="Java代码加载过程"></a>Java代码加载过程</h1><p>在详细讲解类加载之前我想我们要先知道我们编写的Java代码是如何被加载运行的</p>
+<img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311205528562.png" srcset="/img/loading.gif" lazyload class>
 
-<p><strong>topK大构建一个小顶堆</strong></p>
-<p>为什么呢？</p>
-<p>我们知道，小顶堆树的根节点一定是这个堆里面所有元素的最小值，而所有树节点都比根节点大，因此我们构建一个K个节点的小顶堆，当来了一个节点时</p>
+<p>从上图可以看出，javac先把代码编译为字节码，然后由JVM去加载字节码，运行的时候<strong>解释器</strong>把字节码解释为机器指令。在程序运行期间，<strong>即时编译器</strong>能针对热点代码将该部分字节码编译为机器指令，从而获得更高的运行效率，在整个运行期间解释器和即时编译器相互配合，使得程序几乎能达到和编译型语言一样的执行速度。</p>
+<p>对于我们来说，我们今天只讲解代码是如何编译为字节码的。</p>
+<h1 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h1><p>类加载流程的目的是什么？</p>
+<p>简单来说就是把一份被javac编译过的class文件通过加载生成某种结构的数据结构进入内存，程序可以调用这个数据结构来构造出object</p>
+<img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311210813023.png" srcset="/img/loading.gif" lazyload class>
+
+
+
+<p>上图表示了一个类的生命周期，类加载只包括<strong>加载、连接和初始化</strong>三个阶段，加载只是类加载的第一个环节，解析部分是十分灵活的，它可以在初始化环节之前和之后进行，实现所谓的后期绑定。</p>
+<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311211403796.png" srcset="/img/loading.gif" lazyload class>
+
+<p>如图，加载是一个读取class文件，将其转化为某种数据结构放在方法区，并在堆中生成一个便于用户调用的java.lang.Class对象的过程，其中有几个重要点，这里的class不一定是本地class文件，也有可能是数据库或者网络，</p>
+<h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>虽然上面已经加载过了，但这不代表JVM完全接收这个类，如果程序想用这个类，那就必须进行连接。</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>连接第一步就是进一步对这个类进行验证，它对在方法区的数据结构进行了以下验证</p>
 <ul>
-<li>如果堆节点数小于K</li>
+<li><p>元数据认证</p>
+</li>
+<li><p>字节码验证</p>
+</li>
 </ul>
-<p>直接把节点放入堆</p>
+<p>这两个就是对class静态结构进行语法分析，看看它会不会产生危害虚拟机的行为</p>
+<p>这时候就会认为这个程序是安全的，但是这还没有完全结束</p>
 <ul>
-<li>如果堆的节点上为k时</li>
+<li>对符号引用进行验证</li>
 </ul>
-<p>先判断堆的首节点是否比新来的节点小，如果新来的节点比较小就不做处理，否则就把根的头节点换了，重新构建整个堆</p>
-<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[] topKFrequent(<span class="hljs-type">int</span>[] nums, <span class="hljs-type">int</span> k) &#123;<br>        Map&lt;Integer, Integer&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>        <span class="hljs-type">int</span>[] res = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[k];<br>        <span class="hljs-comment">// 把所有元素放进hashmap</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> num : nums) &#123;<br>            map.put(num, map.getOrDefault(num, <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>);<br>        &#125;<br>        <span class="hljs-comment">// 创建一个小顶堆，根据map中出现的频率进行排序</span><br>        <span class="hljs-comment">// 注意这里queue里存储的还是元素，而不是出现的频率</span><br>        PriorityQueue&lt;Integer&gt; queue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PriorityQueue</span>&lt;&gt;((a, b) -&gt; map.get(a) - map.get(b));<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> key : map.keySet()) &#123;<br>            <span class="hljs-keyword">if</span> (queue.size() &lt; k) &#123;<br>                queue.add(key);<br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (map.get(queue.peek()) &lt; map.get(key))&#123;<br>                queue.remove();<br>                queue.add(key);<br>            &#125;<br>        &#125;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">cnt</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">while</span>(queue.size() &gt; <span class="hljs-number">0</span>) res[cnt++] = queue.remove();<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这一步是在解析阶段完成的，它可以发生在初始化阶段发生前和发生后，</p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>在验证通过后，就可以大概认为这个类是安全的，接下来就可以进入准备阶段，这个阶段就是为了该类型中定义的静态变量赋0值.这里仅仅是静态变量。</p>
+<blockquote>
+<p>在这里强调一下，虚拟机内存规范中定义了方法区这种抽象概念，Java虚拟机在JDK8之前使用了永久代这种具体实现方式来实现方法区，在JDK8以后启用了“永久代”这种实现方，而改用元空间这种直接内存来取代，所以我们常看到的JDK8以后用元空间取代了方法区这是错误的，因为元空间只是一种实现方式。</p>
+</blockquote>
+<p>在JDK8之前类的元信息、常量池、静态变量都存在永久代这种实现中，而JDK8以后常量池静态变量被移出了方法区，转移到了堆中，元信息依然放在方法区，但存储方式改为了元空间。</p>
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p>接下来我们来讲一讲解析阶段</p>
+<img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311213420013.png" srcset="/img/loading.gif" lazyload class>
 
-<p>这里的PriorityQueue就是一个优先级队列</p>
-<p>remove就是移除最小的元素</p>
-<p>在这里值得一提的是</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Java">map.put(num, map.getOrDefault(num, <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+<p>这个阶段就是将符号引用替换为直接引用，假如A对象中存在B对象，在A编译的时候是不知道B有没有被加载的，这个时候称它为符号引用，A不知道B的实际地址，在解析的时候A就会知道B的地址，这也就是为什么会出现多态这种东西，比如我们常写的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs java">List&lt;Integer&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br></code></pre></td></tr></table></figure>
 
-<p>这句话在HashMap里很常用，map.getOrDefault(num, 0)表示尝试去获取num键所对应的值，否则返回0,</p>
+<p>这就实现了动态绑定解析。</p>
+<p>至此连接阶段已经全部完成，此时外部的Java类已经全部引入到了你的程序中</p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>初始化阶段比较简单，简单来说就是判断此时代码中是否存在主动的资源初始化操作，如果有的话就执行，这里说的主动资源初始化不是指构造函数，而是class层面的，比如成员变量的赋值，静态变量赋值等。</p>
+<img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311214322003.png" srcset="/img/loading.gif" lazyload class>
+
+<p>至此，类加载过程就全部讲完了，</p>
+<p>但是还没有完全结束，请期待下一集~</p>
 
             </div>
             <hr>
@@ -275,7 +298,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Algorithm/">Algorithm</a>
+                      <a class="hover-with-bg" href="/categories/JVM/">JVM</a>
                     
                   </div>
                 
@@ -283,9 +306,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Algorithm/">Algorithm</a>
+                      <a class="hover-with-bg" href="/tags/JVM/">JVM</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%A0%86/">堆</a>
+                      <a class="hover-with-bg" href="/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/">类加载</a>
                     
                   </div>
                 
@@ -302,18 +325,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">JVM类加载</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/10/JUC/CAS/">
-                        <span class="hidden-mobile">CAS</span>
+                      <a href="/2022/03/11/Algo/LeetCode347%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/">
+                        <span class="hidden-mobile">LeetCode347前K个高频元素</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

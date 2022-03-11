@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-03-11T05:05:00.481Z</updated>
+  <updated>2022-03-11T13:46:36.340Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JVM类加载</title>
+    <link href="http://example.com/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/"/>
+    <id>http://example.com/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/</id>
+    <published>2022-03-11T12:51:23.000Z</published>
+    <updated>2022-03-11T13:46:36.340Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Java代码加载过程"><a href="#Java代码加载过程" class="headerlink" title="Java代码加载过程"></a>Java代码加载过程</h1><p>在详细讲解类加载之前我想我们要先知道我们编写的Java代码是如何被加载运行的</p><img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311205528562.png" class><p>从上图可以看出，javac先把代码编译为字节码，然后由JVM去加载字节码，运行的时候<strong>解释器</strong>把字节码解释为机器指令。在程序运行期间，<strong>即时编译器</strong>能针对热点代码将该部分字节码编译为机器指令，从而获得更高的运行效率，在整个运行期间解释器和即时编译器相互配合，使得程序几乎能达到和编译型语言一样的执行速度。</p><p>对于我们来说，我们今天只讲解代码是如何编译为字节码的。</p><h1 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h1><p>类加载流程的目的是什么？</p><p>简单来说就是把一份被javac编译过的class文件通过加载生成某种结构的数据结构进入内存，程序可以调用这个数据结构来构造出object</p><img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311210813023.png" class><p>上图表示了一个类的生命周期，类加载只包括<strong>加载、连接和初始化</strong>三个阶段，加载只是类加载的第一个环节，解析部分是十分灵活的，它可以在初始化环节之前和之后进行，实现所谓的后期绑定。</p><h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311211403796.png" class><p>如图，加载是一个读取class文件，将其转化为某种数据结构放在方法区，并在堆中生成一个便于用户调用的java.lang.Class对象的过程，其中有几个重要点，这里的class不一定是本地class文件，也有可能是数据库或者网络，</p><h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>虽然上面已经加载过了，但这不代表JVM完全接收这个类，如果程序想用这个类，那就必须进行连接。</p><h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>连接第一步就是进一步对这个类进行验证，它对在方法区的数据结构进行了以下验证</p><ul><li><p>元数据认证</p></li><li><p>字节码验证</p></li></ul><p>这两个就是对class静态结构进行语法分析，看看它会不会产生危害虚拟机的行为</p><p>这时候就会认为这个程序是安全的，但是这还没有完全结束</p><ul><li>对符号引用进行验证</li></ul><p>这一步是在解析阶段完成的，它可以发生在初始化阶段发生前和发生后，</p><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>在验证通过后，就可以大概认为这个类是安全的，接下来就可以进入准备阶段，这个阶段就是为了该类型中定义的静态变量赋0值.这里仅仅是静态变量。</p><blockquote><p>在这里强调一下，虚拟机内存规范中定义了方法区这种抽象概念，Java虚拟机在JDK8之前使用了永久代这种具体实现方式来实现方法区，在JDK8以后启用了“永久代”这种实现方，而改用元空间这种直接内存来取代，所以我们常看到的JDK8以后用元空间取代了方法区这是错误的，因为元空间只是一种实现方式。</p></blockquote><p>在JDK8之前类的元信息、常量池、静态变量都存在永久代这种实现中，而JDK8以后常量池静态变量被移出了方法区，转移到了堆中，元信息依然放在方法区，但存储方式改为了元空间。</p><h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p>接下来我们来讲一讲解析阶段</p><img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311213420013.png" class><p>这个阶段就是将符号引用替换为直接引用，假如A对象中存在B对象，在A编译的时候是不知道B有没有被加载的，这个时候称它为符号引用，A不知道B的实际地址，在解析的时候A就会知道B的地址，这也就是为什么会出现多态这种东西，比如我们常写的</p><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs java">List&lt;Integer&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br></code></pre></td></tr></table></figure><p>这就实现了动态绑定解析。</p><p>至此连接阶段已经全部完成，此时外部的Java类已经全部引入到了你的程序中</p><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>初始化阶段比较简单，简单来说就是判断此时代码中是否存在主动的资源初始化操作，如果有的话就执行，这里说的主动资源初始化不是指构造函数，而是class层面的，比如成员变量的赋值，静态变量赋值等。</p><img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311214322003.png" class><p>至此，类加载过程就全部讲完了，</p><p>但是还没有完全结束，请期待下一集~</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Java代码加载过程&quot;&gt;&lt;a href=&quot;#Java代码加载过程&quot; class=&quot;headerlink&quot; title=&quot;Java代码加载过程&quot;&gt;&lt;/a&gt;Java代码加载过程&lt;/h1&gt;&lt;p&gt;在详细讲解类加载之前我想我们要先知道我们编写的Java代码是如何被加载运行的</summary>
+      
+    
+    
+    
+    <category term="JVM" scheme="http://example.com/categories/JVM/"/>
+    
+    
+    <category term="JVM" scheme="http://example.com/tags/JVM/"/>
+    
+    <category term="类加载" scheme="http://example.com/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/"/>
+    
+  </entry>
   
   <entry>
     <title>LeetCode347前K个高频元素</title>
@@ -506,32 +532,6 @@
     
     
     <category term="JVM" scheme="http://example.com/tags/JVM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ConcurrentHashMap深度剖析</title>
-    <link href="http://example.com/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/"/>
-    <id>http://example.com/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/</id>
-    <published>2022-02-26T15:15:45.000Z</published>
-    <updated>2022-02-26T16:02:57.758Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="ConcurrentHashMap深度剖析"><a href="#ConcurrentHashMap深度剖析" class="headerlink" title="ConcurrentHashMap深度剖析"></a>ConcurrentHashMap深度剖析</h1><p>我在上一次面试被问到了为甚么ConcurrentHashMap可以实现线程安全，这里我没有答出来，在这里我打算好好带大家一起了解ConcurrentHashMap顺便让我复习一下。</p><h2 id="ConcurrentHashMap为什么可以实现线程安全"><a href="#ConcurrentHashMap为什么可以实现线程安全" class="headerlink" title="ConcurrentHashMap为什么可以实现线程安全"></a>ConcurrentHashMap为什么可以实现线程安全</h2><h3 id="JDK1-7"><a href="#JDK1-7" class="headerlink" title="JDK1.7"></a>JDK1.7</h3><p><strong>数据结构</strong></p><img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226232104869.png" class><p>在1.7的时候ConcurrentHashMap由<code>segment</code>数组和<code>HashEntry</code>数组组成，ConcurrentHashMap把哈希桶分为segment小数组，每个小数组有n个HashEntry组成。segment继承RenntrantLock即可重入锁，hashEntry存储键值对。</p><p><strong>结果</strong></p><p>首先将数据分为一段一段存储，然后给每一段都配一把可重入锁，当一个线程占用锁访问其中一个段数据时，其他数据也能访问，真正能实现并发。</p><h3 id="JDK1-8"><a href="#JDK1-8" class="headerlink" title="JDK1.8"></a>JDK1.8</h3><p><strong>数据结构</strong></p><img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226232838666.png" class><p>1.8采用了数组 + 链表 + 红黑树结构。在锁实现上抛弃了segmnet分段式锁，而是采用<code>CAS + synchronized</code>实现更加低粒度的锁。</p><p>锁的级别控制在了hash桶元素级别，也就是说只需要锁住链表头节点，即红黑树根节点，就不会影响其他哈希桶元素读写，大大提高并发度。</p><h2 id="ConcurrentHashMap-put方法"><a href="#ConcurrentHashMap-put方法" class="headerlink" title="ConcurrentHashMap put方法"></a>ConcurrentHashMap put方法</h2><h3 id="JDK1-7-1"><a href="#JDK1-7-1" class="headerlink" title="JDK1.7"></a>JDK1.7</h3><p>首先尝试获取锁，如果没有获取到就进行自旋，如果自旋超过64次，改为阻塞获取锁。</p><p>获取到以后：</p><ol><li>将segment中的table通过key定位到HashEntry</li><li>遍历HashEntry，如果不为空就判断传入的key与当前遍历key是否相等，相等就覆盖</li><li>不为空就新建一个HashEntry并加入到segment，同时判断是否需要扩容</li><li>释放锁</li></ol><h3 id="JDK1-8-1"><a href="#JDK1-8-1" class="headerlink" title="JDK1.8"></a>JDK1.8</h3><ol><li>根据key计算hash值</li><li>判断是否需要初始化</li><li>定位到node，拿到首节点f,</li></ol><ul><li>如果为null就使用cas进行添加</li><li>如果f.hash &#x3D;&#x3D; MOVED &#x3D;&#x3D; -1,说明其他线程正在扩容，则参与一起扩容</li><li>都不满足就用synchronized锁住f，判断是链表还是红黑树，直接插入</li></ul><p>具体可以看这里<a href="https://mp.weixin.qq.com/s?__biz=MzkyMTI3Mjc2MQ==&mid=2247485909&idx=1&sn=d9c672eebb090866a72f99f3d8032e76&source=41#wechat_redirect">面试 ConcurrentHashMap ，看这一篇就够了！ (qq.com)</a></p><h2 id="ConcurrentHashMap-get方法是否需要加锁，为什么"><a href="#ConcurrentHashMap-get方法是否需要加锁，为什么" class="headerlink" title="ConcurrentHashMap get方法是否需要加锁，为什么"></a>ConcurrentHashMap get方法是否需要加锁，为什么</h2><p>不需要，因为Node元素的val和指针next是volatile修饰的，在多线程环境下线程A修改val或增加节点对线程B可见</p><img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226234644053.png" class><h2 id="ConcurrentHashMap不支持key或者value为null的原因"><a href="#ConcurrentHashMap不支持key或者value为null的原因" class="headerlink" title="ConcurrentHashMap不支持key或者value为null的原因"></a>ConcurrentHashMap不支持key或者value为null的原因</h2><h3 id="value不能为null原因"><a href="#value不能为null原因" class="headerlink" title="value不能为null原因"></a>value不能为null原因</h3><p>因为ConcurrentHashMap用于多线程，如果map.get(key)得到null，无法判断是得到的value为null还是没有找到key为null，而单线程hashmap可以使用containsKey方法去判断。</p><p>这样当在第一次执行时没有key，第二次有key但值为null，这样就具有二义性</p><h3 id="key不能为null"><a href="#key不能为null" class="headerlink" title="key不能为null"></a>key不能为null</h3><p>首先null不好计算哈希值，然后当多个线程同时放入null会出问题，</p><h2 id="ConcurrentHashMap的并发度是什么？"><a href="#ConcurrentHashMap的并发度是什么？" class="headerlink" title="ConcurrentHashMap的并发度是什么？"></a>ConcurrentHashMap的并发度是什么？</h2><h3 id="JDK1-7-2"><a href="#JDK1-7-2" class="headerlink" title="JDK1.7"></a>JDK1.7</h3><p>并发度默认16，可以自己设置，默认是2的n次方，如果设置17，则真实为32.</p><h2 id="ConcurrentHashMap迭代器是强一致性还是弱一致性？"><a href="#ConcurrentHashMap迭代器是强一致性还是弱一致性？" class="headerlink" title="ConcurrentHashMap迭代器是强一致性还是弱一致性？"></a>ConcurrentHashMap迭代器是强一致性还是弱一致性？</h2><p>与hashmap不同，ConcurrentHashMap迭代器是弱一致性</p><p>ConcurrentHashMap迭代器创建以后，就会按哈希表结构遍历，但是在遍历的时候，内部元素可能会发生变化，如果变化发生在已经变化的部分，迭代器不会反映出来，如果发生在未遍历的部分，迭代器就会发现并反映出来。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;ConcurrentHashMap深度剖析&quot;&gt;&lt;a href=&quot;#ConcurrentHashMap深度剖析&quot; class=&quot;headerlink&quot; title=&quot;ConcurrentHashMap深度剖析&quot;&gt;&lt;/a&gt;ConcurrentHashMap深度剖析&lt;/</summary>
-      
-    
-    
-    
-    <category term="Java集合" scheme="http://example.com/categories/Java%E9%9B%86%E5%90%88/"/>
-    
-    
-    <category term="Java集合" scheme="http://example.com/tags/Java%E9%9B%86%E5%90%88/"/>
-    
-    <category term="ConcurrentHashMap" scheme="http://example.com/tags/ConcurrentHashMap/"/>
     
   </entry>
   
