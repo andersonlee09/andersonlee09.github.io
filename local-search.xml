@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>LeetCode347前K个高频元素</title>
+    <link href="/2022/03/11/Algo/LeetCode347%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/"/>
+    <url>/2022/03/11/Algo/LeetCode347%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</url>
+    
+    <content type="html"><![CDATA[<p>今天做了一道题目：<a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a>,一般来说不管是前k个改频元素还是第k大的数都可以用优先级队列的思想</p><p>在讲这道题之前我们先来看一看两种堆的结构，堆的本质就是二叉树，它分为大顶堆和小顶堆。</p><p>大顶堆中每个父节点大于子节点，小顶堆每个父节点小于子节点</p><img src="/2022/03/11/Algo/LeetCode347%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/image-20220311111807467.png" class><p><strong>topK大构建一个小顶堆</strong></p><p>为什么呢？</p><p>我们知道，小顶堆树的根节点一定是这个堆里面所有元素的最小值，而所有树节点都比根节点大，因此我们构建一个K个节点的小顶堆，当来了一个节点时</p><ul><li>如果堆节点数小于K</li></ul><p>直接把节点放入堆</p><ul><li>如果堆的节点上为k时</li></ul><p>先判断堆的首节点是否比新来的节点小，如果新来的节点比较小就不做处理，否则就把根的头节点换了，重新构建整个堆</p><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[] topKFrequent(<span class="hljs-type">int</span>[] nums, <span class="hljs-type">int</span> k) &#123;<br>        Map&lt;Integer, Integer&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>        <span class="hljs-type">int</span>[] res = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[k];<br>        <span class="hljs-comment">// 把所有元素放进hashmap</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> num : nums) &#123;<br>            map.put(num, map.getOrDefault(num, <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>);<br>        &#125;<br>        <span class="hljs-comment">// 创建一个小顶堆，根据map中出现的频率进行排序</span><br>        <span class="hljs-comment">// 注意这里queue里存储的还是元素，而不是出现的频率</span><br>        PriorityQueue&lt;Integer&gt; queue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PriorityQueue</span>&lt;&gt;((a, b) -&gt; map.get(a) - map.get(b));<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> key : map.keySet()) &#123;<br>            <span class="hljs-keyword">if</span> (queue.size() &lt; k) &#123;<br>                queue.add(key);<br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (map.get(queue.peek()) &lt; map.get(key))&#123;<br>                queue.remove();<br>                queue.add(key);<br>            &#125;<br>        &#125;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">cnt</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">while</span>(queue.size() &gt; <span class="hljs-number">0</span>) res[cnt++] = queue.remove();<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>这里的PriorityQueue就是一个优先级队列</p><p>remove就是移除最小的元素</p><p>在这里值得一提的是</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Java">map.put(num, map.getOrDefault(num, <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure><p>这句话在HashMap里很常用，map.getOrDefault(num, 0)表示尝试去获取num键所对应的值，否则返回0,</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Algorithm</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Algorithm</tag>
+      
+      <tag>堆</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>CAS</title>
     <link href="/2022/03/10/JUC/CAS/"/>
     <url>/2022/03/10/JUC/CAS/</url>
@@ -482,9 +509,9 @@
     
     <tags>
       
-      <tag>ConcurrentHashMap</tag>
-      
       <tag>Java集合</tag>
+      
+      <tag>ConcurrentHashMap</tag>
       
     </tags>
     
