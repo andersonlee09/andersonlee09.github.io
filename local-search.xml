@@ -4,6 +4,139 @@
   
   
   <entry>
+    <title>事务隔离级别</title>
+    <link href="/2022/03/13/MySQL/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/"/>
+    <url>/2022/03/13/MySQL/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</url>
+    
+    <content type="html"><![CDATA[<p>本文所说的 MySQL 事务都是指在 InnoDB 引擎下，MyISAM 引擎是不支持事务的。</p><p>我们都知道MySQL事务有四大特性ACID，没有看过的可以去看以前的视频。</p><p>要实现这四大特性就必须要克服一些问题</p><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a><strong>脏读</strong></h3><p>脏读指的是读到了其他事务未提交的数据，未提交意味着这些数据可能会回滚，也就是可能最终不会存到数据库中，也就是不存在的数据。读到了并一定最终存在的数据，这就是脏读。</p><h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a><strong>不可重复读</strong></h3><p>对比可重复读，不可重复读指的是在同一事务内，不同的时刻读到的同一批数据可能是不一样的，可能会受到其他事务的影响，比如其他事务改了这批数据并提交了。通常针对数据<strong>更新（UPDATE）</strong>操作。</p><h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a><strong>幻读</strong></h3><p>幻读是针对数据<strong>插入（INSERT）</strong>操作来说的。假设事务A对某些行的内容作了更改，但是还未提交，此时事务B插入了与事务A更改前的记录相同的记录行，并且在事务A提交之前先提交了，而这时，在事务A中查询，会发现好像刚刚的更改对于某些数据未起作用，但其实是事务B刚插入进来的，让用户感觉很魔幻，感觉出现了幻觉，这就叫幻读。</p><h2 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a><strong>事务隔离级别</strong></h2><img src="/2022/03/13/MySQL/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/image-20220313142716984.png" class><p>QL 标准定义了四种隔离级别，MySQL 全都支持。这四种隔离级别分别是：</p><ol><li>读未提交（READ UNCOMMITTED）</li><li>读已提交 （READ COMMITTED）</li><li>可重复读 （REPEATABLE READ）</li><li>串行化 （SERIALIZABLE）</li></ol><p>从上往下，隔离强度逐渐增强，性能逐渐变差。采用哪种隔离级别要根据系统需求权衡决定，其中，<strong>可重复读</strong>是 MySQL 的默认级别。</p><h3 id="读未提交"><a href="#读未提交" class="headerlink" title="读未提交"></a>读未提交</h3><p>读未提交隔离级别是不加锁的，所以它的性能是最好的，没有加锁、解锁带来的性能开销。</p><p>启动两个事务，分别为事务A和事务B，在事务A中使用 update 语句，修改 age 的值为10，初始是1 ，在执行完 update 语句之后，在事务B中查询 user 表，会看到 age 的值已经是 10 了，这时候事务A还没有提交，而此时事务B有可能拿着已经修改过的 age&#x3D;10 去进行其他操作了。在事务B进行操作的过程中，很有可能事务A由于某些原因，进行了事务回滚操作，那其实事务B得到的就是脏数据了，拿着脏数据去进行其他的计算，那结果肯定也是有问题的。</p><p>读未提交，<strong>其实就是可以读到其他事务未提交的数据</strong>，但没有办法保证你读到的数据最终一定是提交后的数据，如果中间发生回滚，那就会出现脏数据问题，读未提交没办法解决脏数据问题。更别提可重复读和幻读了，想都不要想。</p><h3 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a>读已提交</h3><p>读已提交就是<strong>一个事务只能读到其他事务已经提交过的数据</strong>，也就是其他事务调用 commit 命令之后的数据。那脏数据问题迎刃而解了。</p><p>同样开启事务A和事务B两个事务，在事务A中使用 update 语句将 id&#x3D;1 的记录行 age 字段改为 10。此时，在事务B中使用 select 语句进行查询，我们发现在事务A提交之前，事务B中查询到的记录 age 一直是1，直到事务A提交，此时在事务B中 select 查询，发现 age 的值已经是 10 了。</p><p>这就出现了一个问题，在同一事务中(本例中的事务B)，事务的不同时刻同样的查询条件，查询出来的记录内容是不一样的，事务A的提交影响了事务B的查询结果，这就是不可重复读，也就是读提交隔离级别。</p><p>读提交解决了脏读的问题，但是无法做到可重复读，也没办法解决幻读。</p><h3 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a>可重复读</h3><p>上面说不可重复读是指同一事物不同时刻读到的数据值可能不一致。而可重复读是指，事务不会读到其他事务对已有数据的修改，及时其他事务已提交，也就是说，事务开始时读到的已有数据是什么，在事务提交前的任意时刻，这些数据的值都是一样的。但是，对于其他事务新插入的数据是可以读到的，这也就引发了幻读问题。</p><p>这里就提到了MVCC的问题，因为可重复读时，read view是以事务为单位的，每次读取的数据以第一次的数据为准。</p><h3 id="可串行化"><a href="#可串行化" class="headerlink" title="可串行化"></a>可串行化</h3><p>串行化是4种事务隔离级别中隔离效果最好的，解决了脏读、可重复读、幻读的问题，但是效果最差，它将事务的执行变为顺序执行，与其他三个隔离级别相比，它就相当于单线程，后一个事务的执行必须等待前一个事务结束。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>MySQL</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MySQL</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>索引失效</title>
+    <link href="/2022/03/13/MySQL/%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88/"/>
+    <url>/2022/03/13/MySQL/%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88/</url>
+    
+    <content type="html"><![CDATA[<p>我们都知道，MySQL的索引的数据结构是B+树，它相较于AVL树来说层数更低查找更快，相较于B树来说可以实现范围查找更快，关于这里不懂的同学可以在网上自行百度，今天我们主要讲讲索引为什么会失效。</p><h2 id="最佳左前缀法则"><a href="#最佳左前缀法则" class="headerlink" title="最佳左前缀法则"></a>最佳左前缀法则</h2><img src="/2022/03/13/MySQL/%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88/image-20220313125531687.png" class><p>假如联合索引为(a, b),可以看到，索引的排序是先以a为基准进行排序的，也就是左边为（1， 1， 2）；右边为（2， 3， 3），而b字段是无序的。那也就是说只有a相等的情况下b才会有序。</p><p>这里是重点，如果这里看不懂，那后面就不用看了</p><p>这时候我们如果select * from table where a &#x3D; xx and b &#x3D; xx;</p><p>那它一定是走索引的</p><p>而select * from table where b &#x3D; xx;</p><p>它一定是不走索引的，因为没有a的情况下b一定无序</p><h2 id="x3D-或-lt-gt-导致索引失效"><a href="#x3D-或-lt-gt-导致索引失效" class="headerlink" title="!&#x3D; 或 &lt;&gt;导致索引失效"></a>!&#x3D; 或 &lt;&gt;导致索引失效</h2><p>假如我们select * from table where  a &gt; 1 and b &#x3D; 1;</p><p>那这样的话根据a&gt;1查到a很容易，但是b都是无序的，假如a&gt;1有很多数据，而要查到b&#x3D;1的数据，而此时是先按照a来排序，再按照b来排序，那此时b就相当于无序，所以此时索引就会失效</p><h2 id="like-导致索引失效"><a href="#like-导致索引失效" class="headerlink" title="like%导致索引失效"></a>like%导致索引失效</h2><p>我们都知道，无论是 %like还是%like%，此时索引都会失效，这是为什么呢？</p><blockquote><p>%代表任意数量的任意符号</p></blockquote><p>这个很好理解啊，字符串再索引里的排序也是按字母大小进行排序，和左前缀法则一样，当第一个字母相同的时候，它才会去匹配第二个，而当%代替了前面的任意字段以后，它如果根据后面查它就是无序的，</p><h2 id="OR导致索引失效"><a href="#OR导致索引失效" class="headerlink" title="OR导致索引失效"></a>OR导致索引失效</h2><p>OR连接的如果不是相同字段，那就会产生不符合最左前缀法则的东西，那它一定会失效，但是如果连接的是相同字段，那就无所谓了。</p><h2 id="聚簇索引与非聚簇索引"><a href="#聚簇索引与非聚簇索引" class="headerlink" title="聚簇索引与非聚簇索引"></a>聚簇索引与非聚簇索引</h2><p>聚簇索引就是把数据和索引放在了一起，索引叶子节点存储了行数据。这也是<strong>Innodb</strong>的默认索引，一般为主键索引</p><p>像普通索引、复合索引、唯一索引都是辅助索引，它存储了数据的id值而不是数据本身，他会先查找到id&#x3D;20的主键，然后通过真实的主键索引去查找到相应的数据</p><img src="/2022/03/13/MySQL/%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88/image-20220313132747042.png" class><p>非聚簇索引的数据和索引分开存储</p><img src="/2022/03/13/MySQL/%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88/image-20220313132545786.png" class><p>它的叶子节点存储的是数据的地址</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>MySQL</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MySQL</tag>
+      
+      <tag>索引</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>ACID</title>
+    <link href="/2022/03/12/MySQL/ACID/"/>
+    <url>/2022/03/12/MySQL/ACID/</url>
+    
+    <content type="html"><![CDATA[<p>我们知道，MySQL的事务有四大特性：持久性、原子性、一致性、隔离性。这就是ACID，那这究竟是怎么实现的呢？</p><img src="/2022/03/12/MySQL/ACID/image-20220312231113528.png" class><p>事务是访问数据库的程序执行单元，它可能包含一个或多个SQL语句，SQL要么都执行，要么都不执行。事务执行基于存储引擎，比如我们常见的Innodb,Myisam,Myisam不支持事务，所以我们只讲Innodb.</p><p>执行数据包含三个部分：开启事务-&gt;执行SQL-&gt;提交事务。默认是自动提交，</p><h2 id="原子性-Atomicty"><a href="#原子性-Atomicty" class="headerlink" title="原子性(Atomicty)"></a>原子性(Atomicty)</h2><p>一个事务是一个操作单位，这些东西要不全部执行，要不全部不执行，假如执行过程中一个SQL执行出错，那已经执行的SQL就要回滚</p><p><strong>undo log</strong></p><p>当事务对数据库进行操作的时候，innodb会生成undo log记录SQL执行的相关信息，一旦执行出错，那innodb就会根据undo log去进行相反的操作。</p><h2 id="一致性-Consistency"><a href="#一致性-Consistency" class="headerlink" title="一致性(Consistency)"></a>一致性(Consistency)</h2><p>指事务执行以后，数据库的完整性约束没有被破坏，事务执行前后都是合法的数据状态，比如主键要唯一，大小要符合规范，外键约束要符合，</p><h2 id="隔离性-Isolation"><a href="#隔离性-Isolation" class="headerlink" title="隔离性(Isolation)"></a>隔离性(Isolation)</h2><img src="/2022/03/12/MySQL/ACID/image-20220312233607667.png" class><p>隔离性分为两种情况</p><ul><li>写写操作</li></ul><p>通过锁实现，在事务执行之前，事务要先获取锁，获取以后才可以操作数据，没有锁只能等待，当锁被释放以后，其他线程就会去争抢，</p><ul><li>写读操作</li></ul><p>通过MVCC实现，想了解可以看我的上一篇文章。</p><h2 id="持久性-Durability"><a href="#持久性-Durability" class="headerlink" title="持久性(Durability)"></a>持久性(Durability)</h2><p>持久性指一个事务一旦提交，它对数据库的改变就是永久性的，我们知道MySQL数据存储于磁盘，直接读取磁盘是很慢的，所以innodb提供了一个buffer，包含了磁盘部分数据页的一个映射，作为访问数据库的一个缓存。</p><p>在访问数据库的时候我们会先访问buffer，buffer没有才访问磁盘，这就类似于CPU和内存之间的Cache</p><p>当写入数据的时候也会先写入buffer中，然后定期将buffer中数据写入磁盘，这就产生了数据丢失的风险，假如buffer中数据还没有写入磁盘，这个时候数据库宕机，那buffer数据就会丢失，这就产生了<strong>redo log</strong>。</p><p>当数据库数据进行新增或修改的时候，除了修改buffer数据，还会把操作写入redo log，redo log是一个预写式的日志，也就是先把操作写入redo log,接下来才会写入buffer，这就保证了数据不会出现数据丢失。</p><p>在事务提交的时候将缓冲区中的redo日志同步写入磁盘，保证写入一定成功</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>MySQL</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MySQL</tag>
+      
+      <tag>ACID</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>MVCC</title>
+    <link href="/2022/03/12/MySQL/MVCC/"/>
+    <url>/2022/03/12/MySQL/MVCC/</url>
+    
+    <content type="html"><![CDATA[<p>MVCC全称Multi-Version Concurrency Control，即多版本并发控制。主要是为了提高数据库的读写性能。让数据库读写的时候不用加锁，MVCC主要是处理快照读，这个读指的是快照读而不是当前读。</p><blockquote><p>快照读指普通的 select 读</p><p>当前读为悲观锁读 即update insert delete等</p></blockquote><h2 id="undo-log"><a href="#undo-log" class="headerlink" title="undo log"></a>undo log</h2><img src="/2022/03/12/MySQL/MVCC/image-20220312220616131.png" class><p>我们以这张图为例，张三、李四、王五、赵六对应的id都为1，第一次插入张三，后面用update进行更新，更新了若干次，最后一次更新结果为赵六。</p><p>历史数据就存储到了undo log日志里面，可以看到每条数据除了数据本身以外还有个roll_pointer和tx_id，tx_id为事务id，自增，roll_pointer是一个回滚指针，用来回滚到上一个版本。</p><h2 id="read-view"><a href="#read-view" class="headerlink" title="read view"></a>read view</h2><p>我们可以看到一个id有多条数据，那readview就来记录我们在查询的时候要在版本链里的要选择的数据。</p><img src="/2022/03/12/MySQL/MVCC/image-20220312221840189.png" class><p>read view里有多个参数，</p><ul><li>m_ids</li></ul><p>表示生成read view时当前系统活跃的读写事务的id列表，活跃是指没有commit。</p><ul><li>min_trx_id</li></ul><p>表示m_ids里最小的值</p><ul><li>max_trx_id</li></ul><p>它表示系统应该分配给下一个事务的id</p><ul><li>creator_trx_id</li></ul><p>生成readview的事务的事务id，表示是谁生成了这个read view</p><h3 id="read-view如何判断版本链哪个id可用？"><a href="#read-view如何判断版本链哪个id可用？" class="headerlink" title="read view如何判断版本链哪个id可用？"></a>read view如何判断版本链哪个id可用？</h3><img src="/2022/03/12/MySQL/MVCC/image-20220312222452263.png" class><ul><li>trx_id &#x3D;&#x3D; creator_trx_id</li></ul><p>trx_id为刚才链表里的事务id，这时候就代表这条记录是事物本身的记录，这肯定是可以的。</p><ul><li>trx_id &lt; min_trx_id</li></ul><p>这就说明这个id已经commit了，而提交的事务id是可以被访问的。</p><ul><li>trx_id &gt; max_trx_id</li></ul><p>我们知道，读取事务的时候只能读取版本链里面的数据，如果满足trx_id &gt; min_trx_id，那就说明这个数据没有在版本链里，因为max_trx_id都没有被分配过，而trx_id还是自增的。</p><ul><li>min_trx_id&lt;trx_id &lt; max_trx_id</li></ul><p>如果trx_id在m_ids里面，那就不可以，因为里的事务都是活跃的，还没有commit,而我们是不可以访问没有commit的数据的。</p><p>如果trx_id不在m_ids里面，那就说明它已经不活跃，即已经提交了，那它一定可以访问</p><h2 id="MVCC如何实现读已提交-RC-和可重复读-RR"><a href="#MVCC如何实现读已提交-RC-和可重复读-RR" class="headerlink" title="MVCC如何实现读已提交(RC)和可重复读(RR)"></a>MVCC如何实现读已提交(RC)和可重复读(RR)</h2><img src="/2022/03/12/MySQL/MVCC/image-20220312223743798.png" class><p>假如，某张表现在有一条数据，现在我们执行以下两个事务：20和60</p><img src="/2022/03/12/MySQL/MVCC/image-20220312223850569.png" class><p>20事务执行了两条update</p><img src="/2022/03/12/MySQL/MVCC/image-20220312223939428.png" class><p>执行之后它的版本链就如图所示，王五为最新数据</p><img src="/2022/03/12/MySQL/MVCC/image-20220312224034702.png" class><p>这就是它的read view，刚才我们的20和60没有commit，所以m_ids为[20, 60],最小事务min_trx_id为20，下次要分配max_trx_id的就是61，creator_trx_id默认为0.</p><img src="/2022/03/12/MySQL/MVCC/image-20220312224435581.png" class><p>这就是每个版本的情况，最小活跃事务id为20，张三的id为10，10&lt;20,因此条件满足，这就实现了读已提交。</p><p><strong>RC与RR区别</strong></p><p>读已提交和可重复读生成的read view时机不同</p><ul><li>读已提交</li></ul><p>每次执行select查询的时候就生成了read view，也就是说<strong>一个事务</strong>的两次的select就会生成两个read view</p><p>假如我们现在在更新最后一条数据王五的时候还没有提交，这时候事务1的select进行了第一次查询生成一个read view，然后事务2的update操作提交以后以后事务1select又进行了第二次查询又生成一个read view，它这个时候读取到了王五的最新数据，这个时候一个事务查到的两条数据不同，那就违背了可重复读。</p><p>最终原因还是因为每一次select都会生成一个read view</p><ul><li>可重复读</li></ul><p>可重复读生成read view是以事务为单位</p><p>假如我们现在在更新最后一条数据王五的时候还没有提交，这时候事务1的select进行了第一次查询生成一个read view，然后事务2的update操作提交以后以后事务1select又进行了第二次查询它就会去使用上一次的read view，不会生成新的read view，一个事务只生成一个read view，那它两次查询到的数据都是李四而不是王五。这就实现了可重复读</p><p>同时这也解决了幻读的问题，因为它每次只有一个read view，即使是insert以后，它查询的还是第一次生成的。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>MySQL</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MySQL</tag>
+      
+      <tag>MVCC</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>CountDownLatch</title>
+    <link href="/2022/03/12/JUC/CountDownLatch/"/>
+    <url>/2022/03/12/JUC/CountDownLatch/</url>
+    
+    <content type="html"><![CDATA[<p>今天我们一起来讲讲CountDownLatch</p><figure class="highlight livecodeserver"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs livecodeserver">A synchronization aid that allows <span class="hljs-literal">one</span> <span class="hljs-keyword">or</span> more threads <span class="hljs-built_in">to</span> <span class="hljs-built_in">wait</span> <span class="hljs-keyword">until</span><br><span class="hljs-keyword">a</span> <span class="hljs-built_in">set</span> <span class="hljs-keyword">of</span> operations being performed <span class="hljs-keyword">in</span> other threads completes.<br></code></pre></td></tr></table></figure><p>这是CountDownLatch源码中的解释：CountDownLatch这个同步工具允许一条或多条线程等待其他线程中的一组操作完成后，再继续执行。</p><p>我们都看过复仇者联盟，这里的灭霸需要集齐所有的原石就可以超神。我们现在假设它可以派出多个小弟去分别寻找原石，灭霸只进行合成就可以。但是每个小弟找到的时间是不一样的，那灭霸怎么知道所有的小弟都把这个东西找到了呢？</p><p>这就是CountDownLatch的用武之地了</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-type">CountDownLatch</span> <span class="hljs-variable">latch</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CountDownLatch</span>(<span class="hljs-number">5</span>);<br></code></pre></td></tr></table></figure><p>这一句话就是新建一个CountDownLatch对象，构造函数中的数字为灭霸需要的原石的数目，也就是5个任务，每当一个任务完成，那latch就会调用countDown（）方法。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Sync</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractQueuedSynchronizer</span> &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> <span class="hljs-variable">serialVersionUID</span> <span class="hljs-operator">=</span> <span class="hljs-number">4982264981922014374L</span>;<br><br>        Sync(<span class="hljs-type">int</span> count) &#123;<br>            setState(count);<br>        &#125;<br><br>        <span class="hljs-type">int</span> <span class="hljs-title function_">getCount</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">return</span> getState();<br>        &#125;<br><br>        <span class="hljs-keyword">protected</span> <span class="hljs-type">int</span> <span class="hljs-title function_">tryAcquireShared</span><span class="hljs-params">(<span class="hljs-type">int</span> acquires)</span> &#123;<br>            <span class="hljs-keyword">return</span> (getState() == <span class="hljs-number">0</span>) ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">protected</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">tryReleaseShared</span><span class="hljs-params">(<span class="hljs-type">int</span> releases)</span> &#123;<br>            <span class="hljs-comment">// Decrement count; signal when transition to zero</span><br>            <span class="hljs-keyword">for</span> (;;) &#123;<br>                <span class="hljs-type">int</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> getState();<br>                <span class="hljs-keyword">if</span> (c == <span class="hljs-number">0</span>)<br>                    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                <span class="hljs-type">int</span> <span class="hljs-variable">nextc</span> <span class="hljs-operator">=</span> c-<span class="hljs-number">1</span>;<br>                <span class="hljs-keyword">if</span> (compareAndSetState(c, nextc))<br>                    <span class="hljs-type">return</span> <span class="hljs-variable">nextc</span> <span class="hljs-operator">=</span>= <span class="hljs-number">0</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Sync sync;<br></code></pre></td></tr></table></figure><p>CountDownLatch有一个子属性为Sync，可以看到Sync继承了AQS，它重写了AQS中的tryReleaseShared等方法，可以看出来它想做到共享模式，我们在以前的AQS讲解中只讲了独占模式，其实差距不大，我们知道，在独占模式下，只有将要出队的节点中的线程被唤醒，共享模式下，除了要把要出队的节点唤醒外，还会去唤醒后续处于挂起状态的节点。</p><p>这里的tryAcquireShared就是获取AQS内部state，之后判断如果该值为0，表示锁空闲，那就返回1，否则返回-1</p><p>tryReleaseShared每次通过一个自旋的CAS操作来将AQS内部的state-1，如果不需要释放锁，或未完全释放，就返回false，否则返回true。</p><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs aspectj"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">await</span><span class="hljs-params">(<span class="hljs-keyword">long</span> timeout, TimeUnit unit)</span></span><br><span class="hljs-function">        <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>        <span class="hljs-keyword">return</span> sync.tryAcquireSharedNanos(<span class="hljs-number">1</span>, unit.toNanos(timeout));<br>    &#125;<br></code></pre></td></tr></table></figure><p>await用于等待子任务结束，unit为等待时间，不填默认一直等待</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">countDown</span><span class="hljs-params">()</span> &#123;<br>    sync.releaseShared(<span class="hljs-number">1</span>);<br>&#125;<br></code></pre></td></tr></table></figure><p>countDown用于子任务告诉当前线程任务完成</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-type">long</span> <span class="hljs-title function_">getCount</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">return</span> sync.getCount();<br>&#125;<br></code></pre></td></tr></table></figure><p>获取还未完成的任务数</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>JUC</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>JUC</tag>
+      
+      <tag>CountDownLatch</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>JVM双亲委派</title>
     <link href="/2022/03/12/JVM/JVM%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE/"/>
     <url>/2022/03/12/JVM/JVM%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE/</url>

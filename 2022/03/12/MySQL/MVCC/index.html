@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Anderson Lee">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MVCC全称Multi-Version Concurrency Control，即多版本并发控制。主要是为了提高数据库的读写性能。让数据库读写的时候不用加锁，MVCC主要是处理快照读，这个读指的是快照读而不是当前读。  快照读指普通的 select 读 当前读为悲观锁读 即update insert delete等  undo log  我们以这张图为例，张三、李四、王五、赵六对应的id都为1，第">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MVCC">
+<meta property="og:url" content="http://example.com/2022/03/12/MySQL/MVCC/index.html">
+<meta property="og:site_name" content="Anderson&#39;s blog">
+<meta property="og:description" content="MVCC全称Multi-Version Concurrency Control，即多版本并发控制。主要是为了提高数据库的读写性能。让数据库读写的时候不用加锁，MVCC主要是处理快照读，这个读指的是快照读而不是当前读。  快照读指普通的 select 读 当前读为悲观锁读 即update insert delete等  undo log  我们以这张图为例，张三、李四、王五、赵六对应的id都为1，第">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/essay/mysql.png">
+<meta property="article:published_time" content="2022-03-12T12:43:30.000Z">
+<meta property="article:modified_time" content="2022-03-12T15:03:29.080Z">
+<meta property="article:author" content="Anderson Lee">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="MVCC">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/essay/mysql.png">
+  
+  
+  <title>MVCC - Anderson&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"DxD8Je61g9y9PhzBEDd85fMf-gzGzoHsz","app_key":"doeTC5tWGElBVb4A5CXUYMkd","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Anderson's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Anderson&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MVCC">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-12 20:43" pubdate>
+        2022年3月12日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MVCC</h1>
+            
+            <div class="markdown-body">
+              <p>MVCC全称Multi-Version Concurrency Control，即多版本并发控制。主要是为了提高数据库的读写性能。让数据库读写的时候不用加锁，MVCC主要是处理快照读，这个读指的是快照读而不是当前读。</p>
+<blockquote>
+<p>快照读指普通的 select 读</p>
+<p>当前读为悲观锁读 即update insert delete等</p>
+</blockquote>
+<h2 id="undo-log"><a href="#undo-log" class="headerlink" title="undo log"></a>undo log</h2><img src="/2022/03/12/MySQL/MVCC/image-20220312220616131.png" srcset="/img/loading.gif" lazyload class>
+
+<p>我们以这张图为例，张三、李四、王五、赵六对应的id都为1，第一次插入张三，后面用update进行更新，更新了若干次，最后一次更新结果为赵六。</p>
+<p>历史数据就存储到了undo log日志里面，可以看到每条数据除了数据本身以外还有个roll_pointer和tx_id，tx_id为事务id，自增，roll_pointer是一个回滚指针，用来回滚到上一个版本。</p>
+<h2 id="read-view"><a href="#read-view" class="headerlink" title="read view"></a>read view</h2><p>我们可以看到一个id有多条数据，那readview就来记录我们在查询的时候要在版本链里的要选择的数据。</p>
+<img src="/2022/03/12/MySQL/MVCC/image-20220312221840189.png" srcset="/img/loading.gif" lazyload class>
+
+<p>read view里有多个参数，</p>
+<ul>
+<li>m_ids</li>
+</ul>
+<p>表示生成read view时当前系统活跃的读写事务的id列表，活跃是指没有commit。</p>
+<ul>
+<li>min_trx_id</li>
+</ul>
+<p>表示m_ids里最小的值</p>
+<ul>
+<li>max_trx_id</li>
+</ul>
+<p>它表示系统应该分配给下一个事务的id</p>
+<ul>
+<li>creator_trx_id</li>
+</ul>
+<p>生成readview的事务的事务id，表示是谁生成了这个read view</p>
+<h3 id="read-view如何判断版本链哪个id可用？"><a href="#read-view如何判断版本链哪个id可用？" class="headerlink" title="read view如何判断版本链哪个id可用？"></a>read view如何判断版本链哪个id可用？</h3><img src="/2022/03/12/MySQL/MVCC/image-20220312222452263.png" srcset="/img/loading.gif" lazyload class>
+
+<ul>
+<li>trx_id &#x3D;&#x3D; creator_trx_id</li>
+</ul>
+<p>trx_id为刚才链表里的事务id，这时候就代表这条记录是事物本身的记录，这肯定是可以的。</p>
+<ul>
+<li>trx_id &lt; min_trx_id</li>
+</ul>
+<p>这就说明这个id已经commit了，而提交的事务id是可以被访问的。</p>
+<ul>
+<li>trx_id &gt; max_trx_id</li>
+</ul>
+<p>我们知道，读取事务的时候只能读取版本链里面的数据，如果满足trx_id &gt; min_trx_id，那就说明这个数据没有在版本链里，因为max_trx_id都没有被分配过，而trx_id还是自增的。</p>
+<ul>
+<li>min_trx_id&lt;trx_id &lt; max_trx_id</li>
+</ul>
+<p>如果trx_id在m_ids里面，那就不可以，因为里的事务都是活跃的，还没有commit,而我们是不可以访问没有commit的数据的。</p>
+<p>如果trx_id不在m_ids里面，那就说明它已经不活跃，即已经提交了，那它一定可以访问</p>
+<h2 id="MVCC如何实现读已提交-RC-和可重复读-RR"><a href="#MVCC如何实现读已提交-RC-和可重复读-RR" class="headerlink" title="MVCC如何实现读已提交(RC)和可重复读(RR)"></a>MVCC如何实现读已提交(RC)和可重复读(RR)</h2><img src="/2022/03/12/MySQL/MVCC/image-20220312223743798.png" srcset="/img/loading.gif" lazyload class>
+
+<p>假如，某张表现在有一条数据，现在我们执行以下两个事务：20和60</p>
+<img src="/2022/03/12/MySQL/MVCC/image-20220312223850569.png" srcset="/img/loading.gif" lazyload class>
+
+<p>20事务执行了两条update</p>
+<img src="/2022/03/12/MySQL/MVCC/image-20220312223939428.png" srcset="/img/loading.gif" lazyload class>
+
+<p>执行之后它的版本链就如图所示，王五为最新数据</p>
+<img src="/2022/03/12/MySQL/MVCC/image-20220312224034702.png" srcset="/img/loading.gif" lazyload class>
+
+<p>这就是它的read view，刚才我们的20和60没有commit，所以m_ids为[20, 60],最小事务min_trx_id为20，下次要分配max_trx_id的就是61，creator_trx_id默认为0.</p>
+<img src="/2022/03/12/MySQL/MVCC/image-20220312224435581.png" srcset="/img/loading.gif" lazyload class>
+
+<p>这就是每个版本的情况，最小活跃事务id为20，张三的id为10，10&lt;20,因此条件满足，这就实现了读已提交。</p>
+<p><strong>RC与RR区别</strong></p>
+<p>读已提交和可重复读生成的read view时机不同</p>
+<ul>
+<li>读已提交</li>
+</ul>
+<p>每次执行select查询的时候就生成了read view，也就是说<strong>一个事务</strong>的两次的select就会生成两个read view</p>
+<p>假如我们现在在更新最后一条数据王五的时候还没有提交，这时候事务1的select进行了第一次查询生成一个read view，然后事务2的update操作提交以后以后事务1select又进行了第二次查询又生成一个read view，它这个时候读取到了王五的最新数据，这个时候一个事务查到的两条数据不同，那就违背了可重复读。</p>
+<p>最终原因还是因为每一次select都会生成一个read view</p>
+<ul>
+<li>可重复读</li>
+</ul>
+<p>可重复读生成read view是以事务为单位</p>
+<p>假如我们现在在更新最后一条数据王五的时候还没有提交，这时候事务1的select进行了第一次查询生成一个read view，然后事务2的update操作提交以后以后事务1select又进行了第二次查询它就会去使用上一次的read view，不会生成新的read view，一个事务只生成一个read view，那它两次查询到的数据都是李四而不是王五。这就实现了可重复读</p>
+<p>同时这也解决了幻读的问题，因为它每次只有一个read view，即使是insert以后，它查询的还是第一次生成的。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MVCC/">MVCC</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/12/MySQL/ACID/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ACID</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/12/JUC/CountDownLatch/">
+                        <span class="hidden-mobile">CountDownLatch</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"DxD8Je61g9y9PhzBEDd85fMf-gzGzoHsz","appKey":"doeTC5tWGElBVb4A5CXUYMkd","path":"window.location.pathname","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"retro","meta":["nick","mail"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"DxD8Je61g9y9PhzBEDd85fMf-gzGzoHsz","appkey":"doeTC5tWGElBVb4A5CXUYMkd"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
