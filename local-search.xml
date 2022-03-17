@@ -4,6 +4,62 @@
   
   
   <entry>
+    <title>LeetCode105从前序与中序遍历序列构造二叉树</title>
+    <link href="/2022/03/17/Algo/LeetCode105%E4%BB%8E%E5%89%8D%E5%BA%8F%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    <url>/2022/03/17/Algo/LeetCode105%E4%BB%8E%E5%89%8D%E5%BA%8F%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
+    
+    <content type="html"><![CDATA[<p>今天分享一道mid的二叉树题目：<a href="https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/">从前序与中序遍历序列构造二叉树</a>，每次遇到二叉树题目的时候，一定一定一定要先想想递归的思想</p><p>什么是递归的思想，递归一般要考虑如何去分解问题，如何把分解的问题结果进行合并，由于我们只讲本道题目，所以递归的思想我就不过多赘述。</p><p>说实话，这道题目一直是我的梦魇，我看过这道题很多遍了，每次都手足无措，可能是因为我的心里就不想去做它，今天看了题解，可算是明白这道题怎么解了。不多说了，我们之间进入题解</p><p>前序遍历的结果是: [1,2,4,5,3,6,7]<br>中序遍历的结果是: [4,2,5,1,6,3,7]<br>前序遍历的特点是， 根节点 始终出现在数组的第一位，而中序遍历中 根节点 出现在数组的中间位置，这里的中间不是绝对中间，而是相对中间。</p><p>根据上面给出的两个数组，首先我们就可以拼出 <code>根节点</code>，它就是 <code>1</code>。在中序遍历数组里面，1的左侧就是左子树全部节点，1的右侧就是右子树的全部节点。</p><img src="/2022/03/17/Algo/LeetCode105%E4%BB%8E%E5%89%8D%E5%BA%8F%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/image-20220317232050939.png" class><p>如图，还有值得一提的是：两个数组的长度一定一定是相等的。</p><p>这道题是一个典型的<strong>分治</strong>算法</p><p>所以我们现在就去new一个节点，它的值为1，那它的左子树和右子树是什么呢？这就交给它的两个小弟吧（递归思想）。那现在问题应该如何去分解呢？</p><p>我们把两个数组分为以下四部分</p><img src="/2022/03/17/Algo/LeetCode105%E4%BB%8E%E5%89%8D%E5%BA%8F%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/image-20220317232743037.png" class><p>in_left为中序遍历的左侧全部节点，in_right为中序遍历右侧全部节点</p><p>pre_left为前序遍历的左侧全部节点，pre_right为前序遍历右侧全部节点</p><p>然后我们现在当前树的根节点就是pre_order的第一个节点，它的左子树就交给buildTree(pre_left, in_left);右子树就交给buildTree(pre_right, in_right);</p><p>最后返回根节点就可以了</p><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for a binary tree node.</span><br><span class="hljs-comment"> * public class TreeNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     TreeNode left;</span><br><span class="hljs-comment"> *     TreeNode right;</span><br><span class="hljs-comment"> *     TreeNode() &#123;&#125;</span><br><span class="hljs-comment"> *     TreeNode(int val) &#123; this.val = val; &#125;</span><br><span class="hljs-comment"> *     TreeNode(int val, TreeNode left, TreeNode right) &#123;</span><br><span class="hljs-comment"> *         this.val = val;</span><br><span class="hljs-comment"> *         this.left = left;</span><br><span class="hljs-comment"> *         this.right = right;</span><br><span class="hljs-comment"> *     &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> TreeNode <span class="hljs-title function_">buildTree</span><span class="hljs-params">(<span class="hljs-type">int</span>[] preorder, <span class="hljs-type">int</span>[] inorder)</span> &#123;<br>        <span class="hljs-comment">// 这里两个数组应该是等长的</span><br>        <span class="hljs-keyword">if</span> (preorder.length == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        <span class="hljs-type">TreeNode</span> <span class="hljs-variable">node</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TreeNode</span>(preorder[<span class="hljs-number">0</span>]);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; inorder.length; i++) &#123;<br>            <span class="hljs-keyword">if</span> (inorder[i] == preorder[<span class="hljs-number">0</span>]) &#123;<br>                <span class="hljs-type">int</span>[] pre_left = Arrays.copyOfRange(preorder, <span class="hljs-number">1</span>, i+<span class="hljs-number">1</span>);<br>                <span class="hljs-type">int</span>[] pre_right = Arrays.copyOfRange(preorder, i+<span class="hljs-number">1</span>, preorder.length);<br>                <span class="hljs-type">int</span>[] in_left = Arrays.copyOfRange(inorder, <span class="hljs-number">0</span>, i);<br>                <span class="hljs-type">int</span>[] in_right = Arrays.copyOfRange(inorder, i+<span class="hljs-number">1</span>, inorder.length);<br>                node.left = buildTree(pre_left, in_left);<br>                node.right = buildTree(pre_right, in_right);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> node;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>最后附上完整的程序，值得一提的是Arrays.copyOfRange（arr, start, end）在复制数组的时候是[start : end)，也就是前闭后开的结果</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Algorithm</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Algorithm</tag>
+      
+      <tag>二叉树</tag>
+      
+      <tag>分治</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>LeetCode198打家劫舍</title>
+    <link href="/2022/03/17/LeetCode198%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/"/>
+    <url>/2022/03/17/LeetCode198%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/</url>
+    
+    <content type="html"><![CDATA[<p>今天来分享一道简单的动态规划题目：<a href="https://leetcode-cn.com/problems/house-robber/">打家劫舍</a></p><p>动态规划有两大注意点：</p><ol><li>一个原问题是建立在子问题的基础之上，所以找出两者关系至关重要</li><li>用空间换时间，把子问题的答案用一个空间记录下来，在这样子原问题就不需要重复计算了</li></ol><p>对于这个问题我们假设：dp[i] 代表前 i 个房子在满足条件下的能偷窃到的最高金额。我们现在的目的是想找到的dp[n]最大，那让我们现在想想dp[n+1]与dp[n]的关系。</p><p>假设第 n 间没有被偷，那么此时 dp[n]&#x3D;dp[n−1] ，此时 dp[n+1] &#x3D; dp[n] + num &#x3D; dp[n-1] + num ，即两种情况可以 合并为一种情况 考虑；<br>假设第 n 间被偷，那么此时 dp[n+1]&#x3D;dp[n]+num 不可取 ，因为偷了第 n 间就不能偷第 n+1 间。</p><p>得到转移方程 dp[n+1] &#x3D; max(dp[n],dp[n-1]+num)</p><p>所以我们只需要用两个值分别记录dp[n-1]和dp[n]就可以了。</p><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">rob</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>        <span class="hljs-comment">// 注意这里pre为dp[n-1], cur为dp[n];</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">pre</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, cur = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; nums.length; i++) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> cur;<br>            cur = Math.max(pre + nums[i], cur);<br>            pre = temp;<br>        &#125;<br>        <span class="hljs-keyword">return</span> cur;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>最后可以看到其实解题过程十分简单，并不是所有的动态规划都需要去创建一个与原数组等长的数组</p><p>同时我们也可以得出来：要分析子问题和原问题的关系尤为重要</p><p>在这里多插一句：我们常认为动态规划和贪心算法有某种关联，其实贪心算法就像是一种特殊的动态规划算法，因为当可以贪心的时候，它一定被证明过有某种东西可贪，所以如果想使用贪心算法，那证明过程一定十分重要</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Algorithm</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Algorithm</tag>
+      
+      <tag>动态规划</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>关于radius的认证过程分析</title>
     <link href="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/"/>
     <url>/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/</url>
@@ -1057,11 +1113,11 @@
     
     <tags>
       
+      <tag>Hexo</tag>
+      
       <tag>Python</tag>
       
       <tag>自动化办公</tag>
-      
-      <tag>Hexo</tag>
       
     </tags>
     

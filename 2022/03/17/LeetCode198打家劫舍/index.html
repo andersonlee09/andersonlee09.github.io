@@ -16,24 +16,24 @@
   <meta name="author" content="Anderson Lee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="预讲在了解认证过程之前先了解一些基础的东西   如图radius服务有三个部分  Users：用于存储用户信息（如用户名、密码以及使用的协议、IP地址等配置信息）。 Clients：用于存储RADIUS客户端的信息（如共享密钥、IP地址等）。 Dictionary：用于存储RADIUS协议中的属性和属性值含义的信息。  认证过程如图：    当用户接入网络时，用户发起连接请求，向RADIUS客户端">
+    <meta name="description" content="今天来分享一道简单的动态规划题目：打家劫舍 动态规划有两大注意点：  一个原问题是建立在子问题的基础之上，所以找出两者关系至关重要 用空间换时间，把子问题的答案用一个空间记录下来，在这样子原问题就不需要重复计算了  对于这个问题我们假设：dp[i] 代表前 i 个房子在满足条件下的能偷窃到的最高金额。我们现在的目的是想找到的dp[n]最大，那让我们现在想想dp[n+1]与dp[n]的关系。 假设第">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于radius的认证过程分析">
-<meta property="og:url" content="http://example.com/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/index.html">
+<meta property="og:title" content="LeetCode198打家劫舍">
+<meta property="og:url" content="http://example.com/2022/03/17/LeetCode198%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/index.html">
 <meta property="og:site_name" content="Anderson&#39;s blog">
-<meta property="og:description" content="预讲在了解认证过程之前先了解一些基础的东西   如图radius服务有三个部分  Users：用于存储用户信息（如用户名、密码以及使用的协议、IP地址等配置信息）。 Clients：用于存储RADIUS客户端的信息（如共享密钥、IP地址等）。 Dictionary：用于存储RADIUS协议中的属性和属性值含义的信息。  认证过程如图：    当用户接入网络时，用户发起连接请求，向RADIUS客户端">
+<meta property="og:description" content="今天来分享一道简单的动态规划题目：打家劫舍 动态规划有两大注意点：  一个原问题是建立在子问题的基础之上，所以找出两者关系至关重要 用空间换时间，把子问题的答案用一个空间记录下来，在这样子原问题就不需要重复计算了  对于这个问题我们假设：dp[i] 代表前 i 个房子在满足条件下的能偷窃到的最高金额。我们现在的目的是想找到的dp[n]最大，那让我们现在想想dp[n+1]与dp[n]的关系。 假设第">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/essay/wireshark.png">
-<meta property="article:published_time" content="2022-03-16T12:11:57.000Z">
-<meta property="article:modified_time" content="2022-03-16T15:20:11.481Z">
+<meta property="og:image" content="http://example.com/img/essay/algo.png">
+<meta property="article:published_time" content="2022-03-17T14:04:55.000Z">
+<meta property="article:modified_time" content="2022-03-17T15:53:35.079Z">
 <meta property="article:author" content="Anderson Lee">
-<meta property="article:tag" content="计算机网络">
-<meta property="article:tag" content="抓包">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="动态规划">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/essay/wireshark.png">
+<meta name="twitter:image" content="http://example.com/img/essay/algo.png">
   
   
-  <title>关于radius的认证过程分析 - Anderson&#39;s blog</title>
+  <title>LeetCode198打家劫舍 - Anderson&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -180,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="关于radius的认证过程分析">
+            <span class="h2" id="subtitle" title="LeetCode198打家劫舍">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-16 20:11" pubdate>
-        2022年3月16日 晚上
+      <time datetime="2022-03-17 22:04" pubdate>
+        2022年3月17日 晚上
       </time>
     </span>
   
@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2k 字
+      801 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17 分钟
+      7 分钟
     </span>
   
 
@@ -239,93 +239,24 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">关于radius的认证过程分析</h1>
+            <h1 style="display: none">LeetCode198打家劫舍</h1>
             
             <div class="markdown-body">
-              <h2 id="预讲"><a href="#预讲" class="headerlink" title="预讲"></a>预讲</h2><p>在了解认证过程之前先了解一些基础的东西</p>
-<img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316201426576.png" srcset="/img/loading.gif" lazyload class>
-
-<p>如图radius服务有三个部分</p>
-<ul>
-<li>Users：用于存储用户信息（如用户名、密码以及使用的协议、IP地址等配置信息）。</li>
-<li>Clients：用于存储RADIUS客户端的信息（如共享密钥、IP地址等）。</li>
-<li>Dictionary：用于存储RADIUS协议中的属性和属性值含义的信息。</li>
-</ul>
-<p>认证过程如图：</p>
-<img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316201529044.png" srcset="/img/loading.gif" lazyload class>
-
+              <p>今天来分享一道简单的动态规划题目：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/house-robber/">打家劫舍</a></p>
+<p>动态规划有两大注意点：</p>
 <ol>
-<li>当用户接入网络时，用户发起连接请求，向RADIUS客户端（即设备）发送用户名和密码。</li>
-<li>RADIUS客户端向RADIUS服务器发送包含用户名和密码信息的认证请求报文。</li>
-<li>RADIUS服务器对用户身份的合法性进行检验：<ul>
-<li>如果用户身份合法，RADIUS服务器向RADIUS客户端返回认证接受报文，允许用户进行下一步动作。由于RADIUS协议合并了认证和授权的过程，因此认证接受报文中也包含了用户的授权信息。</li>
-<li>如果用户身份不合法，RADIUS服务器向RADIUS客户端返回认证拒绝报文，拒绝用户访问接入网络。</li>
-</ul>
-</li>
-<li>RADIUS客户端通知用户认证是否成功。</li>
-<li>RADIUS客户端根据接收到的认证结果接入&#x2F;拒绝用户。如果允许用户接入，则RADIUS客户端向RADIUS服务器发送计费开始请求报文。</li>
-<li>RADIUS服务器返回计费开始响应报文，并开始计费。</li>
-<li>用户开始访问网络资源。</li>
-<li>（可选）在使能实时计费功能的情况下，RADIUS客户端会定时向RADIUS服务器发送实时计费请求报文，以避免因付费用户异常下线导致的不合理计费。</li>
-<li>（可选）RADIUS服务器返回实时计费响应报文，并实时计费。</li>
-<li>用户发起下线请求，请求停止访问网络资源。</li>
-<li>RADIUS客户端向RADIUS服务器提交计费结束请求报文。</li>
-<li>RADIUS服务器返回计费结束响应报文，并停止计费。</li>
-<li>RADIUS客户端通知用户访问结束，用户结束访问网络资源。</li>
+<li>一个原问题是建立在子问题的基础之上，所以找出两者关系至关重要</li>
+<li>用空间换时间，把子问题的答案用一个空间记录下来，在这样子原问题就不需要重复计算了</li>
 </ol>
-<h2 id="分析过程"><a href="#分析过程" class="headerlink" title="分析过程"></a>分析过程</h2><p>下面开始分析过程:</p>
-<img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316201718841.png" srcset="/img/loading.gif" lazyload class>
+<p>对于这个问题我们假设：dp[i] 代表前 i 个房子在满足条件下的能偷窃到的最高金额。我们现在的目的是想找到的dp[n]最大，那让我们现在想想dp[n+1]与dp[n]的关系。</p>
+<p>假设第 n 间没有被偷，那么此时 dp[n]&#x3D;dp[n−1] ，此时 dp[n+1] &#x3D; dp[n] + num &#x3D; dp[n-1] + num ，即两种情况可以 合并为一种情况 考虑；<br>假设第 n 间被偷，那么此时 dp[n+1]&#x3D;dp[n]+num 不可取 ，因为偷了第 n 间就不能偷第 n+1 间。</p>
+<p>得到转移方程 dp[n+1] &#x3D; max(dp[n],dp[n-1]+num)</p>
+<p>所以我们只需要用两个值分别记录dp[n-1]和dp[n]就可以了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">rob</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>        <span class="hljs-comment">// 注意这里pre为dp[n-1], cur为dp[n];</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">pre</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, cur = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; nums.length; i++) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> cur;<br>            cur = Math.max(pre + nums[i], cur);<br>            pre = temp;<br>        &#125;<br>        <span class="hljs-keyword">return</span> cur;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>上的抓包time 为相对时间，source 为源IP，destination 为目的IP protocol为数据包所对应的协议类型，info为包的大概行为 </p>
-<p>如图为分析过程，下面需要先去定位三个东西：users-&gt;IP &#x2F; radius server-&gt;IP &#x2F; radius clients-&gt;IP</p>
-<img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316204705680.png" srcset="/img/loading.gif" lazyload class>
-
-<p>首先看第60个包这是一个access-reqest, 应该是用户请求上网数据包，我们先来看看包内容</p>
-<img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316204837737.png" srcset="/img/loading.gif" lazyload class>
-
-<p>里面包括用户名、密码等内容，大概可以确定userIP—61.174.80.81,client—-172.21.5.2，server—-172.30.5.255</p>
-<p>ip.addr &#x3D;&#x3D; 61.174.80.81 </p>
-<img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316230353885.png" srcset="/img/loading.gif" lazyload class>
-
-<p>对IP过滤以后发现这个用户的请求被拒绝过，<strong>拒绝的具体过程应该在No.60~329</strong>之间</p>
-<p>接下来继续过滤</p>
-<p>(ip.dst &#x3D;&#x3D; 172.21.5.2 &amp;&amp; ip.src &#x3D;&#x3D; 172.30.5.225) || (ip.dst &#x3D;&#x3D; 172.30.5.225 &amp;&amp; ip.src &#x3D;&#x3D; 172.21.5.2)</p>
-<p>我把包限制为只能在client和server之间传输</p>
-<img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316230522064.png" srcset="/img/loading.gif" lazyload class>
-
-<p>接下来继续看，刚才的那个用户61.174.80.81</p>
-<img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316214832327.png" srcset="/img/loading.gif" lazyload class>
-
-<p>可以看到他和client除了access类型还有accounting-request类型，accounting这应该是计费数据包，其中每个包都会有回复</p>
-<p>接下来对流进行追踪</p>
-<img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316231040036.png" srcset="/img/loading.gif" lazyload class>
-
-<p>我不知道为什么这个用户的验证会如此频繁，按道理只有登录请求一次就可以了，但是这个access-request却异常多，可能是在用户上网过程中，这个还在不断验证</p>
-<img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316222552133.png" srcset="/img/loading.gif" lazyload class>
-
-<img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316231505350.png" srcset="/img/loading.gif" lazyload class>
-
-<p>除了 access-request还有account-request，这应该是计费请求，计费请求通常回复非常快，中间很少插有其他用户的包。</p>
-<p>接下来对于包的内容进行分析</p>
-<h2 id="包分析"><a href="#包分析" class="headerlink" title="包分析"></a>包分析</h2><p>一下均为让radius数据包，因为ICMP或TCP包数量极少且我在上一篇文章就有讲解过</p>
-<h3 id="access-request"><a href="#access-request" class="headerlink" title="access-request"></a>access-request</h3><img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316215313010.png" srcset="/img/loading.gif" lazyload class>
-
-<p>请求的内容还是比较多的，有用户名、CHAP(挑战握手协议)密码.NAS(<strong>网络附属存储</strong>)</p>
-<p>端口、IP。服务类型。我觉得最重要的应该是acct-session-Id。用户session已经被存储在服务端了。</p>
-<h3 id="access-reject"><a href="#access-reject" class="headerlink" title="access-reject"></a>access-reject</h3><img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316215749901.png" srcset="/img/loading.gif" lazyload class>
-
-<p>应该是拒绝策略</p>
-<p>包括用户名、发送的类型，6应该表示拒绝，回复信息、身份信息验证信息</p>
-<h3 id="access-accept"><a href="#access-accept" class="headerlink" title="access-accept"></a>access-accept</h3><img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316220117502.png" srcset="/img/loading.gif" lazyload class>
-
-<p>可以看到一旦认证成功返回的信息还是比较多的。</p>
-<p>返回信息包括用户名，服务类型（应该是校园网套餐类型），成帧协议，session过期时间，用户临时间隔下面还有一些设备型号，应该是设备供应商</p>
-<h3 id="accounting-request"><a href="#accounting-request" class="headerlink" title="accounting-request"></a>accounting-request</h3><img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316220936712.png" srcset="/img/loading.gif" lazyload class>
-
-<p>可以看到内容还是比较多的，就讲讲Acct开头的吧，主要就是一些用户状态，延迟时间、输出输出八进制数、session id、session有效时间端口等待，和上面还是比较相似的。</p>
-<h3 id="accounting-response"><a href="#accounting-response" class="headerlink" title="accounting-response"></a>accounting-response</h3><img src="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/image-20220316223042147.png" srcset="/img/loading.gif" lazyload class>
-
-<p>这个回复的数据包信息还是比较少的，只有用户session-id和代理状态</p>
+<p>最后可以看到其实解题过程十分简单，并不是所有的动态规划都需要去创建一个与原数组等长的数组</p>
+<p>同时我们也可以得出来：要分析子问题和原问题的关系尤为重要</p>
+<p>在这里多插一句：我们常认为动态规划和贪心算法有某种关联，其实贪心算法就像是一种特殊的动态规划算法，因为当可以贪心的时候，它一定被证明过有某种东西可贪，所以如果想使用贪心算法，那证明过程一定十分重要</p>
 
             </div>
             <hr>
@@ -335,7 +266,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                      <a class="hover-with-bg" href="/categories/Algorithm/">Algorithm</a>
                     
                   </div>
                 
@@ -343,9 +274,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                      <a class="hover-with-bg" href="/tags/Algorithm/">Algorithm</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%8A%93%E5%8C%85/">抓包</a>
+                      <a class="hover-with-bg" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
                     
                   </div>
                 
@@ -362,9 +293,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/17/LeetCode198%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/">
+                      <a href="/2022/03/17/Algo/LeetCode105%E4%BB%8E%E5%89%8D%E5%BA%8F%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">LeetCode198打家劫舍</span>
+                        <span class="hidden-mobile">LeetCode105从前序与中序遍历序列构造二叉树</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -372,8 +303,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Wireshark%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/">
-                        <span class="hidden-mobile">Wireshark抓包分析</span>
+                      <a href="/2022/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%85%B3%E4%BA%8Eradius%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">
+                        <span class="hidden-mobile">关于radius的认证过程分析</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
