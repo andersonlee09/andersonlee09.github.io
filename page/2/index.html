@@ -192,6 +192,61 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/12/MySQL/ACID/" target="_self">
+          <img src="/img/essay/mysql.png" srcset="/img/loading.gif" lazyload alt="ACID">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/12/MySQL/ACID/" target="_self">
+          ACID
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/12/MySQL/ACID/" target="_self">
+          
+          我们知道，MySQL的事务有四大特性：持久性、原子性、一致性、隔离性。这就是ACID，那这究竟是怎么实现的呢？   事务是访问数据库的程序执行单元，它可能包含一个或多个SQL语句，SQL要么都执行，要么都不执行。事务执行基于存储引擎，比如我们常见的Innodb,Myisam,Myisam不支持事务，所以我们只讲Innodb. 执行数据包含三个部分：开启事务-&gt;执行SQL-&gt;提交事务。默
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-12 23:08" pubdate>
+              2022-03-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+              <a href="/tags/ACID/">ACID</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/03/12/MySQL/MVCC/" target="_self">
           <img src="/img/essay/mysql.png" srcset="/img/loading.gif" lazyload alt="MVCC">
         </a>
@@ -657,59 +712,6 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2022-03-10 22:10" pubdate>
-              2022-03-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/JUC/">JUC</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/JUC/">JUC</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/10/JUC/%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/" target="_self">
-          <img src="/img/essay/juc.png" srcset="/img/loading.gif" lazyload alt="线程间通信方式">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/10/JUC/%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/" target="_self">
-          线程间通信方式
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/10/JUC/%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/" target="_self">
-          
-          今天我们来讨论一个常见的面试题 线程间有哪些通信方式？ 同步这里讲的同步是指多个线程通过synchronized关键字这种方式来实现线程间的通信。 1234567891011121314151617181920212223242526272829303132333435363738394041424344public class MyObject &amp;#123;    synchronized pu
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-10 20:30" pubdate>
               2022-03-10
             </time>
           </div>
