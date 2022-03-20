@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>操作系统概念</title>
+    <link href="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/"/>
+    <url>/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/</url>
+    
+    <content type="html"><![CDATA[<h1 id="操作系统概念"><a href="#操作系统概念" class="headerlink" title="操作系统概念"></a>操作系统概念</h1><h3 id="操作系统的功能与目标"><a href="#操作系统的功能与目标" class="headerlink" title="操作系统的功能与目标"></a>操作系统的功能与目标</h3><img src="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/image-20220318093513660.png" class><p>操作系统作为一个系统资源的管理者，它主要包含</p><p><strong>处理器管理</strong></p><p><strong>存储器管理</strong></p><p><strong>设备管理</strong></p><p><strong>文件管理</strong></p><p><strong>用户接口</strong> </p><p><strong>网络与通信管理</strong> </p><p>以上六个部分</p><h3 id="操作系统基本特征"><a href="#操作系统基本特征" class="headerlink" title="操作系统基本特征"></a>操作系统基本特征</h3><p><strong>并发性：指两个或两个以上的事件或活动在同一时间间隔内发生 。并发性能够有效地改善系统资源的利用率，提高系统的效率。</strong> </p><p><strong>共享性：共同使用系统中的资源。</strong></p><p> （1）互斥使用方式（2）同时使用方式</p><p><strong>虚拟性：指将一个物理实体映射为多个逻辑实体。</strong> </p><p><strong>不确定性：程序运行次序的不确定性，程序多次运行所花费时间的不确定性</strong></p><p>总结下来就是并发、共享、虚拟、异步</p><h3 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h3><p>并发：指两个或多个事件在同一时间间隔内发生。这些事件在宏观上是同时发生的，但在微观上是交替发生的</p><p>并行：指多个事件在同一时刻内发生</p><p>比如说一个人要同时和两个人约会，但是现在有不同的约会方法</p><p>并行：同一时刻同时和一号二号一起约会</p><p>并发：宏观上看起来一天和两个人约会，但是它第一个小时和一号女友约会，第二个小时和二号女友约会，第三个小时又和一号女友约会，如此往复。在微观上看：他每个时刻只和一个人约会</p><p>操作系统的并发性指计算机系统中同时存在着多个运行的程序</p><h3 id="共享"><a href="#共享" class="headerlink" title="共享"></a>共享</h3><p>共享即资源共享，是指系统中的资源可供内存中多个并发执行的进程共同使用</p><p>一共有两者资源共享方式：互斥共享和同时共享</p><ul><li>互斥共享</li></ul><p>虽然可以提供给多个进程使用，但<strong>一个时间段只允许一个进程访问该资源</strong></p><p>比如视频聊天在同一时刻，摄像头只能给一个app</p><ul><li>同时共享</li></ul><p>系统中某些资源，允许一个时间段内由多个进程同时对它们进行访问，这里的“同时”在微观上可能是交替对资源进行访问的</p><p>使用QQ发送文件A，微信发送文件B。宏观上看，两边都在同时读取和发送文件，这说明两个进程都在访问硬盘资源，在微观上看，两个进程是在交替访问的 </p><h3 id="处理器状态"><a href="#处理器状态" class="headerlink" title="处理器状态"></a>处理器状态</h3><img src="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/image-20220320183708220.png" class><p>我们知道：有的用户输入的指令CPU是不可以去执行的，因为它可能操作了某些重要的内存，那CPU如何只能指令能不能执行？</p><p>处理器状态分为用户态（目态）和核心态（管态），管态可以执行任何指令，目态只能执行非特权指令</p><img src="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/image-20220320184206096.png" class><h3 id="中断和异常"><a href="#中断和异常" class="headerlink" title="中断和异常"></a>中断和异常</h3><p>我们知道如果操作系统同一时刻只能执行一个任务，那它的利用率就会特别低，那如何实现并发执行呢？</p><p>CPU同一时刻只能执行一个任务，那当一个任务用了一定时间片以后，就让操作系统给CPU发出<strong>中断信号</strong>，切换为<strong>核心态</strong>，对中断进行处理</p><img src="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/image-20220320190323326.png" class><ol><li>中断发生时，CPU立刻进入核心态</li><li>中断发生时，当前进程暂停运行，由操作系统内核对中断进行处理</li><li>对于不同的中断信号，会进行不同的处理</li></ol><p>用户态到核心态的变化是通过<strong>中断</strong>来实现的，且中断是<strong>唯一</strong>途径。核心态到用户态是通过执行一个特权指令，将程序状态字（PSW）的标志位设置为“用户态”。</p><h3 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h3><p>操作系统作为用户和计算机硬件之间的接口要向上面提供一些简单易用的服务。包括命令接口和程序接口，其中程序接口由一组<strong>系统调用</strong>组成。</p><img src="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/image-20220320192458386.png" class><p>系统调用是操作系统给程序员使用的接口，是一种特殊的函数。系统中各种共享资源都由操作系统统一掌管，凡是与资源有关的操作，都必须通过系统调用的方式向操作系统发出请求，由操作系统<strong>代为完成</strong>，这样就可以保证系统稳定性。</p><img src="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/image-20220320193135322.png" class><img src="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/image-20220320193450621.png" class><p>至此有关操作系统的前置东西大概讲了讲，后面会进行具体讲解</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>操作系统</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>操作系统</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>SpringAOP</title>
     <link href="/2022/03/19/Spring/SpringAOP/"/>
     <url>/2022/03/19/Spring/SpringAOP/</url>
@@ -182,9 +207,9 @@
     
     <tags>
       
-      <tag>Linux</tag>
-      
       <tag>Docker</tag>
+      
+      <tag>Linux</tag>
       
     </tags>
     
@@ -770,9 +795,9 @@
     
     <tags>
       
-      <tag>AQS</tag>
-      
       <tag>JUC</tag>
+      
+      <tag>AQS</tag>
       
     </tags>
     
@@ -1003,9 +1028,9 @@
     
     <tags>
       
-      <tag>Django</tag>
-      
       <tag>Linux</tag>
+      
+      <tag>Django</tag>
       
     </tags>
     

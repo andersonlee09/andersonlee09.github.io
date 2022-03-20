@@ -192,6 +192,59 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/10/JUC/Java%E9%94%81%E6%9C%BA%E5%88%B6/" target="_self">
+          <img src="/img/essay/juc.png" srcset="/img/loading.gif" lazyload alt="Java锁机制">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/10/JUC/Java%E9%94%81%E6%9C%BA%E5%88%B6/" target="_self">
+          Java锁机制
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/10/JUC/Java%E9%94%81%E6%9C%BA%E5%88%B6/" target="_self">
+          
+          在Java中每个Object，也就是每一个对象都有一把锁。这把锁放在对象头，锁中记录了当前对象被哪一个线程锁占用。如上图中，红色的为对象Object，头为蓝色的，绿色的就是锁。   如图，每个Java对象分为三块，分别为对象头、实例数据、填充字节  对象头    对象头包含两部分：mark word和class point，class point指向对象在当前对象类型所在方法区中的类型数据。m
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-10 22:10" pubdate>
+              2022-03-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/JUC/">JUC</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/JUC/">JUC</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/03/10/JUC/%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/" target="_self">
           <img src="/img/essay/juc.png" srcset="/img/loading.gif" lazyload alt="线程间通信方式">
         </a>
@@ -669,64 +722,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
+              <a href="/tags/JUC/">JUC</a>
+            
               <a href="/tags/AQS/">AQS</a>
-            
-              <a href="/tags/JUC/">JUC</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/05/JUC/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" target="_self">
-          <img src="/img/essay/juc.png" srcset="/img/loading.gif" lazyload alt="线程池">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/05/JUC/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" target="_self">
-          线程池
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/05/JUC/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" target="_self">
-          
-          线程池最近我去了一家公司实习，遇到驰哥（我的小leader），驰哥人非常Nice,大概大我两岁哈哈。讲了很多我以后可能会遇到的困难，我进去就问他了线程池的相关内容，他也仔细为我讲解了一番，接下来我写一篇文章详细记录一下。 刚开始我以为线程池很难，但是深入了解以后发现也就那样吧~ 下面开始正文 Java语言虽然内置了多线程支持，启动一个新线程非常方便，但是，创建线程需要操作系统资源（线程资源，栈空间
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-05 17:15" pubdate>
-              2022-03-05
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/JUC/">JUC</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/JUC/">JUC</a>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a>
             
           </div>
         
