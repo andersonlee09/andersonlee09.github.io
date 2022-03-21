@@ -1,0 +1,538 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Anderson Lee">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="创建用户1CREATE USER dbuser WITH PASSWORD &amp;#x27;password&amp;#x27;;  查看所有用户1postgres&#x3D;# \du  更改密码12postgres&#x3D;# \password dbuserpostgres&#x3D;# \q  创建数据库123456postgres&#x3D;# CREATE DATABASE exampledb OWNER dbuser;postgre">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Postgresql常用命令">
+<meta property="og:url" content="http://example.com/2022/03/21/utils/Postgresql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Anderson&#39;s blog">
+<meta property="og:description" content="创建用户1CREATE USER dbuser WITH PASSWORD &amp;#x27;password&amp;#x27;;  查看所有用户1postgres&#x3D;# \du  更改密码12postgres&#x3D;# \password dbuserpostgres&#x3D;# \q  创建数据库123456postgres&#x3D;# CREATE DATABASE exampledb OWNER dbuser;postgre">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/essay/default.jpg">
+<meta property="article:published_time" content="2022-03-21T13:09:07.000Z">
+<meta property="article:modified_time" content="2022-03-21T13:10:03.404Z">
+<meta property="article:author" content="Anderson Lee">
+<meta property="article:tag" content="SQL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/essay/default.jpg">
+  
+  
+  <title>Postgresql常用命令 - Anderson&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"DxD8Je61g9y9PhzBEDd85fMf-gzGzoHsz","app_key":"doeTC5tWGElBVb4A5CXUYMkd","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Anderson's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Anderson&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Postgresql常用命令">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-21 21:09" pubdate>
+        2022年3月21日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Postgresql常用命令</h1>
+            
+            <div class="markdown-body">
+              <h2 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h2><figure class="highlight n1ql"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">USER</span> dbuser <span class="hljs-keyword">WITH</span> <span class="hljs-keyword">PASSWORD</span> <span class="hljs-string">&#x27;password&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<h2 id="查看所有用户"><a href="#查看所有用户" class="headerlink" title="查看所有用户"></a>查看所有用户</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs makefile">postgres=<span class="hljs-comment"># \du</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="更改密码"><a href="#更改密码" class="headerlink" title="更改密码"></a>更改密码</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile">postgres=<span class="hljs-comment"># \password dbuser</span><br>postgres=<span class="hljs-comment"># \q</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">postgres=# <span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">DATABASE</span> exampledb <span class="hljs-keyword">OWNER</span> dbuser;<br>postgres=# <span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">ALL</span> <span class="hljs-keyword">PRIVILEGES</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DATABASE</span> exampledb <span class="hljs-keyword">to</span> dbuser;<br>postgres=# \c exampledb;<br>postgres=# <span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SCHEMA</span> <span class="hljs-built_in">public</span> <span class="hljs-keyword">OWNER</span> <span class="hljs-keyword">to</span> dbuser;<br>postgres=# <span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">ALL</span> <span class="hljs-keyword">PRIVILEGES</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">ALL</span> <span class="hljs-keyword">SEQUENCES</span> <span class="hljs-keyword">IN</span> <span class="hljs-keyword">SCHEMA</span> <span class="hljs-built_in">public</span> <span class="hljs-keyword">TO</span> dbuser;<br>postgres=# <span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">ALL</span> <span class="hljs-keyword">PRIVILEGES</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">ALL</span> <span class="hljs-keyword">TABLES</span> <span class="hljs-keyword">IN</span> <span class="hljs-keyword">SCHEMA</span> <span class="hljs-built_in">public</span> <span class="hljs-keyword">TO</span> dbuser;<br></code></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo -u postgres createdb -O dbuser exampledb</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="查看所有数据库"><a href="#查看所有数据库" class="headerlink" title="查看所有数据库"></a>查看所有数据库</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs makefile">postgres=<span class="hljs-comment"># \l</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="切换数据库"><a href="#切换数据库" class="headerlink" title="切换数据库"></a>切换数据库</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs makefile">postgres=<span class="hljs-comment"># \c exampledb</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="查看表"><a href="#查看表" class="headerlink" title="查看表"></a>查看表</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs makefile">postgres=<span class="hljs-comment"># \d</span><br></code></pre></td></tr></table></figure>
+
+<p>查看表结构</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs makefile">postgres=<span class="hljs-comment"># \d user_tab1</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="常用控制台命令"><a href="#常用控制台命令" class="headerlink" title="常用控制台命令"></a>常用控制台命令</h2><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs livescript"><span class="hljs-string">\password</span>           设置密码。<br><span class="hljs-string">\q</span>                  退出。<br><span class="hljs-string">\h</span>                  查看SQL命令的解释，比如<span class="hljs-string">\h</span> select。<br><span class="hljs-string">\?</span>                  查看psql命令列表。<br><span class="hljs-string">\l</span>                  列出所有数据库。<br><span class="hljs-string">\c</span> [database_name]  连接其他数据库。<br><span class="hljs-string">\d</span>                  列出当前数据库的所有表格。<br><span class="hljs-string">\d</span> [table_name]     列出某一张表格的结构。<br><span class="hljs-string">\du</span>                 列出所有用户。<br><span class="hljs-string">\e</span>                  打开文本编辑器。<br><span class="hljs-string">\conninfo</span>           列出当前数据库和连接的信息。<br></code></pre></td></tr></table></figure>
+
+<h2 id="基本的-SQL-语句"><a href="#基本的-SQL-语句" class="headerlink" title="基本的 SQL 语句"></a>基本的 SQL 语句</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"># 创建新表<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> user_tbl(<span class="hljs-type">name</span> <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">20</span>), signup_date <span class="hljs-type">DATE</span>);<br><br># 插入数据<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> user_tbl(<span class="hljs-type">name</span>, signup_date) <span class="hljs-keyword">VALUES</span>(<span class="hljs-string">&#x27;张三&#x27;</span>, <span class="hljs-string">&#x27;2013-12-22&#x27;</span>);<br><br># 查询记录<br><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> user_tbl;<br><br># 更新数据<br><span class="hljs-keyword">UPDATE</span> user_tbl <span class="hljs-keyword">set</span> <span class="hljs-type">name</span> = <span class="hljs-string">&#x27;李四&#x27;</span> <span class="hljs-keyword">WHERE</span> <span class="hljs-type">name</span> = <span class="hljs-string">&#x27;张三&#x27;</span>;<br><br># 删除记录<br><span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> user_tbl <span class="hljs-keyword">WHERE</span> <span class="hljs-type">name</span> = <span class="hljs-string">&#x27;李四&#x27;</span> ;<br><br># 添加字段<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> user_tbl <span class="hljs-keyword">ADD</span> email <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">40</span>);<br><br># 更改字段类型<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> user_tbl <span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">COLUMN</span> signup_date <span class="hljs-keyword">SET</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>;<br><br># 设置字段默认值（注意字符串使用单引号）<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> user_tbl <span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">COLUMN</span> email <span class="hljs-keyword">SET</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;example@example.com&#x27;</span>;<br><br># 去除字段默认值<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> user_tbl <span class="hljs-keyword">ALTER</span> email <span class="hljs-keyword">DROP</span> <span class="hljs-keyword">DEFAULT</span>;<br><br># 重命名字段<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> user_tbl <span class="hljs-keyword">RENAME</span> <span class="hljs-keyword">COLUMN</span> signup_date <span class="hljs-keyword">TO</span> signup;<br><br># 删除字段<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> user_tbl <span class="hljs-keyword">DROP</span> <span class="hljs-keyword">COLUMN</span> email;<br><br># 表重命名<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> user_tbl <span class="hljs-keyword">RENAME</span> <span class="hljs-keyword">TO</span> backup_tbl;<br><br># 删除表<br><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> backup_tbl;<br><br># 删除库<br>\c hello2;<br><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">DATABASE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> hello;<br></code></pre></td></tr></table></figure>
+
+<p>从上面的命令可以看出基本的 SQL 语句跟 MySQL 是一样的。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/utils/">utils</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/SQL/">SQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/">
+                        <span class="hidden-mobile">Portal代拨控制流程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"DxD8Je61g9y9PhzBEDd85fMf-gzGzoHsz","appKey":"doeTC5tWGElBVb4A5CXUYMkd","path":"window.location.pathname","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"retro","meta":["nick","mail"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"DxD8Je61g9y9PhzBEDd85fMf-gzGzoHsz","appkey":"doeTC5tWGElBVb4A5CXUYMkd"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

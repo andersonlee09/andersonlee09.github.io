@@ -16,24 +16,23 @@
   <meta name="author" content="Anderson Lee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="ConcurrentHashMap深度剖析我在上一次面试被问到了为甚么ConcurrentHashMap可以实现线程安全，这里我没有答出来，在这里我打算好好带大家一起了解ConcurrentHashMap顺便让我复习一下。 ConcurrentHashMap为什么可以实现线程安全JDK1.7数据结构   在1.7的时候ConcurrentHashMap由segment数组和HashEntry数组组">
+    <meta name="description" content="Portal 代拨控制流程ACCOUNTING_REQUEST首先在Linux向portal发送一个包,这里的IP不同命令略有不同，但都大差不差 1echo -e &amp;#x27;Acct-Status-Type &#x3D; &amp;#x27;Start&amp;#x27;\nUser-Name &#x3D; &quot;15291416563&quot;\nFramed-IP-Address &#x3D; &amp;#x27;192.168.48.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ConcurrentHashMap深度剖析">
-<meta property="og:url" content="http://example.com/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/index.html">
+<meta property="og:title" content="Portal代拨控制流程">
+<meta property="og:url" content="http://example.com/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Anderson&#39;s blog">
-<meta property="og:description" content="ConcurrentHashMap深度剖析我在上一次面试被问到了为甚么ConcurrentHashMap可以实现线程安全，这里我没有答出来，在这里我打算好好带大家一起了解ConcurrentHashMap顺便让我复习一下。 ConcurrentHashMap为什么可以实现线程安全JDK1.7数据结构   在1.7的时候ConcurrentHashMap由segment数组和HashEntry数组组">
+<meta property="og:description" content="Portal 代拨控制流程ACCOUNTING_REQUEST首先在Linux向portal发送一个包,这里的IP不同命令略有不同，但都大差不差 1echo -e &amp;#x27;Acct-Status-Type &#x3D; &amp;#x27;Start&amp;#x27;\nUser-Name &#x3D; &quot;15291416563&quot;\nFramed-IP-Address &#x3D; &amp;#x27;192.168.48.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/essay/collection.png">
-<meta property="article:published_time" content="2022-02-26T15:15:45.000Z">
-<meta property="article:modified_time" content="2022-02-26T16:02:57.758Z">
+<meta property="og:image" content="http://example.com/img/essay/network.png">
+<meta property="article:published_time" content="2022-03-21T08:03:59.000Z">
+<meta property="article:modified_time" content="2022-03-21T08:05:35.541Z">
 <meta property="article:author" content="Anderson Lee">
-<meta property="article:tag" content="Java集合">
-<meta property="article:tag" content="ConcurrentHashMap">
+<meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/essay/collection.png">
+<meta name="twitter:image" content="http://example.com/img/essay/network.png">
   
   
-  <title>ConcurrentHashMap深度剖析 - Anderson&#39;s blog</title>
+  <title>Portal代拨控制流程 - Anderson&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -180,7 +179,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="ConcurrentHashMap深度剖析">
+            <span class="h2" id="subtitle" title="Portal代拨控制流程">
               
             </span>
 
@@ -190,8 +189,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-26 23:15" pubdate>
-        2022年2月26日 晚上
+      <time datetime="2022-03-21 16:03" pubdate>
+        2022年3月21日 下午
       </time>
     </span>
   
@@ -201,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      2.7k 字
     </span>
   
 
@@ -210,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13 分钟
+      23 分钟
     </span>
   
 
@@ -239,49 +238,47 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">ConcurrentHashMap深度剖析</h1>
+            <h1 style="display: none">Portal代拨控制流程</h1>
             
             <div class="markdown-body">
-              <h1 id="ConcurrentHashMap深度剖析"><a href="#ConcurrentHashMap深度剖析" class="headerlink" title="ConcurrentHashMap深度剖析"></a>ConcurrentHashMap深度剖析</h1><p>我在上一次面试被问到了为甚么ConcurrentHashMap可以实现线程安全，这里我没有答出来，在这里我打算好好带大家一起了解ConcurrentHashMap顺便让我复习一下。</p>
-<h2 id="ConcurrentHashMap为什么可以实现线程安全"><a href="#ConcurrentHashMap为什么可以实现线程安全" class="headerlink" title="ConcurrentHashMap为什么可以实现线程安全"></a>ConcurrentHashMap为什么可以实现线程安全</h2><h3 id="JDK1-7"><a href="#JDK1-7" class="headerlink" title="JDK1.7"></a>JDK1.7</h3><p><strong>数据结构</strong></p>
-<img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226232104869.png" srcset="/img/loading.gif" lazyload class>
+              <h2 id="Portal-代拨控制流程"><a href="#Portal-代拨控制流程" class="headerlink" title="Portal 代拨控制流程"></a>Portal 代拨控制流程</h2><h3 id="ACCOUNTING-REQUEST"><a href="#ACCOUNTING-REQUEST" class="headerlink" title="ACCOUNTING_REQUEST"></a>ACCOUNTING_REQUEST</h3><p>首先在Linux向portal发送一个包,这里的IP不同命令略有不同，但都大差不差</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell">echo -e &#x27;Acct-Status-Type = &#x27;Start&#x27;\nUser-Name = &quot;15291416563&quot;\nFramed-IP-Address = &#x27;192.168.48.20&#x27;\nNAS-IP-Address = &quot;192.168.0.190&quot;\nAcct-Session-Id = &#x27;00000007202011011620040020d11d00101541&#x27;\nCalling-Station-Id=&#x27;dc-31-d1-4d-8f-8d&#x27; &#x27; | ./radclient -x 10.93.101.196 acct aaa<br></code></pre></td></tr></table></figure>
 
-<p>在1.7的时候ConcurrentHashMap由<code>segment</code>数组和<code>HashEntry</code>数组组成，ConcurrentHashMap把哈希桶分为segment小数组，每个小数组有n个HashEntry组成。segment继承RenntrantLock即可重入锁，hashEntry存储键值对。</p>
-<p><strong>结果</strong></p>
-<p>首先将数据分为一段一段存储，然后给每一段都配一把可重入锁，当一个线程占用锁访问其中一个段数据时，其他数据也能访问，真正能实现并发。</p>
-<h3 id="JDK1-8"><a href="#JDK1-8" class="headerlink" title="JDK1.8"></a>JDK1.8</h3><p><strong>数据结构</strong></p>
-<img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226232838666.png" srcset="/img/loading.gif" lazyload class>
+<img src="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/image-20220321135927451.png" srcset="/img/loading.gif" lazyload class>
 
-<p>1.8采用了数组 + 链表 + 红黑树结构。在锁实现上抛弃了segmnet分段式锁，而是采用<code>CAS + synchronized</code>实现更加低粒度的锁。</p>
-<p>锁的级别控制在了hash桶元素级别，也就是说只需要锁住链表头节点，即红黑树根节点，就不会影响其他哈希桶元素读写，大大提高并发度。</p>
-<h2 id="ConcurrentHashMap-put方法"><a href="#ConcurrentHashMap-put方法" class="headerlink" title="ConcurrentHashMap put方法"></a>ConcurrentHashMap put方法</h2><h3 id="JDK1-7-1"><a href="#JDK1-7-1" class="headerlink" title="JDK1.7"></a>JDK1.7</h3><p>首先尝试获取锁，如果没有获取到就进行自旋，如果自旋超过64次，改为阻塞获取锁。</p>
-<p>获取到以后：</p>
-<ol>
-<li>将segment中的table通过key定位到HashEntry</li>
-<li>遍历HashEntry，如果不为空就判断传入的key与当前遍历key是否相等，相等就覆盖</li>
-<li>不为空就新建一个HashEntry并加入到segment，同时判断是否需要扩容</li>
-<li>释放锁</li>
-</ol>
-<h3 id="JDK1-8-1"><a href="#JDK1-8-1" class="headerlink" title="JDK1.8"></a>JDK1.8</h3><ol>
-<li>根据key计算hash值</li>
-<li>判断是否需要初始化</li>
-<li>定位到node，拿到首节点f,</li>
-</ol>
-<ul>
-<li>如果为null就使用cas进行添加</li>
-<li>如果f.hash &#x3D;&#x3D; MOVED &#x3D;&#x3D; -1,说明其他线程正在扩容，则参与一起扩容</li>
-<li>都不满足就用synchronized锁住f，判断是链表还是红黑树，直接插入</li>
-</ul>
-<p>具体可以看这里<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzkyMTI3Mjc2MQ==&mid=2247485909&idx=1&sn=d9c672eebb090866a72f99f3d8032e76&source=41#wechat_redirect">面试 ConcurrentHashMap ，看这一篇就够了！ (qq.com)</a></p>
-<h2 id="ConcurrentHashMap-get方法是否需要加锁，为什么"><a href="#ConcurrentHashMap-get方法是否需要加锁，为什么" class="headerlink" title="ConcurrentHashMap get方法是否需要加锁，为什么"></a>ConcurrentHashMap get方法是否需要加锁，为什么</h2><p>不需要，因为Node元素的val和指针next是volatile修饰的，在多线程环境下线程A修改val或增加节点对线程B可见</p>
-<img src="/2022/02/26/Java%E9%9B%86%E5%90%88/ConcurrentHashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/image-20220226234644053.png" srcset="/img/loading.gif" lazyload class>
+<p>我在这里打了一个断点，</p>
+<img src="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/image-20220321140128764.png" srcset="/img/loading.gif" lazyload class>
 
-<h2 id="ConcurrentHashMap不支持key或者value为null的原因"><a href="#ConcurrentHashMap不支持key或者value为null的原因" class="headerlink" title="ConcurrentHashMap不支持key或者value为null的原因"></a>ConcurrentHashMap不支持key或者value为null的原因</h2><h3 id="value不能为null原因"><a href="#value不能为null原因" class="headerlink" title="value不能为null原因"></a>value不能为null原因</h3><p>因为ConcurrentHashMap用于多线程，如果map.get(key)得到null，无法判断是得到的value为null还是没有找到key为null，而单线程hashmap可以使用containsKey方法去判断。</p>
-<p>这样当在第一次执行时没有key，第二次有key但值为null，这样就具有二义性</p>
-<h3 id="key不能为null"><a href="#key不能为null" class="headerlink" title="key不能为null"></a>key不能为null</h3><p>首先null不好计算哈希值，然后当多个线程同时放入null会出问题，</p>
-<h2 id="ConcurrentHashMap的并发度是什么？"><a href="#ConcurrentHashMap的并发度是什么？" class="headerlink" title="ConcurrentHashMap的并发度是什么？"></a>ConcurrentHashMap的并发度是什么？</h2><h3 id="JDK1-7-2"><a href="#JDK1-7-2" class="headerlink" title="JDK1.7"></a>JDK1.7</h3><p>并发度默认16，可以自己设置，默认是2的n次方，如果设置17，则真实为32.</p>
-<h2 id="ConcurrentHashMap迭代器是强一致性还是弱一致性？"><a href="#ConcurrentHashMap迭代器是强一致性还是弱一致性？" class="headerlink" title="ConcurrentHashMap迭代器是强一致性还是弱一致性？"></a>ConcurrentHashMap迭代器是强一致性还是弱一致性？</h2><p>与hashmap不同，ConcurrentHashMap迭代器是弱一致性</p>
-<p>ConcurrentHashMap迭代器创建以后，就会按哈希表结构遍历，但是在遍历的时候，内部元素可能会发生变化，如果变化发生在已经变化的部分，迭代器不会反映出来，如果发生在未遍历的部分，迭代器就会发现并反映出来。</p>
+<p>可以看到方法要进入handleAccountRequest</p>
+<img src="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/image-20220321140356314.png" srcset="/img/loading.gif" lazyload class>
+
+<p>接下来proxyExecutor调用handleAccountingRequest方法去处理请求</p>
+<img src="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/image-20220321140659221.png" srcset="/img/loading.gif" lazyload class>
+
+<p>这是请求处理的过程。</p>
+<p>它首先去获取用户状态，如果状态是开始状态，那就不去处理，如果是结束，那就会调用handleDisconnectRequest方法去结束计费</p>
+<img src="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/image-20220321141203832.png" srcset="/img/loading.gif" lazyload class>
+
+<p>这是大概过程，我都进行了标记</p>
+<p>当handleAccountingRequest方法完成以后，就把response进行参数包装，设置为Code.ACCOUNTING_RESPONSE状态进行标记，Code是个枚举值，里面有很多状态，表示这个请求的类型</p>
+<img src="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/image-20220321141451228.png" srcset="/img/loading.gif" lazyload class>
+
+
+
+
+
+<h3 id="ACCESS-REQUEST"><a href="#ACCESS-REQUEST" class="headerlink" title="ACCESS_REQUEST"></a>ACCESS_REQUEST</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">echo -e &#x27;User-Name = &quot;user02&quot;\nUser-Password = &quot;IoBg5Z&quot;\nFramed-IP-Address = &#x27;192.168.48.20&#x27;\nCalling-Station-Id = &#x27;60F677024072&#x27;&#x27; | ./radclient -x 10.93.101.196 auth aa<br></code></pre></td></tr></table></figure>
+
+<p>接下来发送一个ACCESS_REQUEST请求</p>
+<img src="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/image-20220321142509558.png" srcset="/img/loading.gif" lazyload class>
+
+<p>如图断点停在了这里和刚才一样，同一个proxyExecutor的handleAccessRequest来对它进行处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 验证使用权请求</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> String <span class="hljs-title function_">handleAccessRequest</span><span class="hljs-params">(RadiusRequest request)</span>&#123;<br>        <span class="hljs-comment">// 把接收到的参数全部保留到attrs</span><br>        List&lt;Attribute&gt; attrs = request.getAttributes();<br>        <span class="hljs-comment">// 提取用户名</span><br>        <span class="hljs-type">var</span> <span class="hljs-variable">username</span> <span class="hljs-operator">=</span> Attributes.getAttributeValueAsString(attrs, AttributeType.USER_NAME);<br>        <span class="hljs-type">var</span> <span class="hljs-variable">framedIpAddress</span> <span class="hljs-operator">=</span>  Attributes.getInet4Address(Attributes.getFirst(attrs, AttributeType.FRAMED_IP_ADDRESS)).getHostAddress();<br>        logger.info(<span class="hljs-string">&quot;收到认证请求，开始进行绑定 ---&gt; [&#123;&#125;]&quot;</span>, OffsetDateTime.now());<br>        <span class="hljs-keyword">try</span>&#123;<br>            handleDisconnectRequest(request);<br>            <span class="hljs-comment">// 先去找到一个可用session，相当于new，但过程较为繁琐</span><br>            <span class="hljs-type">var</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> onlineSessionService.findOneAvailableSession();<br>            logger.info(<span class="hljs-string">&quot;find one available session = [&#123;&#125;] ---&gt; [&#123;&#125;]&quot;</span>, session, OffsetDateTime.now());<br>            <span class="hljs-comment">// 如果session可用</span><br>            <span class="hljs-keyword">if</span> (StringUtils.hasText(session.getExternalIp()))&#123;<br>                <span class="hljs-comment">// 添加用户内网IP绑定关系成功</span><br>                <span class="hljs-keyword">if</span> (Boolean.TRUE.equals(<br>                    vppRepository.addIpMappings(framedIpAddress, session.getExternalIp()))) &#123;<br>                    <span class="hljs-comment">// 给session绑定数据</span><br>                    session.setEnable(<span class="hljs-literal">true</span>);<br>                    session.setWenetAccount(username);<br>                    session.setInneralIp(framedIpAddress);<br>                    session.setUpdateAt(OffsetDateTime.now());<br>                    <span class="hljs-comment">// 存储用户session</span><br>                    onlineSessionRepository.save(session);<br>                    logger.info(<span class="hljs-string">&quot;用户上线成功, session = [&#123;&#125;] ---&gt; [&#123;&#125;]&quot;</span>, session, OffsetDateTime.now());<br>                    <span class="hljs-keyword">return</span> PROXY_SUCCESS;<br>                &#125;<span class="hljs-keyword">else</span> &#123;<br>                    <span class="hljs-comment">// 绑定失败</span><br>                    session.setEnable(<span class="hljs-literal">false</span>);<br>                    onlineSessionRepository.save(session);<br>                    logger.info(<span class="hljs-string">&quot;vpp nat 绑定失败 ----&gt; [&#123;&#125;]&quot;</span>, OffsetDateTime.now());<br>                &#125;<br>            &#125;<span class="hljs-keyword">else</span> &#123;<br>                logger.info(<span class="hljs-string">&quot;Online session 无可用会话 ---&gt; [&#123;&#125;]&quot;</span>, OffsetDateTime.now());<br>            &#125;<br>        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;<br>            e.printStackTrace();<br>            <span class="hljs-keyword">return</span> PROXY_FAILURE;<br>        &#125;<br>        <span class="hljs-keyword">return</span> PROXY_FAILURE;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>这是处理过程，我都加了相应的注释</p>
+<img src="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/image-20220321143001394.png" srcset="/img/loading.gif" lazyload class>
+
+<p>当对请求处理完成以后会对response进行包装就结束了</p>
 
             </div>
             <hr>
@@ -291,7 +288,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Java%E9%9B%86%E5%90%88/">Java集合</a>
+                      <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
                     
                   </div>
                 
@@ -299,9 +296,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Java%E9%9B%86%E5%90%88/">Java集合</a>
-                    
-                      <a class="hover-with-bg" href="/tags/ConcurrentHashMap/">ConcurrentHashMap</a>
+                      <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
                     
                   </div>
                 
@@ -318,9 +313,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/27/JVM/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
+                      <a href="/2022/03/21/utils/Postgresql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">JVM内存结构</span>
+                        <span class="hidden-mobile">Postgresql常用命令</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -328,8 +323,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/25/Java%E9%9B%86%E5%90%88/HashMap%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/">
-                        <span class="hidden-mobile">HashMap深度剖析</span>
+                      <a href="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/">
+                        <span class="hidden-mobile">操作系统概念</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
