@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>CodingInterview25合并两个排序链表</title>
+    <link href="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/"/>
+    <url>/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/</url>
+    
+    <content type="html"><![CDATA[<p>最近因为在准备东西的时候发现自己还有很多不足，一直在学习操作系统的有关东西，加上也在熟悉公司业务，算法也有在做，但是写算法的题解耗时非常久，因为要写分析和画图，今天分享一道常规的链表题目：<a href="https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/">剑指 Offer 25. 合并两个排序的链表</a>，一周以后关于操作系统的相关东西我差不多就整理完毕了，到时候我会专心写题解的</p><p>这道题我们乍一看脑袋里肯定会有一定的思想的，比如以前在学习mergeSort的时候我们经常会去合并两个有序数，而合并数组和链表其实是很相似的</p><img src="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/image-20220321235226968.png" class><h3 id="迭代法"><a href="#迭代法" class="headerlink" title="迭代法"></a>迭代法</h3><p>这就是对两个链表依次处理就可以了</p><p>如图，我们想合并l1&amp;l2两个链表，首先我们肯定是从前到后，把比较小的元素一次放入另一个链表里面</p><img src="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/image-20220321235546578.png" class><p>我们做链表类的题目第一件事一定要先去想是否需要去创建一个dummyhead（假头），dummyhead在链表类题目是分常用，因为在处理第一个元素的时候十分麻烦，<strong>为什么？</strong></p><p>比如有时候两个链表都为空的时候那合成的第三个链表一定为空，那返回的时候我们就要去判断如果头为空怎样，如果不为空又怎样</p><p>而如果有了dummyhead以后就会直接返回dummyhead.next</p><p>言归正传，我们用一个node节点刚开始去指向dummyhead节点如图</p><img src="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/image-20220322000241509.png" class><p>每次去挑选原来的两个链表的最小节点</p><img src="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/image-20220322000420601.png" class><p>如图此时1最小，我们就把1放在node后面，然后让node&#x3D;node.next</p><p>等到两个链表有一个链表（假设为链表1）元素全部放完以后，直接让node.next&#x3D;链表2剩下的所有节点</p><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for singly-linked list.</span><br><span class="hljs-comment"> * public class ListNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     ListNode next;</span><br><span class="hljs-comment"> *     ListNode(int x) &#123; val = x; &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> ListNode <span class="hljs-title function_">mergeTwoLists</span><span class="hljs-params">(ListNode l1, ListNode l2)</span> &#123;<br>        <span class="hljs-type">ListNode</span> <span class="hljs-variable">dummyHead</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ListNode</span>(-<span class="hljs-number">1</span>);<br>        <span class="hljs-type">ListNode</span> <span class="hljs-variable">node</span> <span class="hljs-operator">=</span> dummyHead;<br>        <span class="hljs-keyword">while</span> (l1 != <span class="hljs-literal">null</span> &amp;&amp; l2 != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">if</span> (l1.val &lt;= l2.val) &#123;<br>                node.next = l1;<br>                l1 = l1.next;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                node.next = l2;<br>                l2 = l2.next;<br>            &#125;<br>            node = node.next;<br>        &#125;<br>        node.next = l1 == <span class="hljs-literal">null</span> ? l2 : l1;<br>        <span class="hljs-keyword">return</span> dummyHead.next;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>以上为解题过程，不加讲解了</p><h3 id="递归法"><a href="#递归法" class="headerlink" title="递归法"></a>递归法</h3><p>递推方法我们往往要去确定两个点：</p><ol><li>如何分解问题</li><li>递归何时停止</li></ol><p>看过上一个方法我们很清楚的知道：当链表有一个一旦元素全部被放完，那另一个链表的剩下所有节点就会放到链表尾部，这就是停止条件了</p><p>关于如何分解，我们可以让链表去一个一个元素去处理，直到达到终止条件</p><img src="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/image-20220322001654228.png" class><p>大概就是这样的思想</p><p>终止条件：当两个链表都为空时，表示我们对链表已合并完成。<br>如何递归：我们判断 l1 和 l2 头结点哪个更小，然后较小结点的 next 指针指向其余结点的合并结果。（调用递归）</p><p>代码如下：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for singly-linked list.</span><br><span class="hljs-comment"> * public class ListNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     ListNode next;</span><br><span class="hljs-comment"> *     ListNode(int x) &#123; val = x; &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> ListNode <span class="hljs-title function_">mergeTwoLists</span><span class="hljs-params">(ListNode l1, ListNode l2)</span> &#123;<br>        <span class="hljs-keyword">if</span> (l1 == <span class="hljs-literal">null</span> || l2 == <span class="hljs-literal">null</span>) <span class="hljs-type">return</span> <span class="hljs-variable">l1</span> <span class="hljs-operator">=</span>= <span class="hljs-literal">null</span> ? l2 : l1;<br>        <span class="hljs-keyword">if</span> (l1.val &lt;= l2.val) &#123;<br>            l1.next = mergeTwoLists(l1.next, l2);<br>            <span class="hljs-keyword">return</span> l1;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            l2.next = mergeTwoLists(l1, l2.next);<br>            <span class="hljs-keyword">return</span> l2;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>至此，关于两者算法的思想就讲解完毕了，感谢大家的观看！</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Algorithm</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Algorithm</tag>
+      
+      <tag>链表</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Postgresql常用命令</title>
     <link href="/2022/03/21/utils/Postgresql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
     <url>/2022/03/21/utils/Postgresql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
@@ -1024,9 +1051,9 @@
     
     <tags>
       
-      <tag>Java集合</tag>
-      
       <tag>ConcurrentHashMap</tag>
+      
+      <tag>Java集合</tag>
       
     </tags>
     
@@ -1107,9 +1134,9 @@
       
       <tag>计算机网络</tag>
       
-      <tag>TCP</tag>
-      
       <tag>HTTP</tag>
+      
+      <tag>TCP</tag>
       
     </tags>
     

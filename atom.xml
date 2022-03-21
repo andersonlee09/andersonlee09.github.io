@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-03-21T13:10:03.404Z</updated>
+  <updated>2022-03-21T16:22:27.631Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CodingInterview25合并两个排序链表</title>
+    <link href="http://example.com/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/"/>
+    <id>http://example.com/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/</id>
+    <published>2022-03-21T15:42:49.000Z</published>
+    <updated>2022-03-21T16:22:27.631Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近因为在准备东西的时候发现自己还有很多不足，一直在学习操作系统的有关东西，加上也在熟悉公司业务，算法也有在做，但是写算法的题解耗时非常久，因为要写分析和画图，今天分享一道常规的链表题目：<a href="https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/">剑指 Offer 25. 合并两个排序的链表</a>，一周以后关于操作系统的相关东西我差不多就整理完毕了，到时候我会专心写题解的</p><p>这道题我们乍一看脑袋里肯定会有一定的思想的，比如以前在学习mergeSort的时候我们经常会去合并两个有序数，而合并数组和链表其实是很相似的</p><img src="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/image-20220321235226968.png" class><h3 id="迭代法"><a href="#迭代法" class="headerlink" title="迭代法"></a>迭代法</h3><p>这就是对两个链表依次处理就可以了</p><p>如图，我们想合并l1&amp;l2两个链表，首先我们肯定是从前到后，把比较小的元素一次放入另一个链表里面</p><img src="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/image-20220321235546578.png" class><p>我们做链表类的题目第一件事一定要先去想是否需要去创建一个dummyhead（假头），dummyhead在链表类题目是分常用，因为在处理第一个元素的时候十分麻烦，<strong>为什么？</strong></p><p>比如有时候两个链表都为空的时候那合成的第三个链表一定为空，那返回的时候我们就要去判断如果头为空怎样，如果不为空又怎样</p><p>而如果有了dummyhead以后就会直接返回dummyhead.next</p><p>言归正传，我们用一个node节点刚开始去指向dummyhead节点如图</p><img src="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/image-20220322000241509.png" class><p>每次去挑选原来的两个链表的最小节点</p><img src="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/image-20220322000420601.png" class><p>如图此时1最小，我们就把1放在node后面，然后让node&#x3D;node.next</p><p>等到两个链表有一个链表（假设为链表1）元素全部放完以后，直接让node.next&#x3D;链表2剩下的所有节点</p><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for singly-linked list.</span><br><span class="hljs-comment"> * public class ListNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     ListNode next;</span><br><span class="hljs-comment"> *     ListNode(int x) &#123; val = x; &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> ListNode <span class="hljs-title function_">mergeTwoLists</span><span class="hljs-params">(ListNode l1, ListNode l2)</span> &#123;<br>        <span class="hljs-type">ListNode</span> <span class="hljs-variable">dummyHead</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ListNode</span>(-<span class="hljs-number">1</span>);<br>        <span class="hljs-type">ListNode</span> <span class="hljs-variable">node</span> <span class="hljs-operator">=</span> dummyHead;<br>        <span class="hljs-keyword">while</span> (l1 != <span class="hljs-literal">null</span> &amp;&amp; l2 != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">if</span> (l1.val &lt;= l2.val) &#123;<br>                node.next = l1;<br>                l1 = l1.next;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                node.next = l2;<br>                l2 = l2.next;<br>            &#125;<br>            node = node.next;<br>        &#125;<br>        node.next = l1 == <span class="hljs-literal">null</span> ? l2 : l1;<br>        <span class="hljs-keyword">return</span> dummyHead.next;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>以上为解题过程，不加讲解了</p><h3 id="递归法"><a href="#递归法" class="headerlink" title="递归法"></a>递归法</h3><p>递推方法我们往往要去确定两个点：</p><ol><li>如何分解问题</li><li>递归何时停止</li></ol><p>看过上一个方法我们很清楚的知道：当链表有一个一旦元素全部被放完，那另一个链表的剩下所有节点就会放到链表尾部，这就是停止条件了</p><p>关于如何分解，我们可以让链表去一个一个元素去处理，直到达到终止条件</p><img src="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/image-20220322001654228.png" class><p>大概就是这样的思想</p><p>终止条件：当两个链表都为空时，表示我们对链表已合并完成。<br>如何递归：我们判断 l1 和 l2 头结点哪个更小，然后较小结点的 next 指针指向其余结点的合并结果。（调用递归）</p><p>代码如下：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for singly-linked list.</span><br><span class="hljs-comment"> * public class ListNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     ListNode next;</span><br><span class="hljs-comment"> *     ListNode(int x) &#123; val = x; &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> ListNode <span class="hljs-title function_">mergeTwoLists</span><span class="hljs-params">(ListNode l1, ListNode l2)</span> &#123;<br>        <span class="hljs-keyword">if</span> (l1 == <span class="hljs-literal">null</span> || l2 == <span class="hljs-literal">null</span>) <span class="hljs-type">return</span> <span class="hljs-variable">l1</span> <span class="hljs-operator">=</span>= <span class="hljs-literal">null</span> ? l2 : l1;<br>        <span class="hljs-keyword">if</span> (l1.val &lt;= l2.val) &#123;<br>            l1.next = mergeTwoLists(l1.next, l2);<br>            <span class="hljs-keyword">return</span> l1;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            l2.next = mergeTwoLists(l1, l2.next);<br>            <span class="hljs-keyword">return</span> l2;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>至此，关于两者算法的思想就讲解完毕了，感谢大家的观看！</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;最近因为在准备东西的时候发现自己还有很多不足，一直在学习操作系统的有关东西，加上也在熟悉公司业务，算法也有在做，但是写算法的题解耗时非常久，因为要写分析和画图，今天分享一道常规的链表题目：&lt;a href=&quot;https://leetcode-cn.com/problems/h</summary>
+      
+    
+    
+    
+    <category term="Algorithm" scheme="http://example.com/categories/Algorithm/"/>
+    
+    
+    <category term="Algorithm" scheme="http://example.com/tags/Algorithm/"/>
+    
+    <category term="链表" scheme="http://example.com/tags/%E9%93%BE%E8%A1%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>Postgresql常用命令</title>
@@ -528,32 +554,6 @@
     <category term="Algorithm" scheme="http://example.com/tags/Algorithm/"/>
     
     <category term="链表" scheme="http://example.com/tags/%E9%93%BE%E8%A1%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JVM类加载</title>
-    <link href="http://example.com/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/"/>
-    <id>http://example.com/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/</id>
-    <published>2022-03-11T12:51:23.000Z</published>
-    <updated>2022-03-11T13:46:36.340Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Java代码加载过程"><a href="#Java代码加载过程" class="headerlink" title="Java代码加载过程"></a>Java代码加载过程</h1><p>在详细讲解类加载之前我想我们要先知道我们编写的Java代码是如何被加载运行的</p><img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311205528562.png" class><p>从上图可以看出，javac先把代码编译为字节码，然后由JVM去加载字节码，运行的时候<strong>解释器</strong>把字节码解释为机器指令。在程序运行期间，<strong>即时编译器</strong>能针对热点代码将该部分字节码编译为机器指令，从而获得更高的运行效率，在整个运行期间解释器和即时编译器相互配合，使得程序几乎能达到和编译型语言一样的执行速度。</p><p>对于我们来说，我们今天只讲解代码是如何编译为字节码的。</p><h1 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h1><p>类加载流程的目的是什么？</p><p>简单来说就是把一份被javac编译过的class文件通过加载生成某种结构的数据结构进入内存，程序可以调用这个数据结构来构造出object</p><img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311210813023.png" class><p>上图表示了一个类的生命周期，类加载只包括<strong>加载、连接和初始化</strong>三个阶段，加载只是类加载的第一个环节，解析部分是十分灵活的，它可以在初始化环节之前和之后进行，实现所谓的后期绑定。</p><h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311211403796.png" class><p>如图，加载是一个读取class文件，将其转化为某种数据结构放在方法区，并在堆中生成一个便于用户调用的java.lang.Class对象的过程，其中有几个重要点，这里的class不一定是本地class文件，也有可能是数据库或者网络，</p><h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>虽然上面已经加载过了，但这不代表JVM完全接收这个类，如果程序想用这个类，那就必须进行连接。</p><h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>连接第一步就是进一步对这个类进行验证，它对在方法区的数据结构进行了以下验证</p><ul><li><p>元数据认证</p></li><li><p>字节码验证</p></li></ul><p>这两个就是对class静态结构进行语法分析，看看它会不会产生危害虚拟机的行为</p><p>这时候就会认为这个程序是安全的，但是这还没有完全结束</p><ul><li>对符号引用进行验证</li></ul><p>这一步是在解析阶段完成的，它可以发生在初始化阶段发生前和发生后，</p><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>在验证通过后，就可以大概认为这个类是安全的，接下来就可以进入准备阶段，这个阶段就是为了该类型中定义的静态变量赋0值.这里仅仅是静态变量。</p><blockquote><p>在这里强调一下，虚拟机内存规范中定义了方法区这种抽象概念，Java虚拟机在JDK8之前使用了永久代这种具体实现方式来实现方法区，在JDK8以后启用了“永久代”这种实现方，而改用元空间这种直接内存来取代，所以我们常看到的JDK8以后用元空间取代了方法区这是错误的，因为元空间只是一种实现方式。</p></blockquote><p>在JDK8之前类的元信息、常量池、静态变量都存在永久代这种实现中，而JDK8以后常量池静态变量被移出了方法区，转移到了堆中，元信息依然放在方法区，但存储方式改为了元空间。</p><h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p>接下来我们来讲一讲解析阶段</p><img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311213420013.png" class><p>这个阶段就是将符号引用替换为直接引用，假如A对象中存在B对象，在A编译的时候是不知道B有没有被加载的，这个时候称它为符号引用，A不知道B的实际地址，在解析的时候A就会知道B的地址，这也就是为什么会出现多态这种东西，比如我们常写的</p><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs java">List&lt;Integer&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br></code></pre></td></tr></table></figure><p>这就实现了动态绑定解析。</p><p>至此连接阶段已经全部完成，此时外部的Java类已经全部引入到了你的程序中</p><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>初始化阶段比较简单，简单来说就是判断此时代码中是否存在主动的资源初始化操作，如果有的话就执行，这里说的主动资源初始化不是指构造函数，而是class层面的，比如成员变量的赋值，静态变量赋值等。</p><img src="/2022/03/11/JVM/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD/image-20220311214322003.png" class><p>至此，类加载过程就全部讲完了，</p><p>但是还没有完全结束，请期待下一集~</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;Java代码加载过程&quot;&gt;&lt;a href=&quot;#Java代码加载过程&quot; class=&quot;headerlink&quot; title=&quot;Java代码加载过程&quot;&gt;&lt;/a&gt;Java代码加载过程&lt;/h1&gt;&lt;p&gt;在详细讲解类加载之前我想我们要先知道我们编写的Java代码是如何被加载运行的</summary>
-      
-    
-    
-    
-    <category term="JVM" scheme="http://example.com/categories/JVM/"/>
-    
-    
-    <category term="JVM" scheme="http://example.com/tags/JVM/"/>
-    
-    <category term="类加载" scheme="http://example.com/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/"/>
     
   </entry>
   
