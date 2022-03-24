@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-03-24T14:09:51.776Z</updated>
+  <updated>2022-03-24T15:44:21.907Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>死锁</title>
+    <link href="http://example.com/2022/03/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%AD%BB%E9%94%81/"/>
+    <id>http://example.com/2022/03/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%AD%BB%E9%94%81/</id>
+    <published>2022-03-24T14:47:55.000Z</published>
+    <updated>2022-03-24T15:44:21.907Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="死锁与饥饿"><a href="#死锁与饥饿" class="headerlink" title="死锁与饥饿"></a>死锁与饥饿</h3><img src="/2022/03/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%AD%BB%E9%94%81/image-20220324234351318.png" class><p>死锁：各个进程相互等待对方手里的资源，导致各个进程都阻塞，无法向前继续推进的现象。</p><p>饥饿：若长期得不到想要的资源，某进程无法向前推进的现象。</p><p>死锁的进程是处于阻塞态的，多个进程都无法运行了，而饥饿是还在运行，只是有一个进程一直得不到处理</p><h3 id="死锁的四个条件"><a href="#死锁的四个条件" class="headerlink" title="死锁的四个条件"></a>死锁的四个条件</h3><ul><li>不剥夺条件</li></ul><p>进程所获得的资源在未使用完之前，不能由其他进程强行夺走，只能主动释放</p><ul><li>请求和保持条件</li></ul><p>进程以及至少占用了一个资源，但是又提出了新的资源请求，而该资源又被其他的进程占有，又对于自身的资源保持不放</p><ul><li>循环等待</li></ul><p>若干个进程资源存在循环等待链，链条中每个进程都被下一个进程请求</p><p>现在假设一个场景，两个小孩都想尝一下两个苹果，但是它们一次只能拿着一个苹果吃一口，现在A吃完了自己手上的苹果，然后B吃完了自己手上的苹果，现在A想去拿B的苹果，B又想去拿A的苹果，但是两个小孩都很不懂事，它们都不行自己先去放下自己手中的苹果，那双方就会一直这样僵持下去。这就是死锁</p><h2 id="死锁的处理"><a href="#死锁的处理" class="headerlink" title="死锁的处理"></a>死锁的处理</h2><h3 id="预防死锁"><a href="#预防死锁" class="headerlink" title="预防死锁"></a>预防死锁</h3><p>对于死锁形成的四个必要条件，那就会有四种不同的破坏策略</p><ul><li>互斥条件</li></ul><p>只有互斥的资源的争抢才会形成死锁，因为资源只能被一个进程享受。可以看看释放能将资源改为共享的，比如把苹果放在桌子上，两个小孩都可以去同时咬。</p><ul><li>不剥夺条件</li></ul><p>当进程得不到想要的资源的时候可以去考虑释放自己的资源，然后尝试去再次获取</p><p>但是这样容易前功尽弃，以前好不容易申请的资源又释放了</p><ul><li>请求和保持</li></ul><p>进程在运行前先去得到他所需要的全部资源这样就不会去争抢资源了，但是这是很难去实现的</p><ul><li>循环等待</li></ul><p>可采用顺序资源分配法，首先给系统资源编号，每个进程去按顺序请求资源，这样就不会循环等待了，但是这个时候如果又新增的进程，这就会很不方便</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;死锁与饥饿&quot;&gt;&lt;a href=&quot;#死锁与饥饿&quot; class=&quot;headerlink&quot; title=&quot;死锁与饥饿&quot;&gt;&lt;/a&gt;死锁与饥饿&lt;/h3&gt;&lt;img src=&quot;/2022/03/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E</summary>
+      
+    
+    
+    
+    <category term="操作系统" scheme="http://example.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+    <category term="操作系统" scheme="http://example.com/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+  </entry>
   
   <entry>
     <title>浅试Scapy</title>
@@ -525,33 +549,6 @@
     <category term="JVM" scheme="http://example.com/tags/JVM/"/>
     
     <category term="类加载" scheme="http://example.com/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LeetCode056合并区间</title>
-    <link href="http://example.com/2022/03/12/Algo/LeetCode056%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/"/>
-    <id>http://example.com/2022/03/12/Algo/LeetCode056%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/</id>
-    <published>2022-03-12T06:43:04.000Z</published>
-    <updated>2022-03-12T11:02:37.907Z</updated>
-    
-    <content type="html"><![CDATA[<p>现在我们来分析一道比较常规的题目，<a href="https://leetcode-cn.com/problems/merge-intervals/"> 合并区间</a>，这道题我几个月之前已经做过一次了，今天再来做一次，做的不是很快，其中遇到了很多小的问题。</p><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>要解决这道题的第一步首先就是排序</p><p>如果我们按照区间的<strong>左端点排序</strong>，那么在排完序的列表中，可以合并的区间一定是连续的。如下图所示，标记为蓝色、黄色和绿色的区间分别可以合并成一个大区间，它们在排完序的列表中是连续的</p><img src="/2022/03/12/Algo/LeetCode056%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/image-20220312162042511.png" class><h2 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h2><p>双指针法过程如下</p><img src="/2022/03/12/Algo/LeetCode056%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/image-20220312163719399.png" class><p>我们分别定义两个节点head 和 tail</p><p>head表示当前区间，所能到达的最远的点，而tail则表示当前区间的起点，即最小的节点，我们想要扩大区间的范围就要让head扩大</p><p>由于我们刚才已经初始化过head和tail节点了，接下来我们要做的就是从第二个区间开始遍历</p><p><strong>情况1</strong></p><p>假如当前遍历的区间，记为记为intervals[i]，它的开始数字intervals[i] [0]&lt;&#x3D;head,此时我们要获取这两个集合能表示的最大范围，那head &#x3D; max(head, intervals[i] [1]).</p><p>比如上图遍历到（0，1）时,head&#x3D;5大于1,那就说明两个集合是相交的，这时候head&#x3D;max(5, 1).</p><p><strong>情况2</strong></p><p>假如intervals[i] [0]&lt;&#x3D;head,那就说明两个集合没有相交的区间，那就要把head到tail的区间放入结果中并且重新定义head和tail</p><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[][] merge(<span class="hljs-type">int</span>[][] intervals) &#123;<br>        Arrays.sort(intervals, (o1, o2) -&gt; o1[<span class="hljs-number">0</span>] - o2[<span class="hljs-number">0</span>]);<br>        <span class="hljs-comment">// System.out.println(Arrays.deepToString(intervals));</span><br>        List&lt;<span class="hljs-type">int</span>[]&gt; res = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        <span class="hljs-type">int</span> <span class="hljs-variable">head</span> <span class="hljs-operator">=</span> intervals[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>], tail = intervals[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt; intervals.length; i++) &#123;<br>            <span class="hljs-keyword">if</span> (head &gt;= intervals[i][<span class="hljs-number">0</span>]) &#123;<br>                head = Math.max(intervals[i][<span class="hljs-number">1</span>], head);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                res.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[]&#123;tail, head&#125;);<br>                head = intervals[i][<span class="hljs-number">1</span>];<br>                tail = intervals[i][<span class="hljs-number">0</span>];<br>            &#125;<br>        &#125;<br>        res.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[]&#123;tail, head&#125;);<br>        <span class="hljs-keyword">return</span> res.toArray(<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[res.size()][]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>最后强调一下</p><p>res.toArray(new int[res.size()][]);这个方法</p><p>这就是把答案返回成你想要的样子，这里返回一个二维数组，返回的类型要固定。</p><p>在这里初始化的时候 int数组为引用类型，是可以直接放入List的，但是像int这种普通类型不可以</p><p>List&lt;int[]&gt; res &#x3D; new ArrayList&lt;&gt;();</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;现在我们来分析一道比较常规的题目，&lt;a href=&quot;https://leetcode-cn.com/problems/merge-intervals/&quot;&gt; 合并区间&lt;/a&gt;，这道题我几个月之前已经做过一次了，今天再来做一次，做的不是很快，其中遇到了很多小的问题。&lt;/p&gt;
-&lt;</summary>
-      
-    
-    
-    
-    <category term="Algorithm" scheme="http://example.com/categories/Algorithm/"/>
-    
-    
-    <category term="Algorithm" scheme="http://example.com/tags/Algorithm/"/>
-    
-    <category term="双指针" scheme="http://example.com/tags/%E5%8F%8C%E6%8C%87%E9%92%88/"/>
     
   </entry>
   

