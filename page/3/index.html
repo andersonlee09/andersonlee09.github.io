@@ -192,6 +192,171 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/12/MySQL/MVCC/" target="_self">
+          <img src="/img/essay/mysql.png" srcset="/img/loading.gif" lazyload alt="MVCC">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/12/MySQL/MVCC/" target="_self">
+          MVCC
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/12/MySQL/MVCC/" target="_self">
+          
+          MVCC全称Multi-Version Concurrency Control，即多版本并发控制。主要是为了提高数据库的读写性能。让数据库读写的时候不用加锁，MVCC主要是处理快照读，这个读指的是快照读而不是当前读。  快照读指普通的 select 读 当前读为悲观锁读 即update insert delete等  undo log  我们以这张图为例，张三、李四、王五、赵六对应的id都为1，第
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-12 20:43" pubdate>
+              2022-03-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+              <a href="/tags/MVCC/">MVCC</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/12/JUC/CountDownLatch/" target="_self">
+          <img src="/img/essay/juc.png" srcset="/img/loading.gif" lazyload alt="CountDownLatch">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/12/JUC/CountDownLatch/" target="_self">
+          CountDownLatch
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/12/JUC/CountDownLatch/" target="_self">
+          
+          今天我们一起来讲讲CountDownLatch 12A synchronization aid that allows one or more threads to wait untila set of operations being performed in other threads completes.  这是CountDownLatch源码中的解释：CountDownLatch这个同步工
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-12 19:04" pubdate>
+              2022-03-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/JUC/">JUC</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/JUC/">JUC</a>
+            
+              <a href="/tags/CountDownLatch/">CountDownLatch</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/12/JVM/JVM%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE/" target="_self">
+          <img src="/img/essay/jvm.png" srcset="/img/loading.gif" lazyload alt="JVM双亲委派">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/12/JVM/JVM%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE/" target="_self">
+          JVM双亲委派
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/12/JVM/JVM%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE/" target="_self">
+          
+          我们上一篇文章说了，类加载就是把一份被javac编译过的class文件通过加载生成某种结构的数据结构进入内存，程序可以调用这个数据结构来构造出object。 那这里就产生了两个问题  不同类加载器，除了读取二进制流的动作不同和范围不一样，那后续的加载逻辑是否一样？ 遇到限定名一样的类，那么多类加载器会不会产生混乱？  每个类加载器都有属于自己的命名空间，一个类如果被不同的类加载器所加载就会产生混乱
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-12 18:17" pubdate>
+              2022-03-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/JVM/">JVM</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/JVM/">JVM</a>
+            
+              <a href="/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/">类加载</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/03/12/Algo/LeetCode056%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/" target="_self">
           <img src="/img/essay/algo.png" srcset="/img/loading.gif" lazyload alt="LeetCode056合并区间">
         </a>
@@ -562,171 +727,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/JUC/">JUC</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/10/Algo/LeetCode236%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/" target="_self">
-          <img src="/img/essay/algo.png" srcset="/img/loading.gif" lazyload alt="LeetCode236二叉树的最近公共祖先">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/10/Algo/LeetCode236%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/" target="_self">
-          LeetCode236二叉树的最近公共祖先
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/10/Algo/LeetCode236%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/" target="_self">
-          
-          今天继续一道关于二叉树的题目，   这道题要求两个节点的公共祖先，那肯定是自下而上的方法，而在二叉树的遍历操作中，有一种天然的自下而上遍历的方法，那就是回溯的方法。 我们假设要找的节点为P和Q 如果当前节点是空节点或者是要寻找的两个节点中的一个，那二话不说直接返回当前节点 我们可以去先对它的左节点做递归操作，然后对右节点做递归操作，左右节点的递归都会去返回一个节点。分别记为resLeft和resR
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-10 13:13" pubdate>
-              2022-03-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Algorithm/">Algorithm</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Algorithm/">Algorithm</a>
-            
-              <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/09/Algo/LeetCode530%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%9C%80%E5%B0%8F%E7%BB%9D%E5%AF%B9%E5%B7%AE/" target="_self">
-          <img src="/img/essay/algo.png" srcset="/img/loading.gif" lazyload alt="LeetCode530二叉搜索树的最小绝对差">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/09/Algo/LeetCode530%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%9C%80%E5%B0%8F%E7%BB%9D%E5%AF%B9%E5%B7%AE/" target="_self">
-          LeetCode530二叉搜索树的最小绝对差
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/09/Algo/LeetCode530%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%9C%80%E5%B0%8F%E7%BB%9D%E5%AF%B9%E5%B7%AE/" target="_self">
-          
-          我今天特别有针对性的就想去做一道二叉树遍历有关的题目，然后就遇到了530. 二叉搜索树的最小绝对差这道题 这道题为easy，但我感觉它难度也不算小，这道题如果用一个数字，然后用中序遍历的方法存下有序的数组，最后贪心得出最终答案。 但我想说的并不是这种方法，而是用纯递归的方法去解决。这道题与常规题目不同的地方在于，它需要自己去创建两个个类属性：  pre指针  用于存储上次一遍历的值  ans  即
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-09 23:06" pubdate>
-              2022-03-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Algorithm/">Algorithm</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Algorithm/">Algorithm</a>
-            
-              <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/09/Algo/LeetCode200%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/" target="_self">
-          <img src="/img/essay/algo.png" srcset="/img/loading.gif" lazyload alt="LeetCode200岛屿数量">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/09/Algo/LeetCode200%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/" target="_self">
-          LeetCode200岛屿数量
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/09/Algo/LeetCode200%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/" target="_self">
-          
-          今天我们来分享这道题：200. 岛屿数量,这是有关图的递归遍历的题目。这道题我第一次见到的时候十分束手无策，这道题难度为mid，其实理解以后真实难度也就easy，主要是考了图的深度遍历。 首先先明确题意，它说的是上下左右为’0’的地方为水，然后求岛屿的数量，那我们就可以先搞一个二层遍历，遍历二维数组的每一个元素，如果它为’1’,那它一定是一个岛屿。然后我们下来要做的事情就是用递归的方法把周围相关的
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-09 21:02" pubdate>
-              2022-03-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Algorithm/">Algorithm</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Algorithm/">Algorithm</a>
-            
-              <a href="/tags/%E5%9B%BE/">图</a>
             
           </div>
         

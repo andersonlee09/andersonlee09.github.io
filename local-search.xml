@@ -4,6 +4,81 @@
   
   
   <entry>
+    <title>DDD入门五板斧（三）统一语言和模型价值</title>
+    <link href="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/"/>
+    <url>/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/</url>
+    
+    <content type="html"><![CDATA[<p>在前两篇文章我们主要讲了领域驱动设计上的DP Entity Repository以及相应的代码实现。现在我们聊聊领域驱动设计在宏观上的几个概念。</p><h3 id="DP"><a href="#DP" class="headerlink" title="DP"></a>DP</h3><p>DP也可以被称为VO(ValueObject),这里的value object是DDD语境下的概念</p><img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403204011544.png" class><h4 id="统一语言-Ubiquitous-Language"><a href="#统一语言-Ubiquitous-Language" class="headerlink" title="统一语言(Ubiquitous Language)"></a>统一语言(Ubiquitous Language)</h4><img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403204320736.png" class><p>在做一个东西的时候，我们需要有领域专家和相关技术人员一起去进行螺旋式的建模，通过形成UL消化业务知识，然后向模型中提炼知识，如此往复.</p><p><strong>一个好的模型价值千金</strong></p><p>星盘由古希腊人发明，星盘上可旋转的铜环代表各个恒星在天体上的位置</p><img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403204840264.png" class><p>刻有当地地平坐标系的盘面是可替换的，它代表不同维度的星空景象，我们可以计算出任何时刻的天体位置，反之，如果知道恒星在天体上的位置也能反向计算出时间。这里星盘用机械的方式建立了<strong>恒星和时间的对象模型</strong>，而我们也可以使用软件来计算出这样的模型，但是我们需要首先向天文学家学习专业的天文领域知识，然后进行建模，我们需要去适应不断变化的星空，不能因为更改了坐标系而失效，不能因为新加入一颗恒星就失效。</p><p>领域驱动设计就是一套方法论，帮助我们建立良好的对象模型</p><img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403205526736.png" class><p>为了建设有价值的模型，我们需要在形成UL的基础上消化知识，并向模型中提炼知识</p><h3 id="DP-amp-Entity"><a href="#DP-amp-Entity" class="headerlink" title="DP &amp; Entity"></a>DP &amp; Entity</h3><img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403205800590.png" class><p>充血模型就是除了赋予对象除了属性和属性的读写方法之外，包含业务逻辑的行为，比如身份证对象去能自己验证身份证号是否符合规范，这样就能让模型本身高内聚，而不是每次设计一个业务操作就去交给其他对象处理，形成紧耦合。所以哪些对象应该被包含、哪些又应该去被拆分出去，这就要依靠我们的经验了。<strong>自治的、丰富的、有活力的</strong></p><p>DP无状态而Entity有状态，什么是状态？</p><ol><li>该对象是否存在生命周期</li><li>程序是否需要追踪改对象的变化事件</li></ol><p>这里进行一个简单的解释：我们知道在体育馆有很多的座位</p><img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403210511727.png" class><p>假如观众通过预定程序买了票，每张票都有一个座位号相对应，在这里座位就是有状态的，也就是Entity,程序需要去关注对象的事件变化，比如通过唯一ID去追踪该对象，关注它的预定状态，价格、位置等属性</p><p>假如用户通过预定程序买了票，只要进去就可以随便坐，这里座位就是无状态的，程序不需要对每个座位进行追踪，只需要关注总数量就可以了，这就是DP和Entity的异同之处</p><p>总的来说就是：<strong>为了建设有价值的模型，在确认UL之后消化领域知识，向无状态的DP和有状态的Entity中提炼知识</strong></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>DDD</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>DDD</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>DDD入门五板斧（二）EntityAndDomainService</title>
+    <link href="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/"/>
+    <url>/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/</url>
+    
+    <content type="html"><![CDATA[<p>根据上一篇文章，我们主要是引入了DP这个概念，简单来说，DP就是构建领域的基础类型，并通过对一个实际例子的改造，展示了DP在明确接口语义，内聚隐形逻辑，简化单元测试方面的作用。本期我们将通过拓展这个业务案例来引入新的概念Entity&amp;DomainService。同时讲一讲工程设计上的一些要点</p><p>假如我们现在做一个简单的数据统计系统，地推员输入客户姓名和手机号。根据客户手机号的归属地和所属运营商，将客户群体分组，分配给相应销售组，由销售组跟进后续业务。</p><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403182443211.png" class><p>如图是我们上一节完成的相关代码</p><p>现在我们新加入一些业务需求：</p><ol><li>需要对手机号进行实名验证，假设由中国移动提供此服务。</li><li>根据外部服务返回的实名信息，按照一定逻辑计算出用户标签，并且记录在用户的账号。</li><li>根据用户标签为该用户开通相应等级的新客福利</li></ol><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403182836740.png" class><p>如图为业务流程图</p><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403183042743.png" class><p>如图为相关业务代码</p><p>下面我们从三个方面对以上代码进行分析与重构</p><h3 id="对外部依赖的耦合十分严重"><a href="#对外部依赖的耦合十分严重" class="headerlink" title="对外部依赖的耦合十分严重"></a>对外部依赖的耦合十分严重</h3><p>什么是外部服务？</p><p>一切不属于当前域的设施与服务都属于外部服务。比如数据库、数据库schema、ORM框架、中间件等属于计算机内部而不属于当前业务的服务。</p><p>比如一个系统可能要从MySQL替换为PostgreSQL, 比如一张表添加了几个字段，比如外部系统的变动会影响RPC接口变动。这些东西不属于业务本身，我们对于这些东西没有控制权，而我们要做的就是即使这些依赖发生变化，我们的业务本身也不能改变，或者说尽量少改动，这就体现了一个代码的可维护性，现在我们来分析上述代码的可维护性。</p><h4 id="对数据库的schema依赖"><a href="#对数据库的schema依赖" class="headerlink" title="对数据库的schema依赖"></a>对数据库的schema依赖</h4><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403183935164.png" class><p>这段代码就是典型的面向数据库编程，主要操作就是从数据表读入信息，然后增加一些信息并写入。这里的业务代码强依赖了数据库的schema，也就是DO类，在这里如果数据表字段发生变化，那对应的DO类就会残生变动，业务代码就不得不发生改变。如果此时业务更加复杂，那DO类就会被改的面目全非。</p><h4 id="对数据库ORM依赖"><a href="#对数据库ORM依赖" class="headerlink" title="对数据库ORM依赖"></a>对数据库ORM依赖</h4><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403184557539.png" class><p>这里使用到了我们常见的mybatis,假如我们现在需要升级ORM框架，或者替换掉ORM框架，那此时业务代码就必须要大量进行改动</p><h4 id="RPC服务依赖"><a href="#RPC服务依赖" class="headerlink" title="RPC服务依赖"></a>RPC服务依赖</h4><p>这里使用了中国电信提供的实名信息查询服务，并且强依赖于业务逻辑，假设中国电信提供该接口的入参和返参都产生变化，那逻辑代码就会去产生变化</p><p>由此可见，这个代码耦合度非常之高，形成耦合的原因是什么？</p><p>主要原因就是我们是面向实现编程。那我们就需要把它改变为面向抽象接口编程，领域驱动就会成为一种指导思想，辅助我们设计</p><p>抽象接口本身就像是一种中间协议，依赖方和被依赖方都要对这个协议负责，接口将软件分层隔离，这种隔离下，任何一方变动都会被控制在可控制的范围之内</p><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403190530204.png" class><p>这里我们改动如下：</p><h4 id="数据库的schema依赖改造"><a href="#数据库的schema依赖改造" class="headerlink" title="数据库的schema依赖改造"></a>数据库的schema依赖改造</h4><ol><li>使用realnameService接口替代了TeleComRealNameService的具体实现，注册逻辑中的具体实现对象（联通或者电信）是通过配置来注入的这就产生了控制反转类似于Spring</li><li>使用RealnameInfo这个DP，代替TelecomInfoDTO的具体实现这样后续业务只需要关注RealnameInfo的返回结构而不需要去改具体的业务上的逻辑。这样无论是参数变化还是其他变化，我们都只用去改变配置文件或者具体实现类</li></ol><p>这里浅提一个概念：防腐层，也就是防止外部系统腐烂影响到我们的系统。如RealnameInfo</p><h4 id="对数据库ORM依赖依赖改造"><a href="#对数据库ORM依赖依赖改造" class="headerlink" title="对数据库ORM依赖依赖改造"></a>对数据库ORM依赖依赖改造</h4><ol><li>DO作为数据表的直接映射属于具体实现，不应该去暴露给业务逻辑</li><li>DAO作为数据访问层的具体实现不应该暴露给业务层，我们这里引入新的概念Entity&amp;DomainService，老代码依赖于业务逻辑，也就是直接依赖DO和DAO，事实上业务逻辑应该去面向领域实体，而不是去关心对象被后是否使用了数据库，更不用关心数据表中的相关字段。也就是上层业务逻辑不需要去关心下层实现</li></ol><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403191843999.png" class><p>这里我们定义User类为领域实体，这里的属性用于描述在这个系统内客户应该去含有的信息，可以尽量多使用DP来将自检和隐性属性内聚起来，定义User类的时候，我们不要关心下层数据库的具体实现，甚至最后User一部分信息位于内存，一部分位于数据库，这都无所谓。</p><p>这里的Entity是一种有状态的领域实体，就像是一种动态的东西。而DP是一种无状态，组成实体的基础类型。</p><p>比如phoneNumber是无状态的而User是有状态的。</p><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403192351148.png" class><p>而此时，我们的repository就是一种一种具体的对于数据库的操作，而这里的对于数据库的操作就比较随意，这里可以对于各种数据库去操作</p><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403192624321.png" class><p>此时改造后的业务代码，此时结构更加清晰，核心业务逻辑不再依赖其他任何实现，无论外部依赖如何变化，业务逻辑层都不会变化。</p><h4 id="内部逻辑耦合"><a href="#内部逻辑耦合" class="headerlink" title="内部逻辑耦合"></a>内部逻辑耦合</h4><p>我们可以看到最初的代码register方法耦合了各种业务逻辑，比如参数一致性验证、计算用户标签、查询绑定的销售组信息。参数一致性校验，计算用户标签等。而这里的业务逻辑不应该是我们这里所应该去关心的，也就是说如果用户标签发生变化，或其他逻辑发生变化，那业务层就必须发生变化。</p><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403193210941.png" class><p>这里我们进行了一定程度的解耦，可以看到，此时发奖逻辑和风控检查这种逻辑关系依然位于注册业务，而注册业务本身应该是保存新用户才对。而发奖的原因就是为了给用户一些福利，假如我们以后不愿意去发放福利了呢？它的本质是为了判断用户是否是新用户而衍生的一种操作，那在注册的业务域当中，我们把它的行为抽象为<strong>获取用户信息，检查并且更新用户，存储用户</strong>这三个步骤，而检查并更新用户里又存在发奖行为</p><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403193832637.png" class><p>这里经过改变以后，checkUserService可能会改变User或者Reward对象的状态，涉及到了多个Entity状态改变的服务。被称为<strong>Domain Service</strong>,它主要用于封装多Entity或跨业务域的逻辑</p><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403194132902.png" class><p>此时一旦改变需要测试的成本不言而喻</p><h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><img src="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/image-20220403194441350.png" class><p>如图为领域驱动设计的一些思想和设计过程，在日常设计中我们一定要去遵循高内聚、低耦合的思想</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>DDD</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>DDD</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>DDD入门五板斧（一）DomainPrimitive</title>
+    <link href="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/"/>
+    <url>/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/</url>
+    
+    <content type="html"><![CDATA[<p>DDD入门五板斧（一）Domain Primitive</p><p>DDD即Domain-Driven Design，领域驱动设计是现在一种很火的设计思想。</p><p> 什么是领域？</p><p>暂且理解为“业务问题的范畴”</p><p>领域可大可小，对应着大小业务问题的边界，简单来说领域驱动设计就是将业务上要做的一件大事通过推演和抽象，拆分为多个内聚的领域，这是为了去降低软件开发维护复杂度，遵循解耦的原则。</p><h2 id="进入业务"><a href="#进入业务" class="headerlink" title="进入业务"></a>进入业务</h2><p>假如我们现在做一个简单的数据统计系统，地推员输入客户姓名和手机号。根据客户手机号的归属地和所属运营商，将客户群体分组，分配给相应销售组，由销售组跟进后续业务。</p><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403164902553.png" class><p>如图为实现流程图</p><p>我们定义一个User类，一个注册接口的具体实现类，注册方法先对参数进行校验然后通过手机号分别获得归属地编号和运营商编号，然后通过这两个编号去查询数据，获取分组编号，最后构造用户对象来存入数据表</p><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403165228812.png" class><p>这样写的代码在我们的小项目里又快又好，非常合适。</p><p>但是如果是在一个大项目里面呢？</p><p><strong>注意：</strong>我们学习DDD不是为了去对所有简单的逻辑都去进行重构，而是为了去为了项目能适应复杂的需求变化</p><p>下面我们去分析以上的代码</p><h3 id="接口语义与参数校验"><a href="#接口语义与参数校验" class="headerlink" title="接口语义与参数校验"></a>接口语义与参数校验</h3><p>User类有两个参数：一个username，一个phone，都是String类型，当这个代码被编译以后，方法只会去保留参数类型而没有参数名，假如这个代码被其他的程序员去调用，其他人并不了解内部逻辑，很有可能会颠倒参数顺序</p><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403165944297.png" class><p>这种情况在编译期间无法被检测。</p><p>假如未来系统支持通过用户名和身份证号码去进行注册，身份证号是String，这个时候register就会被改造为两个方法：registerByPhone和registerByIdCard两个方法。</p><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403170258821.png" class><p>假如以后又会有新的变化，我们如何去让接口有足够明确的无歧义、可拓展性呢？最好带有一定的自检性</p><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403170452214.png" class><p>首先看这里的对参数值进行校验，这里的参数校验会有很多的参数校验代码，一旦一部分参数修改就需要全部去修改，这很不符合开闭原则。有什么优化方法？</p><ol><li>封装一个工具类</li></ol><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403170722553.png" class><p>改造成上面的样子，这样会去解决一部分问题，但是还不算是一种最佳实践，因为它还存在两个缺点，第一：业务内部还是需要去主动调用工具类去进行校验，假如有一天用户名不再需要校验，那还是要去修改原来的代码。第二：一旦参数类型越来越多，那工具类的校验逻辑会不断地膨胀，后续很难去维护。</p><h4 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h4><ol><li>接口语义不够明确，很容易发生问题，可拓展性不强</li><li>参数校验逻辑复用，高内聚</li><li>参数校验和业务逻辑异常解耦。</li></ol><h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>语义可拓展性是因为多个属性都是String类型，会发生混淆，可拓展性不强是因为使用了基本参数类型和参数个数写死了。</p><p>首先，用户的个人属性必不可少，那我们是否可以将对于属性的校验逻辑封装到一个自定义类型种呢？这样接口只会接收到通过校验的参数，这很合理，还有一个好处，就是自然而然将参数校验与业务逻辑分开。</p><p>我们可以去创建一个PhoneNumber类，在构建这个类的时候我们去自动执行校验逻辑，这样就能确保被构建出来的对象一定是合法的</p><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403172434729.png" class><p>这样就不再需要业务方法内部去对参数进行校验，而且将不同类型的逻辑聚合到了属性自身，不再分散于工具类种进行管理，此外，方法的签名中因为使用了自定义类型，不仅语义更加清晰，而且在编译期间就会进行强类型校验，避免传参乱序这种低级错误</p><p>经过改造的代码如图所示：</p><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403172913892.png" class><p>我们可以看到：接口的语义更加清晰，拥有一定的可拓展性，对于参数的校验也更加内聚。除此之外核心业务逻辑</p><h3 id="核心业务逻辑的清晰度"><a href="#核心业务逻辑的清晰度" class="headerlink" title="核心业务逻辑的清晰度"></a>核心业务逻辑的清晰度</h3><p>经过改造的代码更加优雅，但是它是否真的“纯粹”？</p><p>registerationService用于对用户进行注册的服务，那它的定义应该是仅仅用于注册。</p><p>什么是注册？</p><p>注册就是拿到用户信息进行存储，这样就能让业务逻辑简单易读。</p><p>而这段代码的两个行为，一个是“获取手机号归属地编码”，一个是“获取运营商编码”</p><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403173339531.png" class><p>把这个放在注册的业务领域显然不合适，什么逻辑应该归属于哪个业务域，这就是对于“领域”的理解。不同的理解角度会产生不同的领域模型划分，那“获取手机号归属地编码”&amp;“获取运营商编码”不属于注册领域，那我们为什么要在register方法里写这个逻辑？仅仅是为了给findRep方法去准备参数？这就像是拿胶水逻辑进行缝缝补补，那如何去改善胶水逻辑呢？</p><ol><li>改造接口的入参</li></ol><p>假如方法的入参类型为phoneNumber，也就是直接通过手机号就能查到运营商编号，那就不哟用操作了</p><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403174425749.png" class><ol start="2"><li>不能修改传参类型</li></ol><p>“获取手机号归属地编码”&amp;“获取运营商编码”这两个行为都是获取手机号相关的属性，应该内聚于手机号这个类型中，这在抽象上也是合理的。</p><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403174819064.png" class><p>如图，我们把“获取手机号归属地编码”&amp;“获取运营商编码”放在了PhoneNumber类中。</p><img src="/2022/04/01/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%80%EF%BC%89DomainPrimitive/image-20220403174912049.png" class><p>此时原先的注册业务就会十分简单。</p><h3 id="测试单元可行性"><a href="#测试单元可行性" class="headerlink" title="测试单元可行性"></a>测试单元可行性</h3><p>通过上述方法，我们不同于以往的测试，往往一个业务需求的改变牵一发而动全身，现在可以实实在在的减少测试成本，而且测试成本越来越小。</p><p>在传统的POJO中，类中只包含getter、setter方法，而这里的PhoneNumber却包含初始化、校验、属性处理等多种逻辑，这就是DD与传统MVC开发最重要的差异点，像我们上面提到的PhoneNumber不仅拥有属性，而且包含了与其属性的相关职责，这就属于<strong>充血模型</strong>，而传统的POJO就属于<strong>贫血模型</strong>。而如何去把握充血的强弱程度，这就需要很丰富的经验了。</p><p><strong>DP(Domain Primitive)</strong></p><p>在DDD里，DP可以说是一切模型、方法、架构的基础。它是在特定领域、拥有精准定义、可以自我验证、拥有行为的对象。可可以认为是领域的最小组成部分。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>DDD</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>DDD</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>死锁</title>
     <link href="/2022/03/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%AD%BB%E9%94%81/"/>
     <url>/2022/03/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%AD%BB%E9%94%81/</url>
@@ -922,9 +997,9 @@
     
     <tags>
       
-      <tag>JUC</tag>
-      
       <tag>AQS</tag>
+      
+      <tag>JUC</tag>
       
     </tags>
     
