@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-04-03T13:21:35.279Z</updated>
+  <updated>2022-04-03T14:32:30.274Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,81 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpringBoot自动装配机制</title>
+    <link href="http://example.com/2022/04/03/Spring/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%9C%BA%E5%88%B6/"/>
+    <id>http://example.com/2022/04/03/Spring/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%9C%BA%E5%88%B6/</id>
+    <published>2022-04-03T14:13:06.000Z</published>
+    <updated>2022-04-03T14:32:30.274Z</updated>
+    
+    <content type="html"><![CDATA[<p>自动装配机制简单来说就是自动把第三方组件的Bean装载到Ioc容器当中，不再需要开发人员再去写bean，相关的一个配置，SpringBoot应用里只需要再启动类加上@SpringBootApplication注解就可以实现自动装配</p><img src="/2022/04/03/Spring/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%9C%BA%E5%88%B6/image-20220403221553586.png" class><p>可以看到@SpringBootApplication里又有很多别的注解</p><img src="/2022/04/03/Spring/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%9C%BA%E5%88%B6/image-20220403221709972.png" class><p>最主要的就是@EnableAutoConfiguration注解</p><img src="/2022/04/03/Spring/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%9C%BA%E5%88%B6/image-20220403221806622.png" class><p>自动装配原理主要依靠三个核心关键技术</p><ol><li>引入stater</li></ol><p>启动组件的时候，组件必须有一个@Configuration配置类，在这个配置类我们需要通过@Bean这个注解声明需要去装配到Ioc容器里的Bean对象</p><ol start="2"><li>这个配置类是放在第三方jar包里面</li></ol><p>通过spring boot约定大于配置的理念把这个配置类的全路径放在classpath:&#x2F;META-INF&#x2F;spring.factories,这样spring boot就可以知道嗲三方jar包里的这个配置类的位置，这主要是用到了springFactoriesLoader来完成</p><ol start="3"><li>Spring Boot拿到所有jar包以后</li></ol><p>通过spring提供的importSelector这样的接口来对这些配置类的动态加载，从而完成自动装配</p><p>关于重写spring boot的stater方法</p><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><pre><code class="hljs Java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableConfigurationProperties(&#123;</span><br><span class="hljs-meta">        EnforcementProperties.class, SiteProperties.class, ConvictionProperties.class,</span><br><span class="hljs-meta">        RadiusProperties.class, RabbitPoolProperties.class, SyslogProperties.class,</span><br><span class="hljs-meta">        RestDynamicAuthorizationProperties.class, AuthorizationProperties.class,</span><br><span class="hljs-meta">&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Application</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">var</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> SpringApplication.run(Application.class, args);<br>        context.getBean(Bootstrap.class).run();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>这是我的老大写的一段启动代码，可以看到@EnableConfigurationProperties注解可以去加载相应的类，然后context就相当于加载好了配置文件，然后可以通过getBean获取相应的bean然后执行</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;自动装配机制简单来说就是自动把第三方组件的Bean装载到Ioc容器当中，不再需要开发人员再去写bean，相关的一个配置，SpringBoot应用里只需要再启动类加上@SpringBootApplication注解就可以实现自动装配&lt;/p&gt;
+&lt;img src=&quot;/2022/0</summary>
+      
+    
+    
+    
+    <category term="Spring" scheme="http://example.com/categories/Spring/"/>
+    
+    
+    <category term="Spring" scheme="http://example.com/tags/Spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring如何解决循环依赖</title>
+    <link href="http://example.com/2022/04/03/Spring/Spring%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/"/>
+    <id>http://example.com/2022/04/03/Spring/Spring%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/</id>
+    <published>2022-04-03T13:50:47.000Z</published>
+    <updated>2022-04-03T14:11:47.829Z</updated>
+    
+    <content type="html"><![CDATA[<p>如果在 代码中把两个或者两个以上的Bean相互之间持有，对方的引用就会产生循环依赖（类似死锁），而循环依赖又会导致死循环，这是发生spring循环依赖的原因<br>spring循环依赖有三种</p><h2 id="依赖方式"><a href="#依赖方式" class="headerlink" title="依赖方式"></a>依赖方式</h2><h3 id="相互依赖"><a href="#相互依赖" class="headerlink" title="相互依赖"></a>相互依赖</h3><p>也就是A依赖B，B又依赖A，它们之间形成一个循环</p><img src="/2022/04/03/Spring/Spring%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/image-20220403215426283.png" class><p>如图所示</p><h3 id="三者依赖"><a href="#三者依赖" class="headerlink" title="三者依赖"></a>三者依赖</h3><p>第二种是三者之间的依赖，也就是A依赖B，B依赖C，C依赖A</p><img src="/2022/04/03/Spring/Spring%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/image-20220403215537436.png" class><h3 id="自我依赖"><a href="#自我依赖" class="headerlink" title="自我依赖"></a>自我依赖</h3><p>也就是A依赖A</p><img src="/2022/04/03/Spring/Spring%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/image-20220403215654849.png" class><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>Spring设置了三级缓存去解决循环依赖问题，当我们去通过getBean去获取对象实例的时候，spring会先去一级缓存去查找，如果一级缓存没有就会去二级缓存查找，如果都没有找到，那就意味着这个对象没有被实例化，那soring就会去实例化这个bean，而初始化的这个bean我们先把它称之为早期的bean，会把目标bean放在二级缓存，同时加入一个标记，表示它是否存在循环依赖，如果不存在，就把它放在二级缓存，否则就标记这个bean存在循环依赖，然后等待下一次轮询的时候去复制，也就是解析Autowired注解，等Autowired复制完以后，会将目标bean放在一级缓存</p><img src="/2022/04/03/Spring/Spring%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/image-20220403220347120.png" class><p>一级缓存用于存放所有的成熟的bean，二级缓存存放所有的早期把bean，先去取一级缓存，后去取二级缓存</p><p>三级缓存用来存储代理bean，当调用getBean的时候，发现目标bean需要通过代理工厂来创建，这个时候会把对象保存到三级缓存，最后会把复制好的bean放在一级缓存</p><h2 id="无法解决循环依赖的情况"><a href="#无法解决循环依赖的情况" class="headerlink" title="无法解决循环依赖的情况"></a>无法解决循环依赖的情况</h2><ol><li>多实例的bean通过setter方法不能解决循环依赖</li><li>构造器注入bean的情况</li><li>单例代理的bean通过setter注入的情况下</li><li>设置@DependsOn注解的bean</li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;如果在 代码中把两个或者两个以上的Bean相互之间持有，对方的引用就会产生循环依赖（类似死锁），而循环依赖又会导致死循环，这是发生spring循环依赖的原因&lt;br&gt;spring循环依赖有三种&lt;/p&gt;
+&lt;h2 id=&quot;依赖方式&quot;&gt;&lt;a href=&quot;#依赖方式&quot; class=&quot;</summary>
+      
+    
+    
+    
+    <category term="Spring" scheme="http://example.com/categories/Spring/"/>
+    
+    
+    <category term="Spring" scheme="http://example.com/tags/Spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringBean生命周期</title>
+    <link href="http://example.com/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"/>
+    <id>http://example.com/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</id>
+    <published>2022-04-03T13:48:06.000Z</published>
+    <updated>2022-04-03T13:49:52.185Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="spring-bean生命周期"><a href="#spring-bean生命周期" class="headerlink" title="spring bean生命周期"></a>spring bean生命周期</h2><p>大致分为5个阶段</p><h3 id="创建前准备"><a href="#创建前准备" class="headerlink" title="创建前准备"></a>创建前准备</h3><img src="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/image-20220403213005817.png" class><p>这个阶段是bean在开始加载之前要从上下文和一些配置当中去解析和查找和bean有关的扩展实现比如像“init_method”是容器在初始化bean的时候会调用的方法，destory是bean在销毁的时候会去调用的方法。以及beanFactoryPostProcessor这一类的bean,加载过程中的一些前置和后置的一些扩展实现，这些类和配置是spring提供给开发者用来去实现bean,加载过程中的一些扩展，在很多spring集成的中间件比较常见</p><h3 id="创建实例化"><a href="#创建实例化" class="headerlink" title="创建实例化"></a>创建实例化</h3><img src="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/image-20220403213531512.png" class><p>这个阶段是通过反射去创建bean的实例对象，并且会扫描和解析bean声明的一些属性，</p><h3 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h3><img src="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/image-20220403213637070.png" class><p>如果被实例化的bean存在依赖其他bean的一些情况，那就需要对这些依赖的bean进行对象的注入，比如常见的@Autowired,以及setter注入，这样的一些配置形式，同时这些时间会出发一些扩展的调用，比如常见的扩展类BeanPostPreocessors,用来实现Bean的初始化前后的扩展回调</p><h3 id="容器缓存"><a href="#容器缓存" class="headerlink" title="容器缓存"></a>容器缓存</h3><img src="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/image-20220403213955349.png" class><p>把bean保存到容器当中，以及spring的容器当中，此时的bean就可以被开发者去使用了，init method方法就会在这个阶段被调用，以及BeanPostPreocessors的后置方法，</p><h3 id="销毁实例"><a href="#销毁实例" class="headerlink" title="销毁实例"></a>销毁实例</h3><img src="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/image-20220403214152446.png" class><p>最后就是销毁阶段，当spring的应用上下文被关闭的时候，这个上下文当中的所有的bean就会被销毁，如果存在bean实现了DisposableBean接口，或者配置了destory_method属性的一些方法，会在这个阶段被调用</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;spring-bean生命周期&quot;&gt;&lt;a href=&quot;#spring-bean生命周期&quot; class=&quot;headerlink&quot; title=&quot;spring bean生命周期&quot;&gt;&lt;/a&gt;spring bean生命周期&lt;/h2&gt;&lt;p&gt;大致分为5个阶段&lt;/p&gt;
+&lt;h3 i</summary>
+      
+    
+    
+    
+    <category term="Spring" scheme="http://example.com/categories/Spring/"/>
+    
+    
+    <category term="Spring" scheme="http://example.com/tags/Spring/"/>
+    
+  </entry>
   
   <entry>
     <title>DDD入门五板斧（三）统一语言和模型价值</title>
@@ -90,6 +165,31 @@
     
     
     <category term="DDD" scheme="http://example.com/tags/DDD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis与数据库数据一致性</title>
+    <link href="http://example.com/2022/03/28/Redis/Redis%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/"/>
+    <id>http://example.com/2022/03/28/Redis/Redis%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/</id>
+    <published>2022-03-28T14:36:23.000Z</published>
+    <updated>2022-04-03T14:56:32.977Z</updated>
+    
+    <content type="html"><![CDATA[<p>我们知道，redis作为一种缓存位于应用与数据库中间，用来实现应用和数据库的读操作的缓存层，主要目的就是为了减少数据库的IO</p><img src="/2022/03/28/Redis/Redis%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/image-20220403223914229.png" class><p>当用户去查询数据的时候，如果命中缓存，那就直接返回，如果没有命中就从数据库查询，查到数据以后，再去把数据缓存到redis。</p><p>此时我们假设我们要去更新redis和MySQL，而更新操作是有先后顺序的，它不像MySQL中事务的原子性，所以数据很有可能出现短暂的不一致</p><h3 id="先更新数据库后更新缓存"><a href="#先更新数据库后更新缓存" class="headerlink" title="先更新数据库后更新缓存"></a>先更新数据库后更新缓存</h3><img src="/2022/03/28/Redis/Redis%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/image-20220403224317813.png" class><p>此时如果缓存更新失败，就会导致数据库和redis的数据发生不一致，</p><h3 id="先删除缓存后更新数据库"><a href="#先删除缓存后更新数据库" class="headerlink" title="先删除缓存后更新数据库"></a>先删除缓存后更新数据库</h3><img src="/2022/03/28/Redis/Redis%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/image-20220403224433006.png" class><p>当下次访问redis的时候，此时如果发现redis数据为空，那就会从MySQL中加载并且保存到redis，也就是说数据库理论上是一致的，但是毕竟事件存在一点点时差，难免造成数据不一致的问题</p><h3 id="最终一致性"><a href="#最终一致性" class="headerlink" title="最终一致性"></a>最终一致性</h3><h4 id="基于RocketMQ的消息可靠性通信"><a href="#基于RocketMQ的消息可靠性通信" class="headerlink" title="基于RocketMQ的消息可靠性通信"></a>基于RocketMQ的消息可靠性通信</h4><img src="/2022/03/28/Redis/Redis%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/image-20220403224802430.png" class><p>先更新数据库的数据，然后去修改redis数据，如果此时删除失败，可以用消息中间件去传递消息，知道修改成功</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;我们知道，redis作为一种缓存位于应用与数据库中间，用来实现应用和数据库的读操作的缓存层，主要目的就是为了减少数据库的IO&lt;/p&gt;
+&lt;img src=&quot;/2022/03/28/Redis/Redis%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%</summary>
+      
+    
+    
+    
+    <category term="Redis" scheme="http://example.com/categories/Redis/"/>
+    
+    
+    <category term="Redis" scheme="http://example.com/tags/Redis/"/>
     
   </entry>
   
@@ -430,118 +530,6 @@
     <category term="Linux" scheme="http://example.com/tags/Linux/"/>
     
     <category term="Docker" scheme="http://example.com/tags/Docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LeetCode225+232栈与队列</title>
-    <link href="http://example.com/2022/03/14/Algo/LeetCode225-232%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/"/>
-    <id>http://example.com/2022/03/14/Algo/LeetCode225-232%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</id>
-    <published>2022-03-14T15:15:24.000Z</published>
-    <updated>2022-03-15T00:46:14.485Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天有点累，我想给自己放个假，就只分享两道题目吧。<br>这两道题有很大的相似性，关于栈与队列的相互转化，我就把他们放在一起了</p><h4 id="用栈实现队列-amp-用队列实现栈"><a href="#用栈实现队列-amp-用队列实现栈" class="headerlink" title=" 用栈实现队列&amp; 用队列实现栈"></a><a href="https://leetcode-cn.com/problems/implement-queue-using-stacks/"> 用栈实现队列</a>&amp;<a href="https://leetcode-cn.com/problems/implement-stack-using-queues/"> 用队列实现栈</a></h4><p>首先我们要先明白栈与队列有什么区别</p><h2 id="栈的特性"><a href="#栈的特性" class="headerlink" title="栈的特性"></a>栈的特性</h2><p><strong>先入后出，后入先出</strong></p><p>我相信大家都知道手枪的弹夹是什么样子</p><img src="/2022/03/14/Algo/LeetCode225-232%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/image-20220314232350372.png" class><p>如图我们把它理解为一个弹夹,按顺序压入 1-&gt;2-&gt;3-&gt;4 一共四个子弹</p><p>那现在我们打出子弹的顺序是什么样子呢？那肯定是4-&gt;3-&gt;2-&gt;1啦，你这么聪明肯定知道哈哈😄</p><p>这就是栈，先入后出啦</p><h2 id="队列特性"><a href="#队列特性" class="headerlink" title="队列特性"></a>队列特性</h2><p><strong>先入先出，后入后出（FIFO）</strong></p><p>现在我们设想一下我们平时在餐厅买饭的场景，1-&gt;2-&gt;3-&gt;4排队按顺序进入餐厅前台点餐，如下图：</p><img src="/2022/03/14/Algo/LeetCode225-232%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/image-20220315001104611.png" class><p>现在点餐完成后依次出去，这样出去的顺序就是1-&gt;2-&gt;3-&gt;4,与进来的顺序一致，这就是队列的特性了，你一定可以理解！</p><p>接下来我们先来讲如何用两个栈实现一个队列</p><h2 id="两个栈实现一个队列"><a href="#两个栈实现一个队列" class="headerlink" title="两个栈实现一个队列"></a>两个栈实现一个队列</h2><p>如图我们先给其中一个栈压入四个元素</p><img src="/2022/03/14/Algo/LeetCode225-232%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/image-20220314233455839.png" class><p>现在我们想让两个栈相互配合，弹出最先进来的元素，怎么做呢？</p><p>首先，按照实现队列的先入先出思想，我们应该弹出的应该是1，那怎么弹出1呢？</p><p>直接把stack1的元素全部放入stack2里，然后弹出1就可以啦！</p><img src="/2022/03/14/Algo/LeetCode225-232%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/image-20220314233925963.png" class><p>如上图所示为弹出过程</p><p>接下来我们再压入元素，和以前一样，我们直接压入stack1就可以啦，假如我们压入了5和6.</p><img src="/2022/03/14/Algo/LeetCode225-232%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/image-20220314234112759.png" class><p>如果现在我们再想弹出元素该怎么弹出呢？</p><p>结果很明显，直接弹出stack2的元素就可以了。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>接下来我们总结一下思想：</p><p>只要是压入元素，我们之间压入stack1就可以</p><p>如果要弹出元素，我们先看看stack2是否为空</p><ul><li>如果不为空</li></ul><p>直接弹出stack2的最上面元素</p><ul><li>如果不为空</li></ul><p>把stack1的所有元素全部压入stack2，然后弹出stack2的最上面元素</p><p>至此，本道题的讲解已经全部结束</p><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyQueue</span> &#123;<br>    <span class="hljs-keyword">private</span> Stack&lt;Integer&gt; stackOne = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Stack</span>&lt;&gt;();<br>    <span class="hljs-keyword">private</span> Stack&lt;Integer&gt; stackTwo = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Stack</span>&lt;&gt;();<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">MyQueue</span><span class="hljs-params">()</span> &#123;<br><br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> &#123;<br>        stackOne.push(x);<br>    &#125;<br>    <span class="hljs-comment">// 判断stack2是否为空，如果为空就把stack1的元素全部压入stack2</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">judge</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">if</span> (stackTwo.isEmpty()) &#123;<br>            <span class="hljs-keyword">while</span> (!stackOne.isEmpty()) &#123;<br>                stackTwo.push(stackOne.pop());<br>            &#125;<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">pop</span><span class="hljs-params">()</span> &#123;<br>        judge();<br>        <span class="hljs-keyword">return</span> stackTwo.pop();<br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">peek</span><span class="hljs-params">()</span> &#123;<br>        judge();<br>        <span class="hljs-keyword">return</span> stackTwo.peek();<br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">empty</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> stackOne.isEmpty() &amp;&amp; stackTwo.isEmpty();<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Your MyQueue object will be instantiated and called as such:</span><br><span class="hljs-comment"> * MyQueue obj = new MyQueue();</span><br><span class="hljs-comment"> * obj.push(x);</span><br><span class="hljs-comment"> * int param_2 = obj.pop();</span><br><span class="hljs-comment"> * int param_3 = obj.peek();</span><br><span class="hljs-comment"> * boolean param_4 = obj.empty();</span><br><span class="hljs-comment"> */</span><br></code></pre></td></tr></table></figure><p>代码如上</p><h2 id="两个队列实现一个栈"><a href="#两个队列实现一个栈" class="headerlink" title="两个队列实现一个栈"></a>两个队列实现一个栈</h2><p>如图所示我们向一个队列放入了四个元素 1-&gt;2-&gt;3-&gt;4</p><img src="/2022/03/14/Algo/LeetCode225-232%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/image-20220314235125651.png" class><p>现在我们想模仿栈，让两个队列去配合弹出一个元素</p><p><strong>注意：</strong>队列是先入先出的，也就是说只能先让1从队列出去</p><p>而按照栈的思想，我们想让它出去的元素应是4</p><p>那我们应该怎么做呢？</p><img src="/2022/03/14/Algo/LeetCode225-232%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/image-20220314235639721.png" class><p>如图，我们让前三个元素排队进入Queue1，然后让4从Queue1消失就可以了</p><p>假如现在我们继续压入2个元素5和6，现在问题来了，我们应该压入哪个队列呢？</p><ul><li>继续压入Queue1</li></ul><img src="/2022/03/14/Algo/LeetCode225-232%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/image-20220315000031882.png" class><p>可以看到，这个时候假如我们想弹出一个元素，也就是弹出6，应该怎么做呢?</p><p>首先，在程序的角度，我们是不知道6在哪个队列的，因为我们只能查到Queue1的首元素5和Queue2的首元素1</p><p><strong>所以这个方法是行不通的！！！</strong></p><ul><li>压入<strong>已经有元素</strong>的Queue2</li></ul><img src="/2022/03/14/Algo/LeetCode225-232%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/image-20220315000609644.png" class><p>如图，我们压入了5和6，现在想要弹出元素应该弹出6，我们就可以根据开始的方法，把一个队列的前N-1个元素压入另一个队列，删除最后一个元素就可以了</p><h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>始终保持一个队列为空，</p><p>如果有元素要进来，直接压入不为空的那个队列</p><p>如果要删除元素，前N-1个元素压入为空的那个队列，然后删除剩下的最后一个元素</p><h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyStack</span> &#123;<br>    <span class="hljs-keyword">private</span> Queue&lt;Integer&gt; queueOne = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayDeque</span>&lt;&gt;();<br>    <span class="hljs-keyword">private</span> Queue&lt;Integer&gt; queueTwo = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayDeque</span>&lt;&gt;();<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">MyStack</span><span class="hljs-params">()</span> &#123;<br><br>    &#125;<br>    <span class="hljs-comment">// 保持一个队列一直为空</span><br>    <span class="hljs-comment">// 如果需要删除元素，就把其中一个队列的所有元素投入另一个队列</span><br>    <span class="hljs-keyword">public</span> Queue&lt;Integer&gt; <span class="hljs-title function_">getNotNullQueue</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> queueOne.isEmpty() ? queueTwo : queueOne;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> &#123;<br>        getNotNullQueue().add(x);<br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">pop</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">if</span> (getNotNullQueue() == queueOne) &#123;<br>            <span class="hljs-keyword">while</span> (queueOne.size() &gt; <span class="hljs-number">1</span>) &#123;<br>                queueTwo.add(queueOne.remove());<br>            &#125;<br>            <span class="hljs-keyword">return</span> queueOne.remove();<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">while</span> (queueTwo.size() &gt; <span class="hljs-number">1</span>) &#123;<br>                queueOne.add(queueTwo.remove());<br>            &#125;<br>            <span class="hljs-keyword">return</span> queueTwo.remove();<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">top</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> pop();<br>        push(i);<br>        <span class="hljs-keyword">return</span> i;<br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">empty</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> queueOne.isEmpty() &amp;&amp; queueTwo.isEmpty();<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Your MyStack object will be instantiated and called as such:</span><br><span class="hljs-comment"> * MyStack obj = new MyStack();</span><br><span class="hljs-comment"> * obj.push(x);</span><br><span class="hljs-comment"> * int param_2 = obj.pop();</span><br><span class="hljs-comment"> * int param_3 = obj.top();</span><br><span class="hljs-comment"> * boolean param_4 = obj.empty();</span><br><span class="hljs-comment"> */</span><br></code></pre></td></tr></table></figure><p>至此，关于栈与队列的相互转化都已经完成了，感谢大家的观看！</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;今天有点累，我想给自己放个假，就只分享两道题目吧。&lt;br&gt;这两道题有很大的相似性，关于栈与队列的相互转化，我就把他们放在一起了&lt;/p&gt;
-&lt;h4 id=&quot;用栈实现队列-amp-用队列实现栈&quot;&gt;&lt;a href=&quot;#用栈实现队列-amp-用队列实现栈&quot; class=&quot;header</summary>
-      
-    
-    
-    
-    <category term="Algorithm" scheme="http://example.com/categories/Algorithm/"/>
-    
-    
-    <category term="Algorithm" scheme="http://example.com/tags/Algorithm/"/>
-    
-    <category term="栈" scheme="http://example.com/tags/%E6%A0%88/"/>
-    
-    <category term="队列" scheme="http://example.com/tags/%E9%98%9F%E5%88%97/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>事务隔离级别</title>
-    <link href="http://example.com/2022/03/13/MySQL/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/"/>
-    <id>http://example.com/2022/03/13/MySQL/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</id>
-    <published>2022-03-13T06:09:15.000Z</published>
-    <updated>2022-03-13T06:58:17.735Z</updated>
-    
-    <content type="html"><![CDATA[<p>本文所说的 MySQL 事务都是指在 InnoDB 引擎下，MyISAM 引擎是不支持事务的。</p><p>我们都知道MySQL事务有四大特性ACID，没有看过的可以去看以前的文章。</p><p>要实现这四大特性就必须要克服一些问题</p><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a><strong>脏读</strong></h3><p>脏读指的是读到了其他事务未提交的数据，未提交意味着这些数据可能会回滚，也就是可能最终不会存到数据库中，也就是不存在的数据。读到了并一定最终存在的数据，这就是脏读。</p><h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a><strong>不可重复读</strong></h3><p>对比可重复读，不可重复读指的是在同一事务内，不同的时刻读到的同一批数据可能是不一样的，可能会受到其他事务的影响，比如其他事务改了这批数据并提交了。通常针对数据<strong>更新（UPDATE）</strong>操作。</p><h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a><strong>幻读</strong></h3><p>幻读是针对数据<strong>插入（INSERT）</strong>操作来说的。假设事务A对某些行的内容作了更改，但是还未提交，此时事务B插入了与事务A更改前的记录相同的记录行，并且在事务A提交之前先提交了，而这时，在事务A中查询，会发现好像刚刚的更改对于某些数据未起作用，但其实是事务B刚插入进来的，让用户感觉很魔幻，感觉出现了幻觉，这就叫幻读。</p><h2 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a><strong>事务隔离级别</strong></h2><img src="/2022/03/13/MySQL/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/image-20220313142716984.png" class><p>QL 标准定义了四种隔离级别，MySQL 全都支持。这四种隔离级别分别是：</p><ol><li>读未提交（READ UNCOMMITTED）</li><li>读已提交 （READ COMMITTED）</li><li>可重复读 （REPEATABLE READ）</li><li>串行化 （SERIALIZABLE）</li></ol><p>从上往下，隔离强度逐渐增强，性能逐渐变差。采用哪种隔离级别要根据系统需求权衡决定，其中，<strong>可重复读</strong>是 MySQL 的默认级别。</p><h3 id="读未提交"><a href="#读未提交" class="headerlink" title="读未提交"></a>读未提交</h3><p>读未提交隔离级别是不加锁的，所以它的性能是最好的，没有加锁、解锁带来的性能开销。</p><p>启动两个事务，分别为事务A和事务B，在事务A中使用 update 语句，修改 age 的值为10，初始是1 ，在执行完 update 语句之后，在事务B中查询 user 表，会看到 age 的值已经是 10 了，这时候事务A还没有提交，而此时事务B有可能拿着已经修改过的 age&#x3D;10 去进行其他操作了。在事务B进行操作的过程中，很有可能事务A由于某些原因，进行了事务回滚操作，那其实事务B得到的就是脏数据了，拿着脏数据去进行其他的计算，那结果肯定也是有问题的。</p><p>读未提交，<strong>其实就是可以读到其他事务未提交的数据</strong>，但没有办法保证你读到的数据最终一定是提交后的数据，如果中间发生回滚，那就会出现脏数据问题，读未提交没办法解决脏数据问题。更别提可重复读和幻读了，想都不要想。</p><h3 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a>读已提交</h3><p>读已提交就是<strong>一个事务只能读到其他事务已经提交过的数据</strong>，也就是其他事务调用 commit 命令之后的数据。那脏数据问题迎刃而解了。</p><p>同样开启事务A和事务B两个事务，在事务A中使用 update 语句将 id&#x3D;1 的记录行 age 字段改为 10。此时，在事务B中使用 select 语句进行查询，我们发现在事务A提交之前，事务B中查询到的记录 age 一直是1，直到事务A提交，此时在事务B中 select 查询，发现 age 的值已经是 10 了。</p><p>这就出现了一个问题，在同一事务中(本例中的事务B)，事务的不同时刻同样的查询条件，查询出来的记录内容是不一样的，事务A的提交影响了事务B的查询结果，这就是不可重复读，也就是读提交隔离级别。</p><p>读提交解决了脏读的问题，但是无法做到可重复读，也没办法解决幻读。</p><h3 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a>可重复读</h3><p>上面说不可重复读是指同一事物不同时刻读到的数据值可能不一致。而可重复读是指，事务不会读到其他事务对已有数据的修改，及时其他事务已提交，也就是说，事务开始时读到的已有数据是什么，在事务提交前的任意时刻，这些数据的值都是一样的。但是，对于其他事务新插入的数据是可以读到的，这也就引发了幻读问题。</p><p>这里就提到了MVCC的问题，因为可重复读时，read view是以事务为单位的，每次读取的数据以第一次的数据为准。</p><h3 id="可串行化"><a href="#可串行化" class="headerlink" title="可串行化"></a>可串行化</h3><p>串行化是4种事务隔离级别中隔离效果最好的，解决了脏读、可重复读、幻读的问题，但是效果最差，它将事务的执行变为顺序执行，与其他三个隔离级别相比，它就相当于单线程，后一个事务的执行必须等待前一个事务结束。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;本文所说的 MySQL 事务都是指在 InnoDB 引擎下，MyISAM 引擎是不支持事务的。&lt;/p&gt;
-&lt;p&gt;我们都知道MySQL事务有四大特性ACID，没有看过的可以去看以前的文章。&lt;/p&gt;
-&lt;p&gt;要实现这四大特性就必须要克服一些问题&lt;/p&gt;
-&lt;h2 id=&quot;问题&quot;&gt;&lt;a</summary>
-      
-    
-    
-    
-    <category term="MySQL" scheme="http://example.com/categories/MySQL/"/>
-    
-    
-    <category term="MySQL" scheme="http://example.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>索引失效</title>
-    <link href="http://example.com/2022/03/13/MySQL/%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88/"/>
-    <id>http://example.com/2022/03/13/MySQL/%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88/</id>
-    <published>2022-03-13T04:39:54.000Z</published>
-    <updated>2022-03-13T06:08:17.932Z</updated>
-    
-    <content type="html"><![CDATA[<p>我们都知道，MySQL的索引的数据结构是B+树，它相较于AVL树来说层数更低查找更快，相较于B树来说可以实现范围查找更快，关于这里不懂的同学可以在网上自行百度，今天我们主要讲讲索引为什么会失效。</p><h2 id="最佳左前缀法则"><a href="#最佳左前缀法则" class="headerlink" title="最佳左前缀法则"></a>最佳左前缀法则</h2><img src="/2022/03/13/MySQL/%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88/image-20220313125531687.png" class><p>假如联合索引为(a, b),可以看到，索引的排序是先以a为基准进行排序的，也就是左边为（1， 1， 2）；右边为（2， 3， 3），而b字段是无序的。那也就是说只有a相等的情况下b才会有序。</p><p>这里是重点，如果这里看不懂，那后面就不用看了</p><p>这时候我们如果select * from table where a &#x3D; xx and b &#x3D; xx;</p><p>那它一定是走索引的</p><p>而select * from table where b &#x3D; xx;</p><p>它一定是不走索引的，因为没有a的情况下b一定无序</p><h2 id="x3D-或-lt-gt-导致索引失效"><a href="#x3D-或-lt-gt-导致索引失效" class="headerlink" title="!&#x3D; 或 &lt;&gt;导致索引失效"></a>!&#x3D; 或 &lt;&gt;导致索引失效</h2><p>假如我们select * from table where  a &gt; 1 and b &#x3D; 1;</p><p>那这样的话根据a&gt;1查到a很容易，但是b都是无序的，假如a&gt;1有很多数据，而要查到b&#x3D;1的数据，而此时是先按照a来排序，再按照b来排序，那此时b就相当于无序，所以此时索引就会失效</p><h2 id="like-导致索引失效"><a href="#like-导致索引失效" class="headerlink" title="like%导致索引失效"></a>like%导致索引失效</h2><p>我们都知道，无论是 %like还是%like%，此时索引都会失效，这是为什么呢？</p><blockquote><p>%代表任意数量的任意符号</p></blockquote><p>这个很好理解啊，字符串再索引里的排序也是按字母大小进行排序，和左前缀法则一样，当第一个字母相同的时候，它才会去匹配第二个，而当%代替了前面的任意字段以后，它如果根据后面查它就是无序的，</p><h2 id="OR导致索引失效"><a href="#OR导致索引失效" class="headerlink" title="OR导致索引失效"></a>OR导致索引失效</h2><p>OR连接的如果不是相同字段，那就会产生不符合最左前缀法则的东西，那它一定会失效，但是如果连接的是相同字段，那就无所谓了。</p><h2 id="聚簇索引与非聚簇索引"><a href="#聚簇索引与非聚簇索引" class="headerlink" title="聚簇索引与非聚簇索引"></a>聚簇索引与非聚簇索引</h2><p>聚簇索引就是把数据和索引放在了一起，索引叶子节点存储了行数据。这也是<strong>Innodb</strong>的默认索引，一般为主键索引</p><p>像普通索引、复合索引、唯一索引都是辅助索引，它存储了数据的id值而不是数据本身，他会先查找到id&#x3D;20的主键，然后通过真实的主键索引去查找到相应的数据</p><img src="/2022/03/13/MySQL/%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88/image-20220313132747042.png" class><p>非聚簇索引的数据和索引分开存储</p><img src="/2022/03/13/MySQL/%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88/image-20220313132545786.png" class><p>它的叶子节点存储的是数据的地址</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;我们都知道，MySQL的索引的数据结构是B+树，它相较于AVL树来说层数更低查找更快，相较于B树来说可以实现范围查找更快，关于这里不懂的同学可以在网上自行百度，今天我们主要讲讲索引为什么会失效。&lt;/p&gt;
-&lt;h2 id=&quot;最佳左前缀法则&quot;&gt;&lt;a href=&quot;#最佳左前缀法则&quot;</summary>
-      
-    
-    
-    
-    <category term="MySQL" scheme="http://example.com/categories/MySQL/"/>
-    
-    
-    <category term="MySQL" scheme="http://example.com/tags/MySQL/"/>
-    
-    <category term="索引" scheme="http://example.com/tags/%E7%B4%A2%E5%BC%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ACID</title>
-    <link href="http://example.com/2022/03/12/MySQL/ACID/"/>
-    <id>http://example.com/2022/03/12/MySQL/ACID/</id>
-    <published>2022-03-12T15:08:20.000Z</published>
-    <updated>2022-03-12T15:45:14.494Z</updated>
-    
-    <content type="html"><![CDATA[<p>我们知道，MySQL的事务有四大特性：持久性、原子性、一致性、隔离性。这就是ACID，那这究竟是怎么实现的呢？</p><img src="/2022/03/12/MySQL/ACID/image-20220312231113528.png" class><p>事务是访问数据库的程序执行单元，它可能包含一个或多个SQL语句，SQL要么都执行，要么都不执行。事务执行基于存储引擎，比如我们常见的Innodb,Myisam,Myisam不支持事务，所以我们只讲Innodb.</p><p>执行数据包含三个部分：开启事务-&gt;执行SQL-&gt;提交事务。默认是自动提交，</p><h2 id="原子性-Atomicty"><a href="#原子性-Atomicty" class="headerlink" title="原子性(Atomicty)"></a>原子性(Atomicty)</h2><p>一个事务是一个操作单位，这些东西要不全部执行，要不全部不执行，假如执行过程中一个SQL执行出错，那已经执行的SQL就要回滚</p><p><strong>undo log</strong></p><p>当事务对数据库进行操作的时候，innodb会生成undo log记录SQL执行的相关信息，一旦执行出错，那innodb就会根据undo log去进行相反的操作。</p><h2 id="一致性-Consistency"><a href="#一致性-Consistency" class="headerlink" title="一致性(Consistency)"></a>一致性(Consistency)</h2><p>指事务执行以后，数据库的完整性约束没有被破坏，事务执行前后都是合法的数据状态，比如主键要唯一，大小要符合规范，外键约束要符合，</p><h2 id="隔离性-Isolation"><a href="#隔离性-Isolation" class="headerlink" title="隔离性(Isolation)"></a>隔离性(Isolation)</h2><img src="/2022/03/12/MySQL/ACID/image-20220312233607667.png" class><p>隔离性分为两种情况</p><ul><li>写写操作</li></ul><p>通过锁实现，在事务执行之前，事务要先获取锁，获取以后才可以操作数据，没有锁只能等待，当锁被释放以后，其他线程就会去争抢，</p><ul><li>写读操作</li></ul><p>通过MVCC实现，想了解可以看我的上一篇文章。</p><h2 id="持久性-Durability"><a href="#持久性-Durability" class="headerlink" title="持久性(Durability)"></a>持久性(Durability)</h2><p>持久性指一个事务一旦提交，它对数据库的改变就是永久性的，我们知道MySQL数据存储于磁盘，直接读取磁盘是很慢的，所以innodb提供了一个buffer，包含了磁盘部分数据页的一个映射，作为访问数据库的一个缓存。</p><p>在访问数据库的时候我们会先访问buffer，buffer没有才访问磁盘，这就类似于CPU和内存之间的Cache</p><p>当写入数据的时候也会先写入buffer中，然后定期将buffer中数据写入磁盘，这就产生了数据丢失的风险，假如buffer中数据还没有写入磁盘，这个时候数据库宕机，那buffer数据就会丢失，这就产生了<strong>redo log</strong>。</p><p>当数据库数据进行新增或修改的时候，除了修改buffer数据，还会把操作写入redo log，redo log是一个预写式的日志，也就是先把操作写入redo log,接下来才会写入buffer，这就保证了数据不会出现数据丢失。</p><p>在事务提交的时候将缓冲区中的redo日志同步写入磁盘，保证写入一定成功</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;我们知道，MySQL的事务有四大特性：持久性、原子性、一致性、隔离性。这就是ACID，那这究竟是怎么实现的呢？&lt;/p&gt;
-&lt;img src=&quot;/2022/03/12/MySQL/ACID/image-20220312231113528.png&quot; class&gt;
-
-&lt;p&gt;事务是访</summary>
-      
-    
-    
-    
-    <category term="MySQL" scheme="http://example.com/categories/MySQL/"/>
-    
-    
-    <category term="MySQL" scheme="http://example.com/tags/MySQL/"/>
-    
-    <category term="ACID" scheme="http://example.com/tags/ACID/"/>
     
   </entry>
   

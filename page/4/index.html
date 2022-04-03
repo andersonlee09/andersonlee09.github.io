@@ -192,6 +192,222 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/11/Algo/LeetCode347%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/" target="_self">
+          <img src="/img/essay/algo.png" srcset="/img/loading.gif" lazyload alt="LeetCode347前K个高频元素">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/11/Algo/LeetCode347%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/" target="_self">
+          LeetCode347前K个高频元素
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/11/Algo/LeetCode347%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/" target="_self">
+          
+          今天做了一道题目：347. 前 K 个高频元素,一般来说不管是前k个改频元素还是第k大的数都可以用优先级队列的思想 在讲这道题之前我们先来看一看两种堆的结构，堆的本质就是二叉树，它分为大顶堆和小顶堆。 大顶堆中每个父节点大于子节点，小顶堆每个父节点小于子节点   topK大构建一个小顶堆 为什么呢？ 我们知道，小顶堆树的根节点一定是这个堆里面所有元素的最小值，而所有树节点都比根节点大，因此我们构建
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-11 13:03" pubdate>
+              2022-03-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Algorithm/">Algorithm</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Algorithm/">Algorithm</a>
+            
+              <a href="/tags/%E5%A0%86/">堆</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/10/JUC/CAS/" target="_self">
+          <img src="/img/essay/juc.png" srcset="/img/loading.gif" lazyload alt="CAS">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/10/JUC/CAS/" target="_self">
+          CAS
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/10/JUC/CAS/" target="_self">
+          
+          建议看这篇文章之前先去看一下上一篇文章（Java锁机制） 假设我们现在有多个线程想去访问操作同一资源，很多人第一反应一定是互斥锁，但互斥锁是悲观的  悲观锁  简单来说，操作系统认为如果不严格管理线程调用，那一定会出现问题，那它就会把一个资源进行锁定，只让一个线程去调度。从而阻塞别的线程。  乐观锁  假设现在我们大部分操作都是读操作，那就没必要去每次操作就去锁定资源，那我们可不可以不锁定资源也能
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-10 23:39" pubdate>
+              2022-03-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/JUC/">JUC</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/JUC/">JUC</a>
+            
+              <a href="/tags/CAS/">CAS</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/10/JUC/Java%E9%94%81%E6%9C%BA%E5%88%B6/" target="_self">
+          <img src="/img/essay/juc.png" srcset="/img/loading.gif" lazyload alt="Java锁机制">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/10/JUC/Java%E9%94%81%E6%9C%BA%E5%88%B6/" target="_self">
+          Java锁机制
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/10/JUC/Java%E9%94%81%E6%9C%BA%E5%88%B6/" target="_self">
+          
+          在Java中每个Object，也就是每一个对象都有一把锁。这把锁放在对象头，锁中记录了当前对象被哪一个线程锁占用。如上图中，红色的为对象Object，头为蓝色的，绿色的就是锁。   如图，每个Java对象分为三块，分别为对象头、实例数据、填充字节  对象头    对象头包含两部分：mark word和class point，class point指向对象在当前对象类型所在方法区中的类型数据。m
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-10 22:10" pubdate>
+              2022-03-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/JUC/">JUC</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/JUC/">JUC</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/10/JUC/%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/" target="_self">
+          <img src="/img/essay/juc.png" srcset="/img/loading.gif" lazyload alt="线程间通信方式">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/10/JUC/%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/" target="_self">
+          线程间通信方式
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/10/JUC/%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/" target="_self">
+          
+          今天我们来讨论一个常见的面试题 线程间有哪些通信方式？ 同步这里讲的同步是指多个线程通过synchronized关键字这种方式来实现线程间的通信。 1234567891011121314151617181920212223242526272829303132333435363738394041424344public class MyObject &amp;#123;    synchronized pu
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-10 20:30" pubdate>
+              2022-03-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/JUC/">JUC</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/JUC/">JUC</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/03/10/Algo/LeetCode236%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/" target="_self">
           <img src="/img/essay/algo.png" srcset="/img/loading.gif" lazyload alt="LeetCode236二叉树的最近公共祖先">
         </a>
@@ -509,224 +725,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/Redis/">Redis</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/07/Algo/LeetCode082%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0II/" target="_self">
-          <img src="/img/essay/algo.png" srcset="/img/loading.gif" lazyload alt="LeetCode082删除排序链表中的重复元素II">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/07/Algo/LeetCode082%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0II/" target="_self">
-          LeetCode082删除排序链表中的重复元素II
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/07/Algo/LeetCode082%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0II/" target="_self">
-          
-          有两个周没有刷算法题了，今天在剑指offer找到了这道题：删除排序链表中的重复元素，当时觉得很简单，但是看到第二道题的时候我本来以为很简单，但是做了一会儿却觉得无从下手。两道题区别为：简单版本是把重复元素删除到剩下一个，而复杂版本是把重复的元素全部删除。 其实看到这种题目第一步肯定是创建一个dummyHead，因为当第一个节点就是重复节点的时候，有了一个假的头节点会比较好处理，即最后可以返回dum
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-07 22:42" pubdate>
-              2022-03-07
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Algorithm/">Algorithm</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Algorithm/">Algorithm</a>
-            
-              <a href="/tags/%E9%93%BE%E8%A1%A8/">链表</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/05/JUC/AQS%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" target="_self">
-          <img src="/img/essay/juc.png" srcset="/img/loading.gif" lazyload alt="AQS源码剖析">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/05/JUC/AQS%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" target="_self">
-          AQS源码剖析
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/05/JUC/AQS%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" target="_self">
-          
-          AQS源码剖析什么是AQSAQS (AbstractQueuedSynchronizer)是一个锁框架，它定义了锁的机制，开放出了可以拓展的地方，AQS开放出来state字段，让子类可以根据state字段决定是否可以获取锁，对于获取不到的会进行自动管理，子类无需担心。接下来我会在源码上带大家一起了解一下AQS  在看的时候我十分希望你也点进源码里去看一看，你会发现不一样的世界。  12345678
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-05 21:07" pubdate>
-              2022-03-05
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/JUC/">JUC</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/AQS/">AQS</a>
-            
-              <a href="/tags/JUC/">JUC</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/05/JUC/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" target="_self">
-          <img src="/img/essay/juc.png" srcset="/img/loading.gif" lazyload alt="线程池">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/05/JUC/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" target="_self">
-          线程池
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/05/JUC/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" target="_self">
-          
-          线程池最近我去了一家公司实习，遇到驰哥（我的小leader），驰哥人非常Nice,大概大我两岁哈哈。讲了很多我以后可能会遇到的困难，我进去就问他了线程池的相关内容，他也仔细为我讲解了一番，接下来我写一篇文章详细记录一下。 刚开始我以为线程池很难，但是深入了解以后发现也就那样吧~ 下面开始正文 Java语言虽然内置了多线程支持，启动一个新线程非常方便，但是，创建线程需要操作系统资源（线程资源，栈空间
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-05 17:15" pubdate>
-              2022-03-05
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/JUC/">JUC</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/JUC/">JUC</a>
-            
-              <a href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/04/Java%E5%9F%BA%E7%A1%80/Stream/" target="_self">
-          <img src="/img/essay/java.png" srcset="/img/loading.gif" lazyload alt="Stream">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/04/Java%E5%9F%BA%E7%A1%80/Stream/" target="_self">
-          Stream
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/04/Java%E5%9F%BA%E7%A1%80/Stream/" target="_self">
-          
-          Java8新特性速度更快 lanbda表达式 强大的Stream API 便于并行 最大化减少空指针异常 Optional lambda表达式即一种匿名函数，可以将其理解为一段可以传递的到吗。可以用通过它写出更加简介灵活的代码。 1(参数类型，参数名称) -&gt;&amp;#123;代码体&amp;#125;  格式说明  (参数类型，参数名称)： 参数列表 {代码体}：方法体 -&gt;分割参数和代码  la
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-04 16:26" pubdate>
-              2022-03-04
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
             
           </div>
         

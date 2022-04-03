@@ -16,23 +16,23 @@
   <meta name="author" content="Anderson Lee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在前两篇文章我们主要讲了领域驱动设计上的DP Entity Repository以及相应的代码实现。现在我们聊聊领域驱动设计在宏观上的几个概念。 DPDP也可以被称为VO(ValueObject),这里的value object是DDD语境下的概念   统一语言(Ubiquitous Language)  在做一个东西的时候，我们需要有领域专家和相关技术人员一起去进行螺旋式的建模，通过形成UL消化">
+    <meta name="description" content="spring bean生命周期大致分为5个阶段 创建前准备  这个阶段是bean在开始加载之前要从上下文和一些配置当中去解析和查找和bean有关的扩展实现比如像“init_method”是容器在初始化bean的时候会调用的方法，destory是bean在销毁的时候会去调用的方法。以及beanFactoryPostProcessor这一类的bean,加载过程中的一些前置和后置的一些扩展实现，这些类和">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DDD入门五板斧（三）统一语言和模型价值">
-<meta property="og:url" content="http://example.com/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/index.html">
+<meta property="og:title" content="SpringBean生命周期">
+<meta property="og:url" content="http://example.com/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/index.html">
 <meta property="og:site_name" content="Anderson&#39;s blog">
-<meta property="og:description" content="在前两篇文章我们主要讲了领域驱动设计上的DP Entity Repository以及相应的代码实现。现在我们聊聊领域驱动设计在宏观上的几个概念。 DPDP也可以被称为VO(ValueObject),这里的value object是DDD语境下的概念   统一语言(Ubiquitous Language)  在做一个东西的时候，我们需要有领域专家和相关技术人员一起去进行螺旋式的建模，通过形成UL消化">
+<meta property="og:description" content="spring bean生命周期大致分为5个阶段 创建前准备  这个阶段是bean在开始加载之前要从上下文和一些配置当中去解析和查找和bean有关的扩展实现比如像“init_method”是容器在初始化bean的时候会调用的方法，destory是bean在销毁的时候会去调用的方法。以及beanFactoryPostProcessor这一类的bean,加载过程中的一些前置和后置的一些扩展实现，这些类和">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/essay/ddd.png">
-<meta property="article:published_time" content="2022-04-03T11:50:39.000Z">
-<meta property="article:modified_time" content="2022-04-03T13:21:35.279Z">
+<meta property="og:image" content="http://example.com/img/essay/spring.png">
+<meta property="article:published_time" content="2022-04-03T13:48:06.000Z">
+<meta property="article:modified_time" content="2022-04-03T13:49:52.185Z">
 <meta property="article:author" content="Anderson Lee">
-<meta property="article:tag" content="DDD">
+<meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/essay/ddd.png">
+<meta name="twitter:image" content="http://example.com/img/essay/spring.png">
   
   
-  <title>DDD入门五板斧（三）统一语言和模型价值 - Anderson&#39;s blog</title>
+  <title>SpringBean生命周期 - Anderson&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -179,7 +179,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="DDD入门五板斧（三）统一语言和模型价值">
+            <span class="h2" id="subtitle" title="SpringBean生命周期">
               
             </span>
 
@@ -189,7 +189,7 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-04-03 19:50" pubdate>
+      <time datetime="2022-04-03 21:48" pubdate>
         2022年4月3日 晚上
       </time>
     </span>
@@ -200,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      985 字
+      670 字
     </span>
   
 
@@ -209,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9 分钟
+      6 分钟
     </span>
   
 
@@ -238,39 +238,25 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">DDD入门五板斧（三）统一语言和模型价值</h1>
+            <h1 style="display: none">SpringBean生命周期</h1>
             
             <div class="markdown-body">
-              <p>在前两篇文章我们主要讲了领域驱动设计上的DP Entity Repository以及相应的代码实现。现在我们聊聊领域驱动设计在宏观上的几个概念。</p>
-<h3 id="DP"><a href="#DP" class="headerlink" title="DP"></a>DP</h3><p>DP也可以被称为VO(ValueObject),这里的value object是DDD语境下的概念</p>
-<img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403204011544.png" srcset="/img/loading.gif" lazyload class>
+              <h2 id="spring-bean生命周期"><a href="#spring-bean生命周期" class="headerlink" title="spring bean生命周期"></a>spring bean生命周期</h2><p>大致分为5个阶段</p>
+<h3 id="创建前准备"><a href="#创建前准备" class="headerlink" title="创建前准备"></a>创建前准备</h3><img src="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/image-20220403213005817.png" srcset="/img/loading.gif" lazyload class>
 
-<h4 id="统一语言-Ubiquitous-Language"><a href="#统一语言-Ubiquitous-Language" class="headerlink" title="统一语言(Ubiquitous Language)"></a>统一语言(Ubiquitous Language)</h4><img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403204320736.png" srcset="/img/loading.gif" lazyload class>
+<p>这个阶段是bean在开始加载之前要从上下文和一些配置当中去解析和查找和bean有关的扩展实现比如像“init_method”是容器在初始化bean的时候会调用的方法，destory是bean在销毁的时候会去调用的方法。以及beanFactoryPostProcessor这一类的bean,加载过程中的一些前置和后置的一些扩展实现，这些类和配置是spring提供给开发者用来去实现bean,加载过程中的一些扩展，在很多spring集成的中间件比较常见</p>
+<h3 id="创建实例化"><a href="#创建实例化" class="headerlink" title="创建实例化"></a>创建实例化</h3><img src="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/image-20220403213531512.png" srcset="/img/loading.gif" lazyload class>
 
-<p>在做一个东西的时候，我们需要有领域专家和相关技术人员一起去进行螺旋式的建模，通过形成UL消化业务知识，然后向模型中提炼知识，如此往复.</p>
-<p><strong>一个好的模型价值千金</strong></p>
-<p>星盘由古希腊人发明，星盘上可旋转的铜环代表各个恒星在天体上的位置</p>
-<img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403204840264.png" srcset="/img/loading.gif" lazyload class>
+<p>这个阶段是通过反射去创建bean的实例对象，并且会扫描和解析bean声明的一些属性，</p>
+<h3 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h3><img src="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/image-20220403213637070.png" srcset="/img/loading.gif" lazyload class>
 
-<p>刻有当地地平坐标系的盘面是可替换的，它代表不同维度的星空景象，我们可以计算出任何时刻的天体位置，反之，如果知道恒星在天体上的位置也能反向计算出时间。这里星盘用机械的方式建立了<strong>恒星和时间的对象模型</strong>，而我们也可以使用软件来计算出这样的模型，但是我们需要首先向天文学家学习专业的天文领域知识，然后进行建模，我们需要去适应不断变化的星空，不能因为更改了坐标系而失效，不能因为新加入一颗恒星就失效。</p>
-<p>领域驱动设计就是一套方法论，帮助我们建立良好的对象模型</p>
-<img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403205526736.png" srcset="/img/loading.gif" lazyload class>
+<p>如果被实例化的bean存在依赖其他bean的一些情况，那就需要对这些依赖的bean进行对象的注入，比如常见的@Autowired,以及setter注入，这样的一些配置形式，同时这些时间会出发一些扩展的调用，比如常见的扩展类BeanPostPreocessors,用来实现Bean的初始化前后的扩展回调</p>
+<h3 id="容器缓存"><a href="#容器缓存" class="headerlink" title="容器缓存"></a>容器缓存</h3><img src="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/image-20220403213955349.png" srcset="/img/loading.gif" lazyload class>
 
-<p>为了建设有价值的模型，我们需要在形成UL的基础上消化知识，并向模型中提炼知识</p>
-<h3 id="DP-amp-Entity"><a href="#DP-amp-Entity" class="headerlink" title="DP &amp; Entity"></a>DP &amp; Entity</h3><img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403205800590.png" srcset="/img/loading.gif" lazyload class>
+<p>把bean保存到容器当中，以及spring的容器当中，此时的bean就可以被开发者去使用了，init method方法就会在这个阶段被调用，以及BeanPostPreocessors的后置方法，</p>
+<h3 id="销毁实例"><a href="#销毁实例" class="headerlink" title="销毁实例"></a>销毁实例</h3><img src="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/image-20220403214152446.png" srcset="/img/loading.gif" lazyload class>
 
-<p>充血模型就是除了赋予对象除了属性和属性的读写方法之外，包含业务逻辑的行为，比如身份证对象去能自己验证身份证号是否符合规范，这样就能让模型本身高内聚，而不是每次设计一个业务操作就去交给其他对象处理，形成紧耦合。所以哪些对象应该被包含、哪些又应该去被拆分出去，这就要依靠我们的经验了。<strong>自治的、丰富的、有活力的</strong></p>
-<p>DP无状态而Entity有状态，什么是状态？</p>
-<ol>
-<li>该对象是否存在生命周期</li>
-<li>程序是否需要追踪改对象的变化事件</li>
-</ol>
-<p>这里进行一个简单的解释：我们知道在体育馆有很多的座位</p>
-<img src="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/image-20220403210511727.png" srcset="/img/loading.gif" lazyload class>
-
-<p>假如观众通过预定程序买了票，每张票都有一个座位号相对应，在这里座位就是有状态的，也就是Entity,程序需要去关注对象的事件变化，比如通过唯一ID去追踪该对象，关注它的预定状态，价格、位置等属性</p>
-<p>假如用户通过预定程序买了票，只要进去就可以随便坐，这里座位就是无状态的，程序不需要对每个座位进行追踪，只需要关注总数量就可以了，这就是DP和Entity的异同之处</p>
-<p>总的来说就是：<strong>为了建设有价值的模型，在确认UL之后消化领域知识，向无状态的DP和有状态的Entity中提炼知识</strong></p>
+<p>最后就是销毁阶段，当spring的应用上下文被关闭的时候，这个上下文当中的所有的bean就会被销毁，如果存在bean实现了DisposableBean接口，或者配置了destory_method属性的一些方法，会在这个阶段被调用</p>
 
             </div>
             <hr>
@@ -280,7 +266,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/DDD/">DDD</a>
+                      <a class="hover-with-bg" href="/categories/Spring/">Spring</a>
                     
                   </div>
                 
@@ -288,7 +274,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/DDD/">DDD</a>
+                      <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
                     
                   </div>
                 
@@ -305,9 +291,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+                      <a href="/2022/04/03/Spring/Spring%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">SpringBean生命周期</span>
+                        <span class="hidden-mobile">Spring如何解决循环依赖</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -315,8 +301,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/04/02/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%BA%8C%EF%BC%89EntityAndDomainService/">
-                        <span class="hidden-mobile">DDD入门五板斧（二）EntityAndDomainService</span>
+                      <a href="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/">
+                        <span class="hidden-mobile">DDD入门五板斧（三）统一语言和模型价值</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

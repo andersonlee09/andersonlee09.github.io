@@ -192,6 +192,165 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/04/03/Spring/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%9C%BA%E5%88%B6/" target="_self">
+          <img src="/img/essay/spring.png" srcset="/img/loading.gif" lazyload alt="SpringBoot自动装配机制">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/03/Spring/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%9C%BA%E5%88%B6/" target="_self">
+          SpringBoot自动装配机制
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/04/03/Spring/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%9C%BA%E5%88%B6/" target="_self">
+          
+          自动装配机制简单来说就是自动把第三方组件的Bean装载到Ioc容器当中，不再需要开发人员再去写bean，相关的一个配置，SpringBoot应用里只需要再启动类加上@SpringBootApplication注解就可以实现自动装配   可以看到@SpringBootApplication里又有很多别的注解   最主要的就是@EnableAutoConfiguration注解   自动装配原理主要依
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-03 22:13" pubdate>
+              2022-04-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Spring/">Spring</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Spring/">Spring</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/04/03/Spring/Spring%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/" target="_self">
+          <img src="/img/essay/spring.png" srcset="/img/loading.gif" lazyload alt="Spring如何解决循环依赖">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/03/Spring/Spring%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/" target="_self">
+          Spring如何解决循环依赖
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/04/03/Spring/Spring%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/" target="_self">
+          
+          如果在 代码中把两个或者两个以上的Bean相互之间持有，对方的引用就会产生循环依赖（类似死锁），而循环依赖又会导致死循环，这是发生spring循环依赖的原因spring循环依赖有三种 依赖方式相互依赖也就是A依赖B，B又依赖A，它们之间形成一个循环   如图所示 三者依赖第二种是三者之间的依赖，也就是A依赖B，B依赖C，C依赖A   自我依赖也就是A依赖A   解决方法Spring设置了三级缓存去
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-03 21:50" pubdate>
+              2022-04-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Spring/">Spring</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Spring/">Spring</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" target="_self">
+          <img src="/img/essay/spring.png" srcset="/img/loading.gif" lazyload alt="SpringBean生命周期">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" target="_self">
+          SpringBean生命周期
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/04/03/Spring/SpringBean%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" target="_self">
+          
+          spring bean生命周期大致分为5个阶段 创建前准备  这个阶段是bean在开始加载之前要从上下文和一些配置当中去解析和查找和bean有关的扩展实现比如像“init_method”是容器在初始化bean的时候会调用的方法，destory是bean在销毁的时候会去调用的方法。以及beanFactoryPostProcessor这一类的bean,加载过程中的一些前置和后置的一些扩展实现，这些类和
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-03 21:48" pubdate>
+              2022-04-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Spring/">Spring</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Spring/">Spring</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/04/03/DDD/DDD%E5%85%A5%E9%97%A8%E4%BA%94%E6%9D%BF%E6%96%A7%EF%BC%88%E4%B8%89%EF%BC%89%E7%BB%9F%E4%B8%80%E8%AF%AD%E8%A8%80%E5%92%8C%E6%A8%A1%E5%9E%8B%E4%BB%B7%E5%80%BC/" target="_self">
           <img src="/img/essay/ddd.png" srcset="/img/loading.gif" lazyload alt="DDD入门五板斧（三）统一语言和模型价值">
         </a>
@@ -340,6 +499,59 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/DDD/">DDD</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/28/Redis/Redis%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/" target="_self">
+          <img src="/img/essay/redis.png" srcset="/img/loading.gif" lazyload alt="Redis与数据库数据一致性">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/28/Redis/Redis%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/" target="_self">
+          Redis与数据库数据一致性
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/28/Redis/Redis%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/" target="_self">
+          
+          我们知道，redis作为一种缓存位于应用与数据库中间，用来实现应用和数据库的读操作的缓存层，主要目的就是为了减少数据库的IO   当用户去查询数据的时候，如果命中缓存，那就直接返回，如果没有命中就从数据库查询，查到数据以后，再去把数据缓存到redis。 此时我们假设我们要去更新redis和MySQL，而更新操作是有先后顺序的，它不像MySQL中事务的原子性，所以数据很有可能出现短暂的不一致 先更新
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-28 22:36" pubdate>
+              2022-03-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Redis/">Redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Redis/">Redis</a>
             
           </div>
         
@@ -501,218 +713,6 @@
               <a href="/tags/Algorithm/">Algorithm</a>
             
               <a href="/tags/%E9%93%BE%E8%A1%A8/">链表</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/21/utils/Postgresql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_self">
-          <img src="/img/essay/default.jpg" srcset="/img/loading.gif" lazyload alt="Postgresql常用命令">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/21/utils/Postgresql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_self">
-          Postgresql常用命令
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/21/utils/Postgresql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_self">
-          
-          创建用户1CREATE USER dbuser WITH PASSWORD &amp;#x27;password&amp;#x27;;  查看所有用户1postgres&#x3D;# \du  更改密码12postgres&#x3D;# \password dbuserpostgres&#x3D;# \q  创建数据库123456postgres&#x3D;# CREATE DATABASE exampledb OWNER dbuser;postgre
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-21 21:09" pubdate>
-              2022-03-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/utils/">utils</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/SQL/">SQL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/" target="_self">
-          <img src="/img/essay/network.png" srcset="/img/loading.gif" lazyload alt="Portal代拨控制流程">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/" target="_self">
-          Portal代拨控制流程
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Portal%E4%BB%A3%E6%8B%A8%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B/" target="_self">
-          
-          Portal 代拨控制流程ACCOUNTING_REQUEST首先在Linux向portal发送一个包,这里的IP不同命令略有不同，但都大差不差 1echo -e &amp;#x27;Acct-Status-Type &#x3D; &amp;#x27;Start&amp;#x27;\nUser-Name &#x3D; &quot;15291416563&quot;\nFramed-IP-Address &#x3D; &amp;#x27;192.168.48.
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-21 16:03" pubdate>
-              2022-03-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/" target="_self">
-          <img src="/img/essay/thread.png" srcset="/img/loading.gif" lazyload alt="操作系统概念">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/" target="_self">
-          操作系统概念
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5/" target="_self">
-          
-          操作系统概念操作系统的功能与目标  操作系统作为一个系统资源的管理者，它主要包含 处理器管理 存储器管理 设备管理 文件管理 用户接口  网络与通信管理  以上六个部分 操作系统基本特征并发性：指两个或两个以上的事件或活动在同一时间间隔内发生 。并发性能够有效地改善系统资源的利用率，提高系统的效率。  共享性：共同使用系统中的资源。  （1）互斥使用方式（2）同时使用方式 虚拟性：指将一个物理实体
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-20 19:42" pubdate>
-              2022-03-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/19/Spring/SpringAOP/" target="_self">
-          <img src="/img/essay/spring.png" srcset="/img/loading.gif" lazyload alt="SpringAOP">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/19/Spring/SpringAOP/" target="_self">
-          SpringAOP
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/19/Spring/SpringAOP/" target="_self">
-          
-          AOP即面向切编程，利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各个部分耦合度降低，提高程序的可重用性，提高开发效率 将日志记录、性能统计、安全控制、事务处理、异常处理从业务逻辑划分划分处理 这个可以体现软件设计的开闭原则（软件中的对象（类，模块，函数等等）应该对于扩展是开放的，但是对于修改是封闭的”[1]，这意味着一个实体是允许在不改变它的源代码的前提下变更它的行为。）即不修改源
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-19 23:54" pubdate>
-              2022-03-19
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Spring/">Spring</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Spring/">Spring</a>
             
           </div>
         
