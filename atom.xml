@@ -527,9 +527,9 @@
     <category term="Docker" scheme="http://example.com/categories/Docker/"/>
     
     
-    <category term="Linux" scheme="http://example.com/tags/Linux/"/>
-    
     <category term="Docker" scheme="http://example.com/tags/Docker/"/>
+    
+    <category term="Linux" scheme="http://example.com/tags/Linux/"/>
     
   </entry>
   
