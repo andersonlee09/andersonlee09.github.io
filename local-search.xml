@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>JDK9String变化</title>
+    <link href="/2022/04/05/JDK9String%E5%8F%98%E5%8C%96/"/>
+    <url>/2022/04/05/JDK9String%E5%8F%98%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[<p>最近无意间点开String数组发现了一件奇怪的东西，就是String由[]char 变为了byte[] value</p><p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405101330418.png" alt="image-20220405101330418"></p><p>这就引起了我的好奇心了，在我的印象里一个char是2个字节，而byte是一个字节，面对汉字这种东西，用一个字节肯定是远远不够的，那应该如何去存储？我去带着问题好好搜索了一下</p><p>先让我们去看一下这段翻译：</p><figure class="highlight pgsql"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs pgsql">This field <span class="hljs-keyword">is</span> <span class="hljs-keyword">trusted</span> <span class="hljs-keyword">by</span> the VM, <span class="hljs-keyword">and</span> <span class="hljs-keyword">is</span> a subject <span class="hljs-keyword">to</span><br><span class="hljs-keyword">constant</span> folding <span class="hljs-keyword">if</span> String instance <span class="hljs-keyword">is</span> <span class="hljs-keyword">constant</span>. Overwriting this<br>field <span class="hljs-keyword">after</span> construction will cause problems.<br><br>此字段受 VM 信任，如果 String 实例为常量，则该字段受常量折叠的影响。 构建后覆盖该字段会导致问题。<br></code></pre></td></tr></table></figure><p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405102353192.png" alt="image-20220405102353192"></p><p>这是String源码里的一段内容，如果分为LATIN1和UTF16，也就是拉丁和utf-16来分别进行编码的，而拉丁对于每个字符占用一个字节，utf-16对于每个字符占用两个字节，所以可以根据编码内容的不同，去使用不同的编码格式。</p><p>比如中文就可以utf-16,英文就是LATIN1,这样子既能完成正常表示，又节省了内存</p><p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405102847361.png" alt="image-20220405102847361"></p><p>对于JDK9之前对于全部是字符的存储就会浪费一半的空间，但是JDK9之后几乎是没有浪费了</p><p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405105019849.png" alt="image-20220405105019849"></p><p>对于中文加英文的组合那就与原来的char数组一样了，会造成一定的空间浪费，这也是无法避免的</p><p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405105152299.png" alt="image-20220405105152299"></p><p>可以看到在求字符串长度的时候，会进行一个右移的操作</p><p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405105248703.png" alt="image-20220405105248703"></p><p>也就是说对于拉丁字符串来说，它就是返回它的原长度，而对于utf-16来说，他会去右移一位，也就是除以2.</p><p>这样有什么好处？</p><p>第一节省内存空间，对于纯拉丁的字符可以节省一倍的空间</p><p>第二减少GC次数</p><p>以上就是我对这个变化的理解了</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java基础</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Java基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>SpringBoot自动装配机制</title>
     <link href="/2022/04/03/Spring/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%9C%BA%E5%88%B6/"/>
     <url>/2022/04/03/Spring/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%9C%BA%E5%88%B6/</url>
@@ -509,9 +534,9 @@
     
     <tags>
       
-      <tag>Docker</tag>
-      
       <tag>Linux</tag>
+      
+      <tag>Docker</tag>
       
     </tags>
     
@@ -1330,9 +1355,9 @@
     
     <tags>
       
-      <tag>Linux</tag>
-      
       <tag>Django</tag>
+      
+      <tag>Linux</tag>
       
     </tags>
     
