@@ -16,23 +16,24 @@
   <meta name="author" content="Anderson Lee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="最近无意间点开String数组发现了一件奇怪的东西，就是String由[]char 变为了byte[] value  这就引起了我的好奇心了，在我的印象里一个char是2个字节，而byte是一个字节，面对汉字这种东西，用一个字节肯定是远远不够的，那应该如何去存储？我去带着问题好好搜索了一下 先让我们去看一下这段翻译： 12345This field is trusted by the VM, an">
+    <meta name="description" content="现在假设我们遇到了一个问题：现在移动公司非常多的电话号码，大概有40亿个，现在我们需要对这些电话号码进行去重应该怎样去操作？这里最多使用1G内存 排序第一个就是排序法，我们对于电话号码排好序，然后每个与前一个比较就可以了，这是一个比较靠谱的方法，但是太慢了，排序的时间复杂度的O（nlogn） HashMap对于HashMap,我们可以键值对分别为Integer和Boolean,实际要存40亿电话号">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JDK9String变化">
-<meta property="og:url" content="http://example.com/2022/04/05/JDK9String%E5%8F%98%E5%8C%96/index.html">
+<meta property="og:title" content="BitMap">
+<meta property="og:url" content="http://example.com/2022/04/05/Java%E9%9B%86%E5%90%88/BitMap/index.html">
 <meta property="og:site_name" content="Anderson&#39;s blog">
-<meta property="og:description" content="最近无意间点开String数组发现了一件奇怪的东西，就是String由[]char 变为了byte[] value  这就引起了我的好奇心了，在我的印象里一个char是2个字节，而byte是一个字节，面对汉字这种东西，用一个字节肯定是远远不够的，那应该如何去存储？我去带着问题好好搜索了一下 先让我们去看一下这段翻译： 12345This field is trusted by the VM, an">
+<meta property="og:description" content="现在假设我们遇到了一个问题：现在移动公司非常多的电话号码，大概有40亿个，现在我们需要对这些电话号码进行去重应该怎样去操作？这里最多使用1G内存 排序第一个就是排序法，我们对于电话号码排好序，然后每个与前一个比较就可以了，这是一个比较靠谱的方法，但是太慢了，排序的时间复杂度的O（nlogn） HashMap对于HashMap,我们可以键值对分别为Integer和Boolean,实际要存40亿电话号">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/essay/java.png">
-<meta property="article:published_time" content="2022-04-05T02:10:55.000Z">
-<meta property="article:modified_time" content="2022-04-05T02:56:01.096Z">
+<meta property="og:image" content="http://example.com/img/essay/collection.png">
+<meta property="article:published_time" content="2022-04-05T03:23:35.000Z">
+<meta property="article:modified_time" content="2022-04-05T03:51:10.407Z">
 <meta property="article:author" content="Anderson Lee">
-<meta property="article:tag" content="Java基础">
+<meta property="article:tag" content="Java集合">
+<meta property="article:tag" content="BitMap">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/essay/java.png">
+<meta name="twitter:image" content="http://example.com/img/essay/collection.png">
   
   
-  <title>JDK9String变化 - Anderson&#39;s blog</title>
+  <title>BitMap - Anderson&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -179,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="JDK9String变化">
+            <span class="h2" id="subtitle" title="BitMap">
               
             </span>
 
@@ -189,7 +190,7 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-04-05 10:10" pubdate>
+      <time datetime="2022-04-05 11:23" pubdate>
         2022年4月5日 上午
       </time>
     </span>
@@ -200,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      727 字
+      757 字
     </span>
   
 
@@ -238,32 +239,28 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">JDK9String变化</h1>
+            <h1 style="display: none">BitMap</h1>
             
             <div class="markdown-body">
-              <p>最近无意间点开String数组发现了一件奇怪的东西，就是String由[]char 变为了byte[] value</p>
-<p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405101330418.png" srcset="/img/loading.gif" lazyload alt="image-20220405101330418"></p>
-<p>这就引起了我的好奇心了，在我的印象里一个char是2个字节，而byte是一个字节，面对汉字这种东西，用一个字节肯定是远远不够的，那应该如何去存储？我去带着问题好好搜索了一下</p>
-<p>先让我们去看一下这段翻译：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs pgsql">This field <span class="hljs-keyword">is</span> <span class="hljs-keyword">trusted</span> <span class="hljs-keyword">by</span> the VM, <span class="hljs-keyword">and</span> <span class="hljs-keyword">is</span> a subject <span class="hljs-keyword">to</span><br><span class="hljs-keyword">constant</span> folding <span class="hljs-keyword">if</span> String instance <span class="hljs-keyword">is</span> <span class="hljs-keyword">constant</span>. Overwriting this<br>field <span class="hljs-keyword">after</span> construction will cause problems.<br><br>此字段受 VM 信任，如果 String 实例为常量，则该字段受常量折叠的影响。 构建后覆盖该字段会导致问题。<br></code></pre></td></tr></table></figure>
+              <p>现在假设我们遇到了一个问题：现在移动公司非常多的电话号码，大概有40亿个，现在我们需要对这些电话号码进行去重应该怎样去操作？这里最多使用1G内存</p>
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p>第一个就是排序法，我们对于电话号码排好序，然后每个与前一个比较就可以了，这是一个比较靠谱的方法，但是太慢了，排序的时间复杂度的O（nlogn）</p>
+<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><p>对于HashMap,我们可以键值对分别为Integer和Boolean,实际要存40亿电话号码，1G的内存够分配这么多空间吗?显然不行。一个Integer12个字节，Boolean至少一个字节，这样就是（12+1）*40亿 B</p>
+<h3 id="BitMap"><a href="#BitMap" class="headerlink" title="BitMap"></a>BitMap</h3><p>我们可以对hashmap进行优化，采用bitmap这种数据结构，可以顺利地同时解决时间问题和空间问题。</p>
+<img src="/2022/04/05/Java%E9%9B%86%E5%90%88/BitMap/image-20220405113614596.png" srcset="/img/loading.gif" lazyload class>
 
+<p>这是一个unsigned char类型，可以看到，共有8位，取值范围是[0, 255]，如上这个unsigned char的值是255，它能标识0~7这些数字都存在。</p>
+<p>同理，如下这个unsigned char类型的值是254，它对应的含义是：1~7这些数字存在，而数字0不存在：</p>
+<img src="/2022/04/05/Java%E9%9B%86%E5%90%88/BitMap/image-20220405113704861.png" srcset="/img/loading.gif" lazyload class>
 
-
-<p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405102353192.png" srcset="/img/loading.gif" lazyload alt="image-20220405102353192"></p>
-<p>这是String源码里的一段内容，如果分为LATIN1和UTF16，也就是拉丁和utf-16来分别进行编码的，而拉丁对于每个字符占用一个字节，utf-16对于每个字符占用两个字节，所以可以根据编码内容的不同，去使用不同的编码格式。</p>
-<p>比如中文就可以utf-16,英文就是LATIN1,这样子既能完成正常表示，又节省了内存</p>
-<p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405102847361.png" srcset="/img/loading.gif" lazyload alt="image-20220405102847361"></p>
-<p>对于JDK9之前对于全部是字符的存储就会浪费一半的空间，但是JDK9之后几乎是没有浪费了</p>
-<p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405105019849.png" srcset="/img/loading.gif" lazyload alt="image-20220405105019849"></p>
-<p>对于中文加英文的组合那就与原来的char数组一样了，会造成一定的空间浪费，这也是无法避免的</p>
-<p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405105152299.png" srcset="/img/loading.gif" lazyload alt="image-20220405105152299"></p>
-<p>可以看到在求字符串长度的时候，会进行一个右移的操作</p>
-<p><img src="/04/05/JDK9String%E5%8F%98%E5%8C%96/Users\李瑞航\AppData\Roaming\Typora\typora-user-images\image-20220405105248703.png" srcset="/img/loading.gif" lazyload alt="image-20220405105248703"></p>
-<p>也就是说对于拉丁字符串来说，它就是返回它的原长度，而对于utf-16来说，他会去右移一位，也就是除以2.</p>
-<p>这样有什么好处？</p>
-<p>第一节省内存空间，对于纯拉丁的字符可以节省一倍的空间</p>
-<p>第二减少GC次数</p>
-<p>以上就是我对这个变化的理解了</p>
+<p>由此可见，一个unsigned char类型的数据，可以标识0~7这8个整数的存在与否。以此类推：</p>
+<ul>
+<li>一个unsigned int类型数据可以标识0~31这32个整数的存在与否。</li>
+<li>两个unsigned int类型数据可以标识0~63这64个整数的存在与否。</li>
+</ul>
+<p>也就是说：<strong>一个字节可以表示8个数字是否存在</strong>，相对于以前的直接表示，4个字节才可以直接表示一个数字，这样子就节省了至少32倍的内存</p>
+<p>512MB &#x3D; 512 * 2^20 B &#x3D; 2 ^ 29 B </p>
+<p>而这些内存可以表示2 ^ 32次方个数字的表示</p>
+<p>显然，可以推导出来：512MB大小足够标识所有电话号码的存在与否，请注意：电话号码的理论最大值为2^32 - 1，大概是43亿左右。</p>
 
             </div>
             <hr>
@@ -273,7 +270,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+                      <a class="hover-with-bg" href="/categories/Java%E9%9B%86%E5%90%88/">Java集合</a>
                     
                   </div>
                 
@@ -281,7 +278,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+                      <a class="hover-with-bg" href="/tags/Java%E9%9B%86%E5%90%88/">Java集合</a>
+                    
+                      <a class="hover-with-bg" href="/tags/BitMap/">BitMap</a>
                     
                   </div>
                 
@@ -302,8 +301,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/04/03/Spring/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%9C%BA%E5%88%B6/">
-                        <span class="hidden-mobile">SpringBoot自动装配机制</span>
+                      <a href="/2022/04/05/Java%E5%9F%BA%E7%A1%80/JDK9String%E5%8F%98%E5%8C%96/">
+                        <span class="hidden-mobile">JDK9String变化</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
