@@ -192,6 +192,61 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/" target="_self">
+          <img src="/img/essay/collection.png" srcset="/img/loading.gif" lazyload alt="ReentrantLock深度剖析">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/" target="_self">
+          ReentrantLock深度剖析
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/08/JUC/ReentrantLock%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/" target="_self">
+          
+          在开始之前我们先来大概将一讲啥是ReentrantLock ReentrantLock基于AQS，对于AQS不了解的可以看这里。在并发编程中它可以实现公平锁和非公平锁来对共享资源进行同步，同时，它与synchronizd一样，ReentrantLock支持可重入，除此之外，ReentrantLock在调度上更加灵活，支持更多丰富的功能。   接下来我们根据以上思维导图来进行讲解。 Lock  可以
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-08 22:02" pubdate>
+              2022-03-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/JUC/">JUC</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/JUC/">JUC</a>
+            
+              <a href="/tags/ReentrantLock/">ReentrantLock</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/03/08/Java%E9%9B%86%E5%90%88/CopyOnWriteArrayList/" target="_self">
           <img src="/img/essay/collection.png" srcset="/img/loading.gif" lazyload alt="CopyOnWriteArrayList">
         </a>
@@ -673,64 +728,11 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/02/27/JVM/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/" target="_self">
-          <img src="/img/essay/jvm.png" srcset="/img/loading.gif" lazyload alt="JVM内存结构">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/02/27/JVM/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/" target="_self">
-          JVM内存结构
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/02/27/JVM/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/" target="_self">
-          
-          JVM内存结构  如上图所示，JVM分为5大区域，程序计数器、虚拟机栈、本地方法栈、堆、方法区。其中除了堆和方法区外全部线程私有。  程序计数器  线程私有，是一块很小的空间，是当前线程的指示器，记录下一条指令的地址。与计算机CPU内程序计数器作用类似。  虚拟机栈  线程私有，每个方法执行的时候就创建一个栈帧，用于存储局部变量，操作数、动态链接和方法返回等信息，当请求栈超过虚拟机允许的最大深度的
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-27 23:16" pubdate>
-              2022-02-27
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/JVM/">JVM</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/JVM/">JVM</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#board">6</a><a class="extend next" rel="next" href="/page/6/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><a class="extend next" rel="next" href="/page/6/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
